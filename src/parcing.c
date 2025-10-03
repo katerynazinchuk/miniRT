@@ -33,3 +33,5 @@ Make sure all digits are in the correct range for each type.
 - Render the image (call your raytracing function)
 - Display the image (put your pixels one by one)
 */
+
+//https://42-cursus.gitbook.io/guide/4-rank-04/minirt/building-the-thing
