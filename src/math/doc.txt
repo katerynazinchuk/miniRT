@@ -1,0 +1,6 @@
+Camera rays: vec_cross, vec_normalize, vec_add, vec_scale
+Intersections (sphere/plane/cylinder): vec_sub, vec_dot, vec_length
+Shading (diffuse): vec_normalize, vec_dot, vec_scale, vec_add
+Shadows: vec_sub (to light), vec_normalize, vec_dot
+Reflections (later): reflection dir R = D - 2*(D·N)*N → vec_dot, vec_scale, vec_sub
+Refraction (later): more vector math, still built on the same ops

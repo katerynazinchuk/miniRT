@@ -22,3 +22,14 @@ To calculate color of ray...
         if not,
             calculate shading with sum of ambient/diffuse/specular components 
 */
+
+//cast many rays per pixel and combine all colors into one, to gt smoother blending of colors = super-sampling
+//can impement it with thread multitasking
+#include "vec_utils.h"
+
+int main(void)
+{
+	t_vec a = vec_pos(1,2,3);
+	t_vec b = vec_pos(-2, 0, 5);
+	t_vec s = vec_add(a,b);
+}
