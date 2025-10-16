@@ -6,7 +6,7 @@
 /*   By: kzinchuk <kzinchuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 14:00:44 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/10/16 16:23:04 by kzinchuk         ###   ########.fr       */
+/*   Updated: 2025/10/16 17:27:49 by kzinchuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@
 //dot possition
 t_vec vec_pos(float x, float y, float z)
 {
-	// t_vec  v;
-	// v.x = x;
-	// v.y = y;
-	// v.z = z;
-	// return (v);
-	return (t_vec) {x, y, z};
+	t_vec  v;
+	v.x = x;
+	v.y = y;
+	v.z = z;
+	return (v);
+	//return (t_vec) {x, y, z};
 }
 
 //move a poit by a vector
@@ -123,5 +123,4 @@ t_vec  vec_neg(t_vec v)
 	negative.y = -v.y;
 	negative.z = -v.z;
 	return (negative);
-
 }
