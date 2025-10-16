@@ -6,12 +6,13 @@
 /*   By: kzinchuk <kzinchuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 14:00:44 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/10/13 18:39:19 by kzinchuk         ###   ########.fr       */
+/*   Updated: 2025/10/16 16:23:04 by kzinchuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <math.h>
 #include "vec_utils.h"
+#include <math.h>
 
 
 //dot possition
@@ -62,32 +63,65 @@ t_vec vec_scale(t_vec v, float s)
 	return (scale_p);
 }
 
-//normale???
+//usage brightness = max(0, dot(normal, light_dir));
+//return the value of the cos between two vectors
+//if they are penoerdicular return 0;
 float vec_dot(t_vec a, t_vec b)
-{
-
+{ 
+	float c; 
+	c = a.x * b.x + a.y * b.y + a.z * b.z; 
+	return (c); 
 }
 
-//builds a vector perpendicular to two others// why and wich two others???
+//builds a vector perpendicular to two other given vectors which identify the plane in the space
+//so basically we build perpendicular to the plane
 t_vec vec_cross(t_vec a, t_vec b)
 {
+	t_vec cross;
+
+	cross.x = a.y * b.z - a.z * b.y;
+	cross.y = a.z * b.x - a.x * b.z;
+	cross.z = a.x * b.y - a.y * b.x;
+
+	return(cross);
 
 }
 
 //helper func for normalization and to compare distances
 float vec_length(t_vec v)
 {
+	float len;
 
+	len = sqrtf(v.x * v.x + v.y * v.y + v.z * v.z);
+	//sqrtf return float. sqrt return double
+	return (len);
 }
 
 //ray directions and normals should be unit length for correct math
 t_vec vec_normalize(t_vec v)
 {
+	t_vec normalized;
+	float len;
 
+	len = vec_length(v);
+	if(len == 0)
+		retutn (v);
+	normalized.x = v.x / len;
+	normalized.y = v.y / len;
+	normalized.z = v.z / len;
+	return (normalized);
 }
 
-//neglect. helper
+//made the vector oposite direction oriented if normal looks to the wrong direction
+//if ray is inside the oject
+//
 t_vec  vec_neg(t_vec v)
 {
+	t_vec negative;
+
+	negative.x = -v.x;
+	negative.y = -v.y;
+	negative.z = -v.z;
+	return (negative);
 
 }
