@@ -6,7 +6,7 @@
 /*   By: kzinchuk <kzinchuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 14:58:45 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/10/17 14:59:58 by kzinchuk         ###   ########.fr       */
+/*   Updated: 2025/10/20 17:39:06 by kzinchuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,32 @@
 
 typedef struct s_scene
 {
-	int width;
-	int height;
-	t_camera camera;
-	t_light light;
-	t_objects objects;
-
+	int			width;
+	int			height;
+	t_camera	camera;
+	t_light		light;
+	t_objects	objects;
 }	t_scene;
+
+typedef enum e_objtype
+{
+	OBJ_SPHERE,
+	OBJ_PLANE,
+	OBJ_CYL,
+}	t_objtype;
+
+typedef union u_shape
+{
+	t_sphere	sp;
+	t_plane		pl;
+	t_cylinder	cy;
+}	t_shape;
 
 typedef struct s_objects
 {
-	t_plane plane;
-	t_cylinder cylinder;
-	t_sphere sphere;
+	t_objtype type;
+	t_material material;
+	t_shape shape;
 }	t_objects;
 
 typedef struct s_sphere
@@ -40,18 +53,23 @@ typedef struct s_sphere
 
 typedef struct s_cylinder
 {
-	//...
+	t_vec center;
+	t_vec axis;
+	float radius;
+	float height;// float?? or double??
 	t_material	mat;
 }	t_cylinder;
 
 
 typedef struct s_plane
 {
-	//...
+	t_vec point;
+	t_vec normal;
 	t_material	mat;
 }	t_plane;
 
 // A ray: P(t) = origin + direction * t  (direction must be normalized)
+//if there is no origin only direction, then origin is 0,0,0
 typedef struct s_ray
 {
 	t_vec	origin;
