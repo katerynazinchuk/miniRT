@@ -1,4 +1,8 @@
+#include <fcntl.h>
 /*
+
+is the file name ends with .rt
+
 1. parcing and reading input files
 - file management (nonexistent, empty file)
 - the types correspond to the requested types and nothing else
@@ -35,3 +39,4 @@ Make sure all digits are in the correct range for each type.
 */
 
 //https://42-cursus.gitbook.io/guide/4-rank-04/minirt/building-the-thing
+

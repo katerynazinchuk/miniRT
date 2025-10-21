@@ -27,9 +27,28 @@ To calculate color of ray...
 //can impement it with thread multitasking
 #include "vec_utils.h"
 
-int main(void)
+int main(int argc, char **argv)
 {
-	t_vec a = vec_pos(1,2,3);
-	t_vec b = vec_pos(-2, 0, 5);
-	t_vec s = vec_add(a,b);
+	//allocate biggest struct
+
+	if(argc != 2)
+		return 0;//creat an error msg
+
+	else if (check_file(argv[1]))
+	{
+		//parse
+		//render
+		//mlx_loop();// loop window to prewent closing
+	}
+	//free everything;
+	return (0);
+	
 }
+
+//test main 
+// int main (void)
+// {
+// 	t_vec a = vec_pos(1,2,3);
+// 	t_vec b = vec_pos(-2, 0, 5);
+// 	t_vec s = vec_add(a,b);
+// }
