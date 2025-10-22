@@ -6,13 +6,20 @@
 /*   By: kzinchuk <kzinchuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 14:58:45 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/10/20 17:39:06 by kzinchuk         ###   ########.fr       */
+/*   Updated: 2025/10/22 13:44:26 by kzinchuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef VEC_STRUCTS_H
 # define VEC_STRUCTS_H
 # include "vec_utils.h"
+
+typedef struct s_rt
+{
+	int line;
+	t_scene scene;
+
+}	t_rt;
 
 typedef struct s_scene
 {

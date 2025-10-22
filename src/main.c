@@ -25,18 +25,22 @@ To calculate color of ray...
 
 //cast many rays per pixel and combine all colors into one, to gt smoother blending of colors = super-sampling
 //can impement it with thread multitasking
-#include "vec_utils.h"
+#include "rt.h"
 
 int main(int argc, char **argv)
 {
-	//allocate biggest struct
+
+	t_rt rt;
 
 	if(argc != 2)
-		return 0;//creat an error msg
-
-	else if (check_file(argv[1]))
 	{
-		//parse
+		ft_putendl_fd("Wrong number of arguments", 2);
+		return 1;
+	}
+	if(check_file(argv[1]))
+	{
+		parse(argv[1], &rt);
+		//create camera basis
 		//render
 		//mlx_loop();// loop window to prewent closing
 	}
