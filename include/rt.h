@@ -1,32 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vec_utils.h                                        :+:      :+:    :+:   */
+/*   rt.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kzinchuk <kzinchuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/13 14:00:36 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/10/17 14:59:57 by kzinchuk         ###   ########.fr       */
+/*   Created: 2025/10/03 15:13:59 by kzinchuk          #+#    #+#             */
+/*   Updated: 2025/10/22 15:32:36 by kzinchuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef VEC_UTILS_H
-# define vVEC_UTILS_H
+#ifndef RT_H
+# define RT_H
 
-typedef struct s_vec {
-    float x;
-    float y;
-    float z;
-} t_vec;
-
-t_vec	vec_pos(float x, float y, float z);
-t_vec	vec_add(t_vec a, t_vec b);
-t_vec	vec_sub(t_vec a, t_vec b);
-t_vec	vec_scale(t_vec v, float s);
-float	vec_dot(t_vec a, t_vec b);
-t_vec	vec_cross(t_vec a, t_vec b);
-float	vec_length(t_vec v);
-t_vec	vec_normalize(t_vec v);
-t_vec	vec_neg(t_vec v);
+#include <fcntl.h>
+#include "libft.h"
+#include "get_next_line.h"
+#include "vec_structs.h"
+#include "vec_utils.h"
 
 #endif

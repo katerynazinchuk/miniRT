@@ -1,10 +1,14 @@
+#include <fcntl.h>
 /*
+
+is the file name ends with .rt
+
 1. parcing and reading input files
 - file management (nonexistent, empty file)
 - the types correspond to the requested types and nothing else
 - there is a MAXIMUM of one camera, one diffused light and one ambient light
 - each line corresponding to a type must have the right number of elements
-- if its a color , ut has to be in the right range (0-255) and the same goes for orientation vectors (-1,1), etc. 
+- if its a color, it has to be in the right range (0-255) and the same goes for orientation vectors (-1,1), etc. 
 Make sure all digits are in the correct range for each type.
 - For each object, you also need to pay attention to its specific characteristics 
 (whether the diameter or height of a cylinder is non-negative, for example, or other things).
@@ -35,3 +39,4 @@ Make sure all digits are in the correct range for each type.
 */
 
 //https://42-cursus.gitbook.io/guide/4-rank-04/minirt/building-the-thing
+
