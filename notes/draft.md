@@ -53,6 +53,7 @@ N * (O + t * D - P0) = 0
 N * O + t * D * N - N * P0 = 0
 t = N * (P0 - O) / D * N
 avoid divide by 0 (N * D != 0)
+P = R(t) - our intersection
 
 
 
