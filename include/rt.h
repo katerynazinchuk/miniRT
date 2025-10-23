@@ -6,7 +6,7 @@
 /*   By: kzinchuk <kzinchuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 15:13:59 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/10/22 15:32:36 by kzinchuk         ###   ########.fr       */
+/*   Updated: 2025/10/23 14:39:20 by kzinchuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,5 +18,6 @@
 #include "get_next_line.h"
 #include "vec_structs.h"
 #include "vec_utils.h"
+#include "parser.h"
 
 #endif

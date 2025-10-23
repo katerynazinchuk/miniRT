@@ -49,7 +49,6 @@ char **parse_file(const char *filename, t_rt *rt)
 	//this one should return something to parser
 	//so next function can catch the logic and prociede with the next step
 	//array of lines?????
-	return 1;
 }
 void validate_error(int line_counter)
 {
@@ -100,7 +99,7 @@ int validate_symb(t_rt *rt, char *line, int line_counter)
 		i+2;
 		if(!skip_spases(line, &i))
 			validate_error(line_counter);
-		parse_plane(rt, line);
+		parse_plane(rt, line, line_counter);
 	}
 	else if(line[i] == 'c' && line[i + 1] == 'y')
 	{

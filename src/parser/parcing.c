@@ -72,13 +72,22 @@ int parse_sphere(t_rt *rt, char *line)
 {
 
 }
-
-int parse_plane(t_rt *rt, char *line)
+//three inputs:first - coordinates of point on a plane
+//second - normalised vector
+//colors
+int parse_plane(t_rt *rt, char *line, int *line_counter)
 {
+	rt->scene.objects.type = OBJ_PLANE;
+	//scan for correct vector value
+	if(!skip_spases(line, &line_counter))
+		validate_error(line_counter);
+
+
 
 }
-
+// also three values
 int parse_cylinder(t_rt *rt, char *line)
 {
+	
 
 }
