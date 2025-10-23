@@ -51,8 +51,15 @@ char **parse_file(const char *filename, t_rt *rt)
 	//array of lines?????
 	return 1;
 }
+void validate_error(int line_counter)
+{
+	char *message;
 
-int validate_symb(t_rt *rt, char *line, int counter)
+	message = "incorrect input on line";
+	printf("%s %d", message, line_counter);
+}
+
+int validate_symb(t_rt *rt, char *line, int line_counter)
 {
 	int i;
 	
@@ -64,42 +71,42 @@ int validate_symb(t_rt *rt, char *line, int counter)
 	{
 		i++;
 		if(!skip_spases(line, &i))
-			ft_putendl_fd("incorrect input", 2);
+			validate_error(line_counter);
 		parse_ambient(rt, line);
 	}
 	else if(line[i] == 'C')
 	{
 		i++;
 		if(!skip_spases(line, &i))
-			ft_putendl_fd("incorrect input", 2);
+			validate_error(line_counter);
 		parse_camera(rt, line);
 	}
 	else if(line[i] == 'L')
 	{
 		i++;
 		if(!skip_spases(line, &i))
-			ft_putendl_fd("incorrect input", 2);
+			validate_error(line_counter);
 		parse_light(rt, line);
 	}
 	else if(line[i] == 's' && line[i + 1] == 'p')
 	{
 		i+2;
 		if(!skip_spases(line, &i))
-			ft_putendl_fd("incorrect input", 2);
+			validate_error(line_counter);
 		parse_sphere(rt, line);
 	}
 	else if(line[i] == 'p' && line[i + 1] == 'l')
 	{
 		i+2;
 		if(!skip_spases(line, &i))
-			ft_putendl_fd("incorrect input", 2);
+			validate_error(line_counter);
 		parse_plane(rt, line);
 	}
 	else if(line[i] == 'c' && line[i + 1] == 'y')
 	{
 		i+2;
 		if(!skip_spases(line, &i))
-			ft_putendl_fd("incorrect input", 2);
+			validate_error(line_counter);
 		parse_cylinder(rt, line);
 	}
 	else
