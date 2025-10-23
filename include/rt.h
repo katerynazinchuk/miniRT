@@ -6,7 +6,7 @@
 /*   By: kzinchuk <kzinchuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 15:13:59 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/10/23 14:39:20 by kzinchuk         ###   ########.fr       */
+/*   Updated: 2025/10/23 15:05:29 by kzinchuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 # define RT_H
 
 #include <fcntl.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <math.h>
 #include "libft.h"
 #include "get_next_line.h"
 #include "vec_structs.h"

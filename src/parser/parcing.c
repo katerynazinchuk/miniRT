@@ -75,11 +75,17 @@ int parse_sphere(t_rt *rt, char *line)
 //three inputs:first - coordinates of point on a plane
 //second - normalised vector
 //colors
-int parse_plane(t_rt *rt, char *line, int *line_counter)
+int parse_plane(t_rt *rt, char *line, int line_counter)
 {
+	t_vec point;
+	t_vec normal;
+	t_color color;
+
+	line =+ 2;
+	skip_spases(&line)
 	rt->scene.objects.type = OBJ_PLANE;
 	//scan for correct vector value
-	if(!skip_spases(line, &line_counter))
+	if(!skip_spases(line, line_counter))
 		validate_error(line_counter);
 
 

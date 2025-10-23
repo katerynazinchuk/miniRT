@@ -68,42 +68,36 @@ int validate_symb(t_rt *rt, char *line, int line_counter)
 		return 0;
 	if(line[i] == 'A')
 	{
-		i++;
 		if(!skip_spases(line, &i))
 			validate_error(line_counter);
 		parse_ambient(rt, line);
 	}
 	else if(line[i] == 'C')
 	{
-		i++;
 		if(!skip_spases(line, &i))
 			validate_error(line_counter);
 		parse_camera(rt, line);
 	}
 	else if(line[i] == 'L')
 	{
-		i++;
 		if(!skip_spases(line, &i))
 			validate_error(line_counter);
 		parse_light(rt, line);
 	}
 	else if(line[i] == 's' && line[i + 1] == 'p')
 	{
-		i+2;
 		if(!skip_spases(line, &i))
 			validate_error(line_counter);
 		parse_sphere(rt, line);
 	}
 	else if(line[i] == 'p' && line[i + 1] == 'l')
 	{
-		i+2;
 		if(!skip_spases(line, &i))
 			validate_error(line_counter);
 		parse_plane(rt, line, line_counter);
 	}
 	else if(line[i] == 'c' && line[i + 1] == 'y')
 	{
-		i+2;
 		if(!skip_spases(line, &i))
 			validate_error(line_counter);
 		parse_cylinder(rt, line);
@@ -113,7 +107,6 @@ int validate_symb(t_rt *rt, char *line, int line_counter)
 		ft_putendl_fd("Unrecognizable symbol", 2);
 		return (0);
 	}
-
 	return 1;
 
 	//can params be in the random order?
@@ -134,4 +127,16 @@ int skip_spases(char *line, int *i)
 		symbol = 1;
 	}
 	return (symbol);
+}
+
+
+float float_check(char *str, int *i)
+{
+	//identify some value from beggining to the comma, comma is a separator. dont has to be stored
+	//we gonna have *pos
+}
+
+int vec_check()
+{
+	
 }
