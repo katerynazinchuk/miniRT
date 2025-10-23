@@ -63,39 +63,51 @@ int validate_symb(t_rt *rt, char *line, int counter)
 	if(line[i] == 'A')
 	{
 		i++;
-		skip_spases(line, &i);
-		parse_ambient();
+		if(!skip_spases(line, &i))
+			ft_putendl_fd("incorrect input", 2);
+		parse_ambient(rt, line);
 	}
 	else if(line[i] == 'C')
 	{
 		i++;
-		skip_spases(line, &i);
-		parse_camera();
+		if(!skip_spases(line, &i))
+			ft_putendl_fd("incorrect input", 2);
+		parse_camera(rt, line);
 	}
 	else if(line[i] == 'L')
 	{
 		i++;
-	skip_spases(line, &i);
-		parse_light();
+		if(!skip_spases(line, &i))
+			ft_putendl_fd("incorrect input", 2);
+		parse_light(rt, line);
 	}
 	else if(line[i] == 's' && line[i + 1] == 'p')
 	{
-		i++;
-		skip_spases(line, &i);
-		parse_sphere();
+		i+2;
+		if(!skip_spases(line, &i))
+			ft_putendl_fd("incorrect input", 2);
+		parse_sphere(rt, line);
 	}
 	else if(line[i] == 'p' && line[i + 1] == 'l')
 	{
-		i++;
-		skip_spases(line, &i);
-		parse_plane();
+		i+2;
+		if(!skip_spases(line, &i))
+			ft_putendl_fd("incorrect input", 2);
+		parse_plane(rt, line);
 	}
 	else if(line[i] == 'c' && line[i + 1] == 'y')
 	{
-		i++;
-		skip_spases(line, &i);
-		parse_cylinder();
+		i+2;
+		if(!skip_spases(line, &i))
+			ft_putendl_fd("incorrect input", 2);
+		parse_cylinder(rt, line);
 	}
+	else
+	{
+		ft_putendl_fd("Unrecognizable symbol", 2);
+		return (0);
+	}
+
 	return 1;
 
 	//can params be in the random order?
@@ -104,8 +116,16 @@ int validate_symb(t_rt *rt, char *line, int counter)
 	//parse && store into struct;
 }
 
-void skip_spases(char *line, int *i)
+int skip_spases(char *line, int *i)
 {
+
+	int symbol;
+
+	symbol = 0;
 	while(line[*i] == ' ' || line[*i] == '\t')
+	{
 		(*i)++;
+		symbol = 1;
+	}
+	return (symbol);
 }

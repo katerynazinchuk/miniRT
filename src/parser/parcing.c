@@ -39,4 +39,46 @@ Make sure all digits are in the correct range for each type.
 */
 
 //https://42-cursus.gitbook.io/guide/4-rank-04/minirt/building-the-thing
+#include "rt.h"
 
+int parse_ambient(t_rt *rt, char *line)
+{
+	//line *on the current nessesary symbol
+	//i need to read it and store tor the structure
+	//skip spases
+	//get new symbol ==> so new chaunk of information 
+	//store it to the same struct 
+
+	//then return soe error if that stuct fail?
+	//or if malloc fail somewher in the middle?
+
+	
+
+
+
+}
+
+int parse_camera(t_rt *rt, char *line)
+{
+
+}
+
+int parse_light(t_rt *rt, char *line)
+{
+
+}
+
+int parse_sphere(t_rt *rt, char *line)
+{
+
+}
+
+int parse_plane(t_rt *rt, char *line)
+{
+
+}
+
+int parse_cylinder(t_rt *rt, char *line)
+{
+
+}
