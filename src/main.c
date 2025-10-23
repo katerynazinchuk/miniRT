@@ -2,25 +2,25 @@
 // so on the beggining we create an object with all nessesary properties and only that, give permision to use some
 //closer the light - brighter the color. and oposite
 /*for each pixel,
-    color c;
-    for each shape in the scene
-        send a ray through each pixel and see if it collides with a shape
-        if it does
-            color = calculate color of ray
-        else, color = background color
-    return color
+	color c;
+	for each shape in the scene
+		send a ray through each pixel and see if it collides with a shape
+		if it does
+			color = calculate color of ray
+		else, color = background color
+	return color
 
 To calculate color of ray...
-    color c = 0,0,0 // rgb
-    for each light source in the scene
-        make a new ray (shad_ray) that starts at where the original ray hit the shape...
-        ... and ends at the light source
-        see if the shadow ray hits a shape on its way to the light
-        if it does, 
-            calculate ambient color using ambient color of shape material and...
-            ... ambient light intensity 
-        if not,
-            calculate shading with sum of ambient/diffuse/specular components 
+	color c = 0,0,0 // rgb
+	for each light source in the scene
+		make a new ray (shad_ray) that starts at where the original ray hit the shape...
+		... and ends at the light source
+		see if the shadow ray hits a shape on its way to the light
+		if it does, 
+			calculate ambient color using ambient color of shape material and...
+			... ambient light intensity 
+		if not,
+			calculate shading with sum of ambient/diffuse/specular components 
 */
 
 //cast many rays per pixel and combine all colors into one, to gt smoother blending of colors = super-sampling
@@ -48,6 +48,24 @@ int main(int argc, char **argv)
 	return (0);
 	
 }
+
+/* t_ray	ray;
+	int		y;
+	int		x;
+
+	y = 0;
+	while(y < s_scene->height)
+	{
+		x = 0;
+		while (x < s_scene->width)
+		{
+			ray = create_ray_per_pixel(camera, x, y);//here we find our field of view
+			color = find_color(ray, scene);//here we looking for intersection
+			put_pixel(x, y, color);
+			x++;
+		}
+		y++;
+} */
 
 //test main 
 // int main (void)

@@ -6,7 +6,7 @@
 /*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 14:58:45 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/10/23 14:59:39 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/10/23 17:45:08 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ typedef struct s_rt
 
 typedef struct s_scene
 {
-	int			width;
-	int			height;
+	int			width;//make it as #define in header? 
+	int			height;//to avoid unnecessary information in struct? 
 	t_camera	camera;
 	t_light		light;
 	t_objects	objects;
