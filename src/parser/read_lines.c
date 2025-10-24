@@ -54,7 +54,7 @@ void validate_error(int line_counter)
 {
 	char *message;
 
-	message = "incorrect input on line";
+	message = "Incorrect input:missing space on line";
 	printf("%s %d", message, line_counter);
 }
 

@@ -41,7 +41,7 @@ Make sure all digits are in the correct range for each type.
 //https://42-cursus.gitbook.io/guide/4-rank-04/minirt/building-the-thing
 #include "rt.h"
 
-int parse_ambient(t_rt *rt, char *line)
+int parse_ambient(t_rt *rt, char *line, int line_counter)
 {
 	//line *on the current nessesary symbol
 	//i need to read it and store tor the structure
@@ -58,43 +58,120 @@ int parse_ambient(t_rt *rt, char *line)
 
 }
 
-int parse_camera(t_rt *rt, char *line)
+int parse_camera(t_rt *rt, char *line,int line_counter)
 {
+	t_vec world_up;
+	t_vec position;
+	t_vec right;
+	t_vec up;
+	int i;
 
+	i = 1;
+	if(!skip_spases(&line, &i));
+		validate_error(line_counter);
+	world_up = vec_pos(0,1,0);
+	right = vec_cross(position, world_up);
+	right = vec_normalize(right);
+	up = vec_cross(position, right);
+	up = vec_normalize(up);
+	
+	//translate the value f horizontal field of view into what??
+	
+
+
+
+
+	rt->scene.camera.direction = position;
+	rt->scene.camera.right = right;
+	rt->scene.camera.up = up;
+
+	return (1)
 }
 
-int parse_light(t_rt *rt, char *line)
+int parse_light(t_rt *rt, char *line, int line_counter)
 {
+	t_vec	position;
+	t_color	color;
+	double	intensity;
 
+	rt->scene.light.position = position;
+	rt->scene.light.intensity = intensity;
+	rt->scene.light.color = color;
+	return (1);
 }
 
-int parse_sphere(t_rt *rt, char *line)
+int parse_sphere(t_rt *rt, char *line, int line_counter)
 {
-
+	t_vec		center;
+	double		radius;
+	t_color color;
+	int i;
+	
+	i = 2;
+	if(!skip_spases(&line, &i));
+		validate_error(line_counter);
+	if(!parse_vector(rt, line, &center))
+	{
+		ft_putendl_fd("Input outside of the range", 2);
+		return 0;
+	}
+	if(!skip_spases(&line, &i));
+		validate_error(line_counter);
+	radius = (ft_atol(&line, &i) / 2);
+	if(parse_color(rt, line, &color))
+	{
+		ft_putendl_fd("Color outside of range", 2);
+		return (0);
+	}
+	rt->scene.objects.type = OBJ_SPHERE;
+	rt->scene.objects.shape.sp.center = center;
+	rt->scene.objects.shape.sp.radius = radius;
+	rt->scene.objects.shape.sp.mat.albedo = color;
+	return (1);
 }
 //three inputs:first - coordinates of point on a plane
 //second - normalised vector
 //colors
 int parse_plane(t_rt *rt, char *line, int line_counter)
 {
-	t_vec *point;
-	t_vec *normal;
-	t_color *color;
+	t_vec point;
+	t_vec normal;
+	t_color color;
 	int i;
+	double length;
 
-	line[i] =+ 2;
-	skip_spases(&line, &i);
+	i = 2;
+	if(!skip_spases(&line, &i));
+		validate_error(line_counter);
+	if(!parse_vector(rt, line, &point))
+	{
+		ft_putendl_fd("Input outside of the range", 2);
+		return (0);
+	}
+	if(!skip_spases(line, line_counter))
+		validate_error(line_counter);
+	if(!parse_vector(rt, line, &normal))
+	{
+		ft_putendl_fd("Input outside of the range", 2);
+		return (0);
+	}
+	if(!skip_spases(line, line_counter))
+		validate_error(line_counter);
+	length = vec_length(normal);
+	//check is it normalized
+	normal = vec_normalize(normal);
+	//check for the length and normalization
+	if(!parse_color(rt, line, &color))
+	{
+		ft_putendl_fd("Color outside of range", 2);
+		//combine clor into one chanel??
+		return (0);
+	}
 	rt->scene.objects.type = OBJ_PLANE;
-	//scan for correct vector value
-	point = parse_vector(rt, line);
-	if(!skip_spases(line, line_counter))
-		validate_error(line_counter);
-	normal = parse_vector(rt, line);
-	if(!skip_spases(line, line_counter))
-		validate_error(line_counter);
-		//check for the length and normalization
-	color = validate_color(rt, line);
-	//combine clor into one chanel??
+	rt->scene.objects.shape.pl.point = point;
+	rt->scene.objects.shape.pl.normal = normal;
+	rt->scene.objects.shape.pl.mat.albedo = color;
+
 	return (1);
 }
 // also three values
@@ -104,21 +181,35 @@ int parse_cylinder(t_rt *rt, char *line)
 
 }
 
-int parse_vector(char *line, t_vec **vec)
+int parse_vector(char *line, int *i, t_vec * vec)
 {
 	char *endp;
 	
-
-	*vec->x = ft_atol(&line, &endp);
-	vec->y = ft_atol(&line, &endp);
-	vec->z = ft_atol(&line, &endp);
-	return (vec);
+	vec->x = ft_atof(&line[*i], &endp);
+	if()
+	{
+		return 0;
+	}
+	//check for allowed ranges
+	vec->y = ft_atof(&line, &endp);
+	//check for allowed ranges
+	vec->z = ft_atof(&line, &endp);
+	//check for allowed ranges
+	return (1);
 }
 
-t_color *parse_color(t_color *color, char * line)
+int parse_color(char * line, int *i, t_color *color)
 {
+	char *endp;
 
+	color->r = ft_atof(&line[*i], &endp);
+	//check for allowed ranges
+	color->g = ft_atof(&line, &endp);
+	//check for allowed ranges
+	color->b = ft_atof(&line, &endp);
+	//check for allowed ranges
 
+	return(1);
 
 }
 
