@@ -14,23 +14,23 @@
 */
 
 /* function check is there intersection by using bool and setup valu in t */
-bool	hit_plane(t_ray *с_ray, t_plane *plane, float *t)
+bool	hit_plane(t_ray *c_ray, t_plane *plane, float *t)
 {
 	float	num;
 
-	num = vec_dot(plane->normal, с_ray->direction);
+	num = vec_dot(plane->normal, c_ray->direction);
 	if (num == 0)
 		return (false);
-	*t = vec_dot(plane->normal, vec_sub(plane->point, с_ray->origin)) / num;
+	*t = vec_dot(plane->normal, vec_sub(plane->point, c_ray->origin)) / num;
 	if (*t < 0)
 		return (false);
 	return (true);
 }
 
-t_vec	find_point(t_ray *с_ray, float t)
+t_vec	find_point(t_ray *c_ray, float t)
 {
 	t_vec	point;
 
-	point = vec_add(с_ray->origin, vec_scale(с_ray->direction, t));
+	point = vec_add(c_ray->origin, vec_scale(c_ray->direction, t));
 	return (point);
 }

@@ -48,13 +48,14 @@ int main(int argc, char **argv)
 	return (0);
 	
 }
-
+// Add this drawing part in mlx_loop, so we could start our tests,
+// after finishing parser and create_ray =))
 /* t_ray	ray;
 	int		y;
 	int		x;
 
 	y = 0;
-	while(y < s_scene->height)
+	while (y < s_scene->height)
 	{
 		x = 0;
 		while (x < s_scene->width)

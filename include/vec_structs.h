@@ -23,8 +23,8 @@ typedef struct s_rt
 
 typedef struct s_scene
 {
-	int			width;//make it as #define in header? 
-	int			height;//to avoid unnecessary information in struct? 
+	// int			width;//make it as #define in header? 
+	// int			height;//to avoid unnecessary information in struct? 
 	t_camera	camera;
 	t_light		light;
 	t_objects	objects;
@@ -111,7 +111,9 @@ typedef struct s_camera
 	t_vec direction;//normalized direction; comes from .rt
 	t_vec right;// cross from direction and...???
 	t_vec up;//cross from direction and right
-	
+	float	angle;//in radiant so angle = 70 * M_PI / 180.0 and result will be in radiant
+	float	scale;// scale = tan((camera->angle * 0,5));
+	float	aspect;// aspect = (double)WIDTH / (double)HEIGHT;
 }	t_camera;
 
 typedef struct s_material
