@@ -52,8 +52,6 @@ int parse_ambient(t_rt *rt, char *line, int line_counter)
 	//then return soe error if that stuct fail?
 	//or if malloc fail somewher in the middle?
 
-	
-
 
 
 }
@@ -75,7 +73,7 @@ int parse_camera(t_rt *rt, char *line,int line_counter)
 	up = vec_cross(position, right);
 	up = vec_normalize(up);
 	
-	//translate the value f horizontal field of view into what??
+	//translate the value f horizontal field of vie
 	
 
 

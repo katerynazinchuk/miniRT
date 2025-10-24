@@ -6,7 +6,7 @@
 /*   By: kzinchuk <kzinchuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 14:58:45 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/10/23 17:09:02 by kzinchuk         ###   ########.fr       */
+/*   Updated: 2025/10/24 17:04:47 by kzinchuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,9 +108,10 @@ typedef struct s_light
 typedef struct s_camera
 {
 	t_vec	position;
-	t_vec direction;//normalized direction; comes from .rt
-	t_vec right;// cross from direction and...???
-	t_vec up;//cross from direction and right
+	t_vec direction;
+	t_vec right;
+	t_vec up;
+	double range;
 	
 }	t_camera;
 
