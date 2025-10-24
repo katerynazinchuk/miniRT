@@ -77,19 +77,25 @@ int parse_sphere(t_rt *rt, char *line)
 //colors
 int parse_plane(t_rt *rt, char *line, int line_counter)
 {
-	t_vec point;
-	t_vec normal;
-	t_color color;
+	t_vec *point;
+	t_vec *normal;
+	t_color *color;
+	int i;
 
-	line =+ 2;
-	skip_spases(&line)
+	line[i] =+ 2;
+	skip_spases(&line, &i);
 	rt->scene.objects.type = OBJ_PLANE;
 	//scan for correct vector value
+	point = parse_vector(rt, line);
 	if(!skip_spases(line, line_counter))
 		validate_error(line_counter);
-
-
-
+	normal = parse_vector(rt, line);
+	if(!skip_spases(line, line_counter))
+		validate_error(line_counter);
+		//check for the length and normalization
+	color = validate_color(rt, line);
+	//combine clor into one chanel??
+	return (1);
 }
 // also three values
 int parse_cylinder(t_rt *rt, char *line)
@@ -97,3 +103,25 @@ int parse_cylinder(t_rt *rt, char *line)
 	
 
 }
+
+int parse_vector(char *line, t_vec **vec)
+{
+	char *endp;
+	
+
+	*vec->x = ft_atol(&line, &endp);
+	vec->y = ft_atol(&line, &endp);
+	vec->z = ft_atol(&line, &endp);
+	return (vec);
+}
+
+t_color *parse_color(t_color *color, char * line)
+{
+
+
+
+}
+
+
+
+//point->z = (float)ft_atoi(value);
