@@ -22,5 +22,7 @@ t_ray	create_ray_per_pixel(t_camera *camera, int x, int y)
 	ray.direction = vec_normalize(vec_add(temp, camera->direction));
 	return (ray);
 }
-
+	// ray.direction.x = ;
+	// ray.direction.y = ;
+	// ray.direction.z = ;
 
