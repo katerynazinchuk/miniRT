@@ -56,10 +56,10 @@ int main(int argc, char **argv)
 	int		x;
 
 	y = 0;
-	while (y < s_scene->height)
+	while (y < HEIGTH)
 	{
 		x = 0;
-		while (x < s_scene->width)
+		while (x < WIDTH)
 		{
 			ray = create_ray_per_pixel(camera, x, y);//here we find our field of view
 			color = find_color(ray, scene);//here we looking for intersection
