@@ -6,7 +6,7 @@
 /*   By: kzinchuk <kzinchuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 14:00:44 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/10/20 17:39:04 by kzinchuk         ###   ########.fr       */
+/*   Updated: 2025/10/23 17:01:34 by kzinchuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 
 //dot possition
-t_vec vec_pos(float x, float y, float z)
+t_vec vec_pos(double x, double y, double z)
 {
 	t_vec  v;
 	v.x = x;
@@ -53,7 +53,7 @@ t_vec vec_sub(t_vec a, t_vec b)//(light_possition, hit_point)
 
 //scale a direction by distance t, scale colors by intensities or material coefficients
 //usage P(t) = O + D * t, where D * t is vec_scale; diffuse = color * intencity
-t_vec vec_scale(t_vec v, float s)
+t_vec vec_scale(t_vec v, double s)
 {
 	t_vec scale_p;
 
@@ -66,9 +66,9 @@ t_vec vec_scale(t_vec v, float s)
 //usage brightness = max(0, dot(normal, light_dir));
 //return the value of the cos between two vectors
 //if they are penoerdicular return 0;
-float vec_dot(t_vec a, t_vec b)
+double vec_dot(t_vec a, t_vec b)
 { 
-	float c; 
+	double c; 
 	c = a.x * b.x + a.y * b.y + a.z * b.z; 
 	return (c); 
 }
@@ -88,9 +88,9 @@ t_vec vec_cross(t_vec a, t_vec b)
 }
 
 //helper func for normalization and to compare distances
-float vec_length(t_vec v)
+double vec_length(t_vec v)
 {
-	float len;
+	double len;
 
 	len = sqrtf(v.x * v.x + v.y * v.y + v.z * v.z);
 	//sqrtf return float. sqrt return double
@@ -101,7 +101,7 @@ float vec_length(t_vec v)
 t_vec vec_normalize(t_vec v)
 {
 	t_vec normalized;
-	float len;
+	double len;
 
 	len = vec_length(v);
 	if(len == 0)

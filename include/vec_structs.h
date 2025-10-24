@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vec_structs.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
+/*   By: kzinchuk <kzinchuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 14:58:45 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/10/23 17:45:08 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/10/24 17:46:48 by kzinchuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ typedef struct s_objects
 typedef struct s_sphere
 {
 	t_vec		center;
-	float		radius;//in .rt we have diametr
+	double		radius;//in .rt we have diametr
 	t_material	mat;
 }	t_sphere;
 
@@ -62,8 +62,8 @@ typedef struct s_cylinder
 {
 	t_vec center;
 	t_vec axis;
-	float radius;
-	float height;// float?? or double??
+	double radius;
+	double height;// float?? or double??
 	t_material	mat;
 }	t_cylinder;
 
@@ -90,9 +90,9 @@ typedef struct s_ray
 
 typedef struct s_color
 {
-	float	r;
-	float	g;
-	float	b;
+	double	r;
+	double	g;
+	double	b;
 
 }	t_color;
 
@@ -100,7 +100,7 @@ typedef struct s_light
 {
 	t_vec	position;
 	t_color	color;
-	float	intensity;//will be calculated through vec_dot;
+	double	intensity;//will be calculated through vec_dot;
 	//..ambient or not, possition of light??
 
 } t_light;

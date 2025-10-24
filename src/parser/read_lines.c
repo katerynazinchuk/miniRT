@@ -49,10 +49,16 @@ char **parse_file(const char *filename, t_rt *rt)
 	//this one should return something to parser
 	//so next function can catch the logic and prociede with the next step
 	//array of lines?????
-	return 1;
+}
+void validate_error(int line_counter)
+{
+	char *message;
+
+	message = "Incorrect input:missing space on line";
+	printf("%s %d", message, line_counter);
 }
 
-int validate_symb(t_rt *rt, char *line, int counter)
+int validate_symb(t_rt *rt, char *line, int line_counter)
 {
 	int i;
 	
@@ -62,39 +68,44 @@ int validate_symb(t_rt *rt, char *line, int counter)
 		return 0;
 	if(line[i] == 'A')
 	{
-		i++;
-		skip_spases(line, &i);
-		parse_ambient();
+		if(!skip_spases(line, &i))
+			validate_error(line_counter);
+		parse_ambient(rt, line);
 	}
 	else if(line[i] == 'C')
 	{
-		i++;
-		skip_spases(line, &i);
-		parse_camera();
+		if(!skip_spases(line, &i))
+			validate_error(line_counter);
+		parse_camera(rt, line);
 	}
 	else if(line[i] == 'L')
 	{
-		i++;
-	skip_spases(line, &i);
-		parse_light();
+		if(!skip_spases(line, &i))
+			validate_error(line_counter);
+		parse_light(rt, line);
 	}
 	else if(line[i] == 's' && line[i + 1] == 'p')
 	{
-		i++;
-		skip_spases(line, &i);
-		parse_sphere();
+		if(!skip_spases(line, &i))
+			validate_error(line_counter);
+		parse_sphere(rt, line);
 	}
 	else if(line[i] == 'p' && line[i + 1] == 'l')
 	{
-		i++;
-		skip_spases(line, &i);
-		parse_plane();
+		if(!skip_spases(line, &i))
+			validate_error(line_counter);
+		parse_plane(rt, line, line_counter);
 	}
 	else if(line[i] == 'c' && line[i + 1] == 'y')
 	{
-		i++;
-		skip_spases(line, &i);
-		parse_cylinder();
+		if(!skip_spases(line, &i))
+			validate_error(line_counter);
+		parse_cylinder(rt, line);
+	}
+	else
+	{
+		ft_putendl_fd("Unrecognizable symbol", 2);
+		return (0);
 	}
 	return 1;
 
@@ -104,8 +115,28 @@ int validate_symb(t_rt *rt, char *line, int counter)
 	//parse && store into struct;
 }
 
-void skip_spases(char *line, int *i)
+int skip_spases(char *line, int *i)
 {
+
+	int symbol;
+
+	symbol = 0;
 	while(line[*i] == ' ' || line[*i] == '\t')
+	{
 		(*i)++;
+		symbol = 1;
+	}
+	return (symbol);
+}
+
+
+float float_check(char *str, int *i)
+{
+	//identify some value from beggining to the comma, comma is a separator. dont has to be stored
+	//we gonna have *pos
+}
+
+int vec_check()
+{
+	
 }

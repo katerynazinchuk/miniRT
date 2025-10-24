@@ -6,7 +6,7 @@
 /*   By: kzinchuk <kzinchuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 14:00:36 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/10/17 14:59:57 by kzinchuk         ###   ########.fr       */
+/*   Updated: 2025/10/23 17:00:26 by kzinchuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,18 @@
 # define vVEC_UTILS_H
 
 typedef struct s_vec {
-    float x;
-    float y;
-    float z;
+    double x;
+    double y;
+    double z;
 } t_vec;
 
-t_vec	vec_pos(float x, float y, float z);
+t_vec	vec_pos(double x, double y, double z);
 t_vec	vec_add(t_vec a, t_vec b);
 t_vec	vec_sub(t_vec a, t_vec b);
-t_vec	vec_scale(t_vec v, float s);
-float	vec_dot(t_vec a, t_vec b);
+t_vec	vec_scale(t_vec v, double s);
+double	vec_dot(t_vec a, t_vec b);
 t_vec	vec_cross(t_vec a, t_vec b);
-float	vec_length(t_vec v);
+double	vec_length(t_vec v);
 t_vec	vec_normalize(t_vec v);
 t_vec	vec_neg(t_vec v);
 
