@@ -1,4 +1,3 @@
-#include <fcntl.h>
 /*
 
 is the file name ends with .rt
@@ -55,13 +54,18 @@ int parse_ambient(t_rt *rt, char *line, int line_counter)
 
 
 }
-
+//float	angle;//in radiant so angle = 70 * M_PI / 180.0 and result will be in radiant
+//float	scale;// scale = tan((camera->angle * 0,5));
+//float	aspect;// aspect = (double)WIDTH / (double)HEIGHT;
 int parse_camera(t_rt *rt, char *line,int line_counter)
 {
 	t_vec world_up;
 	t_vec position;
 	t_vec right;
 	t_vec up;
+	float angel;
+	float scale;
+	float aspect
 	int i;
 
 	i = 1;
@@ -72,7 +76,12 @@ int parse_camera(t_rt *rt, char *line,int line_counter)
 	right = vec_normalize(right);
 	up = vec_cross(position, right);
 	up = vec_normalize(up);
-	
+	aspect = (double)WIDTH / (double)HEIGHT;
+	if(WIDTH > HEIGHT)
+	{
+		//each x pixel coordinates should be multiplied by scpect; and range now [-aspect ratio, aspect ratio]
+		//for y it stay the same [-1,1];
+	}
 	//translate the value f horizontal field of vie
 	
 

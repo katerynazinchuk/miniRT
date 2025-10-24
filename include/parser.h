@@ -6,7 +6,7 @@
 /*   By: kzinchuk <kzinchuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 14:35:10 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/10/23 14:59:14 by kzinchuk         ###   ########.fr       */
+/*   Updated: 2025/10/24 17:59:46 by kzinchuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,12 @@
 # include "rt.h"
 
 //parsing.c
-int parse_ambient(t_rt *rt, char *line);
-int parse_camera(t_rt *rt, char *line);
-int parse_light(t_rt *rt, char *line);
-int parse_sphere(t_rt *rt, char *line);
+int parse_ambient(t_rt *rt, char *line, int line_counter);
+int parse_camera(t_rt *rt, char *line, int line_counter);
+int parse_light(t_rt *rt, char *line, int line_counter);
+int parse_sphere(t_rt *rt, char *line, int line_counter);
 int parse_plane(t_rt *rt, char *line, int line_counter);
-int parse_cylinder(t_rt *rt, char *line);
+int parse_cylinder(t_rt *rt, char *line, int line_counter);
 
 //read_lines.c
 char **parse_file(const char *filename, t_rt *rt);
