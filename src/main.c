@@ -76,3 +76,4 @@ int main(int argc, char **argv)
 // 	t_vec b = vec_pos(-2, 0, 5);
 // 	t_vec s = vec_add(a,b);
 // }
+
