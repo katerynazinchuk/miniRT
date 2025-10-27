@@ -52,12 +52,12 @@ int parse_ambient(t_rt *rt, char *line, int line_counter)
 	//or if malloc fail somewher in the middle?
 
 
-
+return;
 }
 //float	angle;//in radiant so angle = 70 * M_PI / 180.0 and result will be in radiant
 //float	scale;// scale = tan((camera->angle * 0,5));
 //float	aspect;// aspect = (double)WIDTH / (double)HEIGHT;
-int parse_camera(t_rt *rt, char *line,int line_counter)
+int parse_camera(t_rt *rt, char *line, int line_counter)
 {
 	t_vec world_up;
 	t_vec position;
@@ -65,7 +65,7 @@ int parse_camera(t_rt *rt, char *line,int line_counter)
 	t_vec up;
 	float angel;
 	float scale;
-	float aspect
+	float aspect;//if we gonna make not square window
 	int i;
 
 	i = 1;
@@ -79,10 +79,10 @@ int parse_camera(t_rt *rt, char *line,int line_counter)
 	aspect = (double)WIDTH / (double)HEIGHT;
 	if(WIDTH > HEIGHT)
 	{
-		//each x pixel coordinates should be multiplied by scpect; and range now [-aspect ratio, aspect ratio]
+		//each x pixel coordinates should be multiplied by ascpect; and range now [-aspect ratio, aspect ratio]
 		//for y it stay the same [-1,1];
 	}
-	//translate the value f horizontal field of vie
+	//translate the value f horizontal field of view
 	
 
 
@@ -141,44 +141,36 @@ int parse_sphere(t_rt *rt, char *line, int line_counter)
 //colors
 int parse_plane(t_rt *rt, char *line, int line_counter)
 {
-	t_vec point;
-	t_vec normal;
+	//t_vec point;
+	//t_vec normal;
 	t_color color;
 	int i;
-	double length;
-
+//pl 0.0,0.0,0.0  0,0,-1 25,180,100
 	i = 2;
 	if(!skip_spases(&line, &i));
 		validate_error(line_counter);
-	if(!parse_vector(rt, line, &point))
+	if(!parse_vector(&line[i], &i, &rt->scene.objects.shape.pl.point))
 	{
 		ft_putendl_fd("Input outside of the range", 2);
 		return (0);
 	}
 	if(!skip_spases(line, line_counter))
 		validate_error(line_counter);
-	if(!parse_vector(rt, line, &normal))
+	if(!parse_vector(rt, line, &rt->scene.objects.shape.pl.normal))
 	{
 		ft_putendl_fd("Input outside of the range", 2);
 		return (0);
 	}
+	rt->scene.objects.shape.pl.normal = vec_normalize(rt->scene.objects.shape.pl.normal);
 	if(!skip_spases(line, line_counter))
 		validate_error(line_counter);
-	length = vec_length(normal);
-	//check is it normalized
-	normal = vec_normalize(normal);
-	//check for the length and normalization
-	if(!parse_color(rt, line, &color))
+	if(!parse_color(rt, line, &rt->scene.objects.shape.pl.mat.albedo))
 	{
 		ft_putendl_fd("Color outside of range", 2);
 		//combine clor into one chanel??
 		return (0);
 	}
 	rt->scene.objects.type = OBJ_PLANE;
-	rt->scene.objects.shape.pl.point = point;
-	rt->scene.objects.shape.pl.normal = normal;
-	rt->scene.objects.shape.pl.mat.albedo = color;
-
 	return (1);
 }
 // also three values
@@ -188,19 +180,22 @@ int parse_cylinder(t_rt *rt, char *line)
 
 }
 
-int parse_vector(char *line, int *i, t_vec * vec)
+int parse_vector(char *line, int *i, t_vec *vec)
 {
 	char *endp;
 	
-	vec->x = ft_atof(&line[*i], &endp);
+	vec->x = ft_atof(&line[*i], &endp);// how to check for 
+	//skip coma
 	if()
 	{
 		return 0;
 	}
 	//check for allowed ranges
 	vec->y = ft_atof(&line, &endp);
+	//skip coma
 	//check for allowed ranges
 	vec->z = ft_atof(&line, &endp);
+	//skip coma
 	//check for allowed ranges
 	return (1);
 }
@@ -209,15 +204,19 @@ int parse_color(char * line, int *i, t_color *color)
 {
 	char *endp;
 
-	color->r = ft_atof(&line[*i], &endp);
+	color->r = ft_atof(&line[*i], &endp);// not atof but something that also return endpt
 	//check for allowed ranges
+	//skip coma
+	//skip space
 	color->g = ft_atof(&line, &endp);
 	//check for allowed ranges
+	//skip coma
+	//skip space
 	color->b = ft_atof(&line, &endp);
 	//check for allowed ranges
-
+	//skip coma
+	//skip space
 	return(1);
-
 }
 
 

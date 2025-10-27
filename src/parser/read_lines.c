@@ -88,6 +88,7 @@ int validate_symb(t_rt *rt, char *line, int line_counter)
 	{
 		if(!skip_spases(line, &i))
 			validate_error(line_counter);
+		//find place to prove that there is no chars in input exept identifier
 		parse_sphere(rt, line);
 	}
 	else if(line[i] == 'p' && line[i + 1] == 'l')
