@@ -117,15 +117,15 @@ int parse_sphere(t_rt *rt, char *line, int line_counter)
 	i = 2;
 	if(!skip_spases(&line, &i));
 		validate_error(line_counter);
-	if(!parse_vector(rt, line, &center))
+	if(!parse_vector(line, &i, &center))
 	{
 		ft_putendl_fd("Input outside of the range", 2);
 		return 0;
 	}
 	if(!skip_spases(&line, &i));
 		validate_error(line_counter);
-	radius = (ft_atol(&line, &i) / 2);
-	if(parse_color(rt, line, &color))
+	radius = (ft_atol(&line[*i], &i) / 2);
+	if(parse_color(line, &i, &color))
 	{
 		ft_putendl_fd("Color outside of range", 2);
 		return (0);
@@ -147,26 +147,35 @@ int parse_plane(t_rt *rt, char *line, int line_counter)
 	int i;
 //pl 0.0,0.0,0.0  0,0,-1 25,180,100
 	i = 2;
-	if(!skip_spases(&line, &i));
-		validate_error(line_counter);
-	if(!parse_vector(&line[i], &i, &rt->scene.objects.shape.pl.point))
+	if(!skip_spases(&line, &i))
 	{
-		ft_putendl_fd("Input outside of the range", 2);
+		validate_error(line_counter);
 		return (0);
 	}
-	if(!skip_spases(line, line_counter))
-		validate_error(line_counter);
-	if(!parse_vector(rt, line, &rt->scene.objects.shape.pl.normal))
+	if(!parse_vector(line, &i, &rt->scene.objects.shape.pl.point))
 	{
-		ft_putendl_fd("Input outside of the range", 2);
+		ft_putendl_fd("Error: Input outside of the range", 2);
+		return (0);
+	}
+	if(!skip_spases(line, &i))
+	{
+		validate_error(line_counter);
+		return (0);
+	}
+	if(!parse_vector(line, &i, &rt->scene.objects.shape.pl.normal))
+	{
+		ft_putendl_fd("Error: Input outside of the range", 2);
 		return (0);
 	}
 	rt->scene.objects.shape.pl.normal = vec_normalize(rt->scene.objects.shape.pl.normal);
-	if(!skip_spases(line, line_counter))
-		validate_error(line_counter);
-	if(!parse_color(rt, line, &rt->scene.objects.shape.pl.mat.albedo))
+	if(!skip_spases(line, &i))
 	{
-		ft_putendl_fd("Color outside of range", 2);
+		validate_error(line_counter);
+		return (0);
+	}
+	if(!parse_color(line, &i, &rt->scene.objects.shape.pl.mat.albedo))
+	{
+		ft_putendl_fd("Error: Color outside of range", 2);
 		//combine clor into one chanel??
 		return (0);
 	}
@@ -184,19 +193,22 @@ int parse_vector(char *line, int *i, t_vec *vec)
 {
 	char *endp;
 	
-	vec->x = ft_atof(&line[*i], &endp);// how to check for 
-	//skip coma
-	if()
-	{
-		return 0;
-	}
-	//check for allowed ranges
-	vec->y = ft_atof(&line, &endp);
-	//skip coma
-	//check for allowed ranges
-	vec->z = ft_atof(&line, &endp);
-	//skip coma
-	//check for allowed ranges
+	vec->x = ft_atof(&line[*i], &endp);// need to add somewhere that sting alredy checked for the invalid symbols
+	if(&line[*i] == endp || *endp != ',')
+		return (0);
+	endp++;
+	*i = endp - line;
+	vec->y = ft_atof(&line[*i], &endp);
+	if(&line[*i] == endp || *endp != ',')
+		return (0);
+	endp++;
+	*i = endp - line;
+	vec->z = ft_atof(&line[*i], &endp);
+	if(&line[*i] == endp)
+		return (0);
+	*i = endp - line;
+	if(vec_check(vec->x) || vec_check(vec->y) || vec_check(vec->z))
+		return (0);
 	return (1);
 }
 
@@ -204,21 +216,32 @@ int parse_color(char * line, int *i, t_color *color)
 {
 	char *endp;
 
-	color->r = ft_atof(&line[*i], &endp);// not atof but something that also return endpt
-	//check for allowed ranges
-	//skip coma
-	//skip space
-	color->g = ft_atof(&line, &endp);
-	//check for allowed ranges
-	//skip coma
-	//skip space
-	color->b = ft_atof(&line, &endp);
-	//check for allowed ranges
-	//skip coma
-	//skip space
+	color->r = (int)ft_atof(&line[*i], &endp);
+	if (&line[*i] == endp || *endp != ',')
+        return (0);
+	endp++;
+    *i = endp - line;
+	color->g = (int)ft_atof(&line[*i], &endp);
+	if (&line[*i] == endp || *endp != ',')
+        return (0);
+	endp++;
+    *i = endp - line;
+	color->b = (int)ft_atof(&line[*i], &endp);
+	if (&line[*i] == endp)
+        return (0);
+    *i = endp - line;
+	if(check_color(color->r) || check_color(color->g) || check_color(color->b))
+		return (0);
 	return(1);
 }
 
+int check_color(int color)
+{
+	return(color >= 0 && color <= 255);
+}
 
+int check_vector(double vec)
+{
+	return (vec >= 0.0 && vec <= 1.0);
+}
 
-//point->z = (float)ft_atoi(value);

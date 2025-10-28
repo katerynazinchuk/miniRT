@@ -6,7 +6,7 @@
 /*   By: kzinchuk <kzinchuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 14:58:45 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/10/24 17:46:48 by kzinchuk         ###   ########.fr       */
+/*   Updated: 2025/10/28 13:40:50 by kzinchuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,9 +90,9 @@ typedef struct s_ray
 
 typedef struct s_color
 {
-	double	r;
-	double	g;
-	double	b;
+	int	r;
+	int	g;
+	int	b;
 
 }	t_color;
 
