@@ -6,7 +6,7 @@
 /*   By: kzinchuk <kzinchuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 14:58:45 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/10/28 13:40:50 by kzinchuk         ###   ########.fr       */
+/*   Updated: 2025/10/28 16:59:45 by kzinchuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,10 @@ typedef struct s_rt
 
 typedef struct s_scene
 {
-	// int			width;//make it as #define in header? 
-	// int			height;//to avoid unnecessary information in struct? 
 	t_camera	camera;
 	t_light		light;
 	t_objects	objects;
+	t_ambient	ambient;
 }	t_scene;
 
 typedef enum e_objtype
@@ -105,13 +104,20 @@ typedef struct s_light
 
 } t_light;
 
+typedef struct s_ambient
+{
+	t_color color;
+	double ratio;
+
+}	t_ambient;
+
 typedef struct s_camera
 {
 	t_vec	position;
 	t_vec direction;//normalized direction; comes from .rt
 	t_vec right;// cross from direction and...???
 	t_vec up;//cross from direction and right
-	float	angle;//in radiant so angle = 70 * M_PI / 180.0 and result will be in radiant
+	double	angle;//in radiant so angle = 70 * M_PI / 180.0 and result will be in radiant
 	float	scale;// scale = tan((camera->angle * 0,5));
 	float	aspect;// aspect = (double)WIDTH / (double)HEIGHT;
 }	t_camera;
@@ -122,6 +128,8 @@ typedef struct s_material
 	//more comming..
 	
 }	t_material;
+
+
 
 
 #endif

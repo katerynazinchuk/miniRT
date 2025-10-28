@@ -6,7 +6,7 @@
 /*   By: kzinchuk <kzinchuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 15:13:59 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/10/24 17:47:19 by kzinchuk         ###   ########.fr       */
+/*   Updated: 2025/10/28 17:16:09 by kzinchuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # define WIDTH 1000
 # define HEIGHT 1000
+# define M_PI 3.14159265358979323846
 
 #include <fcntl.h>
 #include <stdbool.h>
