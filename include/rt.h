@@ -16,6 +16,7 @@
 # define WIDTH 1000
 # define HEIGHT 1000
 
+#include <MLX42/MLX42.h>
 #include <fcntl.h>
 #include <stdbool.h>
 # include <math.h>
