@@ -13,10 +13,10 @@
  need to check how to take into account math errors(Uncertainty) and whether it is necessary
 */
 
-/* function check is there intersection by using bool and setup valu in t */
-bool	hit_plane(t_ray *c_ray, t_plane *plane, float *t)// change to doubles!!!better foor math calculation and preciese rendering
+/* function check is there intersection by using bool and setup value in t */
+bool	hit_plane(t_ray *c_ray, t_plane *plane, double *t)
 {
-	float	num;
+	double	num;
 
 	num = vec_dot(plane->normal, c_ray->direction);
 	if (num == 0)
@@ -27,7 +27,7 @@ bool	hit_plane(t_ray *c_ray, t_plane *plane, float *t)// change to doubles!!!bet
 	return (true);
 }
 
-t_vec	find_point(t_ray *c_ray, float t)
+t_vec	find_point(t_ray *c_ray, double t)
 {
 	t_vec	point;
 
