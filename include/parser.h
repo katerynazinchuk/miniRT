@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kzinchuk <kzinchuk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 14:35:10 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/10/24 17:59:46 by kzinchuk         ###   ########.fr       */
+/*   Updated: 2025/10/29 16:07:45 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,15 @@ int parse_light(t_rt *rt, char *line, int line_counter);
 int parse_sphere(t_rt *rt, char *line, int line_counter);
 int parse_plane(t_rt *rt, char *line, int line_counter);
 int parse_cylinder(t_rt *rt, char *line, int line_counter);
+int parse_color(char * line, int *i, t_color *color);
+int parse_vector(char *line, int *i, t_vec *vec);
+int check_vector(double vec);
+int check_color(int color);
+
+
 
 //read_lines.c
-char **parse_file(const char *filename, t_rt *rt);
+int	parse_file(const char *filename, t_rt *rt);
 void validate_error(int line_counter);
 int validate_symb(t_rt *rt, char *line, int line_counter);
 int skip_spases(char *line, int *i);

@@ -6,7 +6,7 @@
 /*   By: kzinchuk <kzinchuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 14:00:44 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/10/28 17:43:45 by kzinchuk         ###   ########.fr       */
+/*   Updated: 2025/10/29 18:16:19 by kzinchuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ t_vec vec_normalize(t_vec v)
 
 	len = vec_length(v);
 	if(len == 0)
-		retutn (v);
+		return (v);
 	normalized.x = v.x / len;
 	normalized.y = v.y / len;
 	normalized.z = v.z / len;

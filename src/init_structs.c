@@ -13,30 +13,30 @@
 #include "vec_structs.h"
 #include "vec_utils.h"
 
-typedef struct s_scene
-{
-	int			width;
-	int			height;
-	t_camera	camera;
-	t_light		light;
-	t_objects	objects;
-}	t_scene;
+// typedef struct s_scene
+// {
+// 	int			width;
+// 	int			height;
+// 	t_camera	camera;
+// 	t_light		light;
+// 	t_objects	objects;
+// }	t_scene;
 
-int init_scene_minimal(parsing income??)
-{
+// int init_scene_minimal(parsing income??)
+// {
 	
-	s->width = 
-	s = (t_scene *)malloc(sizeof (t_scene) * );
+// 	s->width = 
+// 	s = (t_scene *)malloc(sizeof (t_scene) * );
 
-	build_camera_basis(&s->camera);
-}
+// 	build_camera_basis(&s->camera);
+// }
 
-int build_camera_basis(t_camera *c)
-{
+// int build_camera_basis(t_camera *c)
+// {
 
-}
+// }
 
-int camera_ray()
-{
+// int camera_ray()
+// {
 	
-}
+// }

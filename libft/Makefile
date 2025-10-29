@@ -41,7 +41,9 @@ LIBFT_SRC =	$(SRC_DIR)/libft/ft_isalpha.c \
 		$(SRC_DIR)/libft/ft_putchar_fd.c \
 		$(SRC_DIR)/libft/ft_putstr_fd.c \
 		$(SRC_DIR)/libft/ft_putendl_fd.c \
-		$(SRC_DIR)/libft/ft_putnbr_fd.c 
+		$(SRC_DIR)/libft/ft_putnbr_fd.c \
+		$(SRC_DIR)/libft/ft_atof.c
+
 
 FT_PRINTF_SRC = $(SRC_DIR)/ft_printf/ft_printf.c \
 		$(SRC_DIR)/ft_printf/ft_print_c.c \
