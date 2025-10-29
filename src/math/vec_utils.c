@@ -6,11 +6,11 @@
 /*   By: kzinchuk <kzinchuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 14:00:44 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/10/29 18:16:19 by kzinchuk         ###   ########.fr       */
+/*   Updated: 2025/10/29 18:17:28 by kzinchuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "vec_utils.h"
+#include "rt.h"
 
 //dot possition
 t_vec vec_pos(double x, double y, double z)

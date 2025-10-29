@@ -30,10 +30,11 @@ To calculate color of ray...
 int main(int argc, char **argv)
 {
 
-	t_rt	*rt;
+	t_rt	rt;
 	// mlx_t	*mlx;
 
-	rt = (t_rt *)malloc(sizeof(t_rt*));
+	//rt = (t_rt *)malloc(sizeof(t_rt*));
+	ft_memset(&rt, 0, sizeof(t_rt));
 	if(argc != 2)
 	{
 		ft_putendl_fd("Error: Wrong number of arguments", 2);
@@ -41,7 +42,7 @@ int main(int argc, char **argv)
 	}
 	if(check_file(argv[1]))
 	{
-		parse_file(argv[1], rt);
+		parse_file(argv[1], &rt);
 		//create camera basis
 		//render
 		//mlx_loop();// loop window to prewent closing
