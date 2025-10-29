@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #ifndef VEC_UTILS_H
-# define vVEC_UTILS_H
+# define VEC_UTILS_H
 
 typedef struct s_vec {
     double x;

@@ -19,10 +19,10 @@
 #include <MLX42/MLX42.h>
 #include <fcntl.h>
 #include <stdbool.h>
+#include "vec_structs.h"
 # include <math.h>
 #include "libft.h"
 #include "get_next_line.h"
-#include "vec_structs.h"
 #include "vec_utils.h"
 #include "parser.h"
 
