@@ -31,12 +31,12 @@ int main(int argc, char **argv)
 {
 
 	t_rt	*rt;
-	mlx_t	*mlx;
+	// mlx_t	*mlx;
 
 	rt = (t_rt *)malloc(sizeof(t_rt*));
 	if(argc != 2)
 	{
-		ft_putendl_fd("Wrong number of arguments", 2);
+		ft_putendl_fd("Error: Wrong number of arguments", 2);
 		return 1;
 	}
 	if(check_file(argv[1]))
@@ -50,13 +50,13 @@ int main(int argc, char **argv)
 
 //int32_t for width height
 //false - resize
-	mlx = mlx_init(WIDTH, HEIGHT, "MiniRT", false);
+/* 	mlx = mlx_init(WIDTH, HEIGHT, "MiniRT", false);
 	if (!mlx)
 	{
 		//show error; mlx_strerror(mlx_errno);
 		//destroy from rt;
 		return (1);
-	}
+	} */
 
 	return (0);
 }

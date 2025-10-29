@@ -1,15 +1,9 @@
 #include "rt.h"
 
-int parser ()
-{
-	read_lines();
-	validate_symb();
-	parse_elements();...
-}
 
 //function that will read line by line and validate each line by its identifier
 //if one line is incorrect the whole valiation processhas been failed
-char **parse_file(const char *filename, t_rt *rt)
+int	parse_file(const char *filename, t_rt *rt)
 {
 	int fd;
 	char *line;
@@ -70,26 +64,26 @@ int validate_symb(t_rt *rt, char *line, int line_counter)
 	{
 		if(!skip_spases(line, &i))
 			validate_error(line_counter);
-		parse_ambient(rt, line);
+		parse_ambient(rt, line, line_counter);
 	}
 	else if(line[i] == 'C')
 	{
 		if(!skip_spases(line, &i))
 			validate_error(line_counter);
-		parse_camera(rt, line);
+		parse_camera(rt, line, line_counter);
 	}
 	else if(line[i] == 'L')
 	{
 		if(!skip_spases(line, &i))
 			validate_error(line_counter);
-		parse_light(rt, line);
+		parse_light(rt, line, line_counter);
 	}
 	else if(line[i] == 's' && line[i + 1] == 'p')
 	{
 		if(!skip_spases(line, &i))
 			validate_error(line_counter);
 		//find place to prove that there is no chars in input exept identifier
-		parse_sphere(rt, line);
+		parse_sphere(rt, line, line_counter);
 	}
 	else if(line[i] == 'p' && line[i + 1] == 'l')
 	{
@@ -101,7 +95,7 @@ int validate_symb(t_rt *rt, char *line, int line_counter)
 	{
 		if(!skip_spases(line, &i))
 			validate_error(line_counter);
-		parse_cylinder(rt, line);
+		parse_cylinder(rt, line, line_counter);
 	}
 	else
 	{
@@ -126,13 +120,8 @@ int skip_spases(char *line, int *i)
 }
 
 
-float float_check(char *str, int *i)
+/* float float_check(char *str, int *i)
 {
 	//identify some value from beggining to the comma, comma is a separator. dont has to be stored
 	//we gonna have *pos
-}
-
-int vec_check()
-{
-	
-}
+} */
