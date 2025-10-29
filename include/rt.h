@@ -6,7 +6,7 @@
 /*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 15:13:59 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/10/29 12:06:37 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/10/29 14:50:35 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # define WIDTH 1000
 # define HEIGHT 1000
+# define M_PI 3.14159265358979323846
 
 #include <MLX42/MLX42.h>
 #include <fcntl.h>

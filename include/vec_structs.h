@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vec_structs.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kzinchuk <kzinchuk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 14:58:45 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/10/24 17:46:48 by kzinchuk         ###   ########.fr       */
+/*   Updated: 2025/10/29 14:53:29 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,13 @@ typedef struct s_color
 
 }	t_color;
 
+typedef struct s_scene
+{
+	t_camera	camera;
+	t_light		light;
+	t_objects	objects;
+	t_ambient	ambient;
+}	t_scene;
 typedef struct s_camera
 {
 	t_vec	position;

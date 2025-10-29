@@ -65,7 +65,7 @@ int validate_symb(t_rt *rt, char *line, int line_counter)
 	i = 0;
 
 	if(line[i] == '\n' || line[i] == '\0')
-		return 0;
+		return 1;
 	if(line[i] == 'A')
 	{
 		if(!skip_spases(line, &i))
@@ -88,6 +88,7 @@ int validate_symb(t_rt *rt, char *line, int line_counter)
 	{
 		if(!skip_spases(line, &i))
 			validate_error(line_counter);
+		//find place to prove that there is no chars in input exept identifier
 		parse_sphere(rt, line);
 	}
 	else if(line[i] == 'p' && line[i + 1] == 'l')
@@ -108,11 +109,6 @@ int validate_symb(t_rt *rt, char *line, int line_counter)
 		return (0);
 	}
 	return 1;
-
-	//can params be in the random order?
-	//should we check for that?
-	// do we validate first letters of the line first and only then parse?
-	//parse && store into struct;
 }
 
 int skip_spases(char *line, int *i)
