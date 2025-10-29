@@ -46,15 +46,13 @@ char **parse_file(const char *filename, t_rt *rt)
 		return(0);
 	}
 	return (1);
-	//this one should return something to parser
-	//so next function can catch the logic and prociede with the next step
-	//array of lines?????
 }
+
 void validate_error(int line_counter)
 {
 	char *message;
 
-	message = "Incorrect input:missing space on line";
+	message = "Error: missing space on line";
 	printf("%s %d", message, line_counter);
 }
 
@@ -63,7 +61,6 @@ int validate_symb(t_rt *rt, char *line, int line_counter)
 	int i;
 	
 	i = 0;
-
 	if(line[i] == '\n' || line[i] == '\0')
 		return 1;
 	if(line[i] == 'A')
@@ -105,7 +102,7 @@ int validate_symb(t_rt *rt, char *line, int line_counter)
 	}
 	else
 	{
-		ft_putendl_fd("Unrecognizable symbol", 2);
+		ft_putendl_fd("Error: Unrecognizable symbol", 2);
 		return (0);
 	}
 	return 1;
@@ -113,7 +110,6 @@ int validate_symb(t_rt *rt, char *line, int line_counter)
 
 int skip_spases(char *line, int *i)
 {
-
 	int symbol;
 
 	symbol = 0;
@@ -123,16 +119,4 @@ int skip_spases(char *line, int *i)
 		symbol = 1;
 	}
 	return (symbol);
-}
-
-
-float float_check(char *str, int *i)
-{
-	//identify some value from beggining to the comma, comma is a separator. dont has to be stored
-	//we gonna have *pos
-}
-
-int vec_check()
-{
-	
 }

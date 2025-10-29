@@ -35,10 +35,10 @@ int main(int argc, char **argv)
 	rt = (t_rt *)malloc(sizeof(t_rt*));
 	if(argc != 2)
 	{
-		ft_putendl_fd("Wrong number of arguments", 2);
+		ft_putendl_fd("Error: Wrong number of arguments", 2);
 		return 1;
 	}
-	if(check_file(argv[1]))
+	if (check_file(argv[1]))
 	{
 		parse_file(argv[1], rt);
 		//create camera basis

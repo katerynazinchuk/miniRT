@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kzinchuk <kzinchuk@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/28 17:36:24 by kzinchuk          #+#    #+#             */
+/*   Updated: 2025/10/28 17:49:15 by kzinchuk         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 /*
 
 is the file name ends with .rt
@@ -41,7 +53,6 @@ ________________________________________________________________________________
 
 //https://42-cursus.gitbook.io/guide/4-rank-04/minirt/building-the-thing
 #include "rt.h"
-#include <math.h>
 
 int parse_ambient(t_rt *rt, char *line, int line_counter)
 {
@@ -196,7 +207,7 @@ int parse_plane(t_rt *rt, char *line, int line_counter)
 	return (1);
 }
 
-int parse_cylinder(t_rt *rt, char *line)
+int parse_cylinder(t_rt *rt, char *line, int line_counter)
 {
 	int	i;
 
