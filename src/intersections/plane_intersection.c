@@ -14,7 +14,7 @@
 */
 
 /* function check is there intersection by using bool and setup value in t */
-bool	hit_plane(t_ray *c_ray, t_plane *plane, double *t)
+bool	hit_plane(t_ray *c_ray, t_plane plane, double *t)
 {
 	double	num;
 

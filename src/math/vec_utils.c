@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vec_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kzinchuk <kzinchuk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 14:00:44 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/10/23 17:01:34 by kzinchuk         ###   ########.fr       */
+/*   Updated: 2025/10/29 14:39:51 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ t_vec vec_normalize(t_vec v)
 
 	len = vec_length(v);
 	if(len == 0)
-		retutn (v);
+		return (v);
 	normalized.x = v.x / len;
 	normalized.y = v.y / len;
 	normalized.z = v.z / len;
