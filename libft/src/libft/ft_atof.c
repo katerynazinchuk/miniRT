@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atof.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
+/*   By: kzinchuk <kzinchuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/24 12:00:13 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/10/29 17:22:31 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/10/29 18:51:03 by kzinchuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,18 +24,18 @@
 	return(str);
 } */
 
-static double parse_fraction(const char **str, int *divisor, int *i)
+static double parse_fraction(const char *str, int *divisor, int *i)
 {
 	double	fraction;
 
 	fraction = 0.0;
 	*divisor = 1;
-	if(*str[*i] == '.')
+	if(str[*i] == '.')
 	{
 		(*i)++;
-		while (ft_isdigit(*str[*i]))
+		while (ft_isdigit(str[*i]))
 		{
-			fraction = fraction * 10.0 + (*str[*i] - '0');
+			fraction = fraction * 10.0 + (str[*i] - '0');
 			*divisor *= 10;
 			(*i)++;
 		}
@@ -65,9 +65,7 @@ double ft_atof(const char *line, int *i)
 		num = num * 10.0 + (line[*i] - '0');
 		(*i)++;
 	}
-	fraction = parse_fraction(&line, &divisor, i);
-	// if(endp != NULL)
-	// 	*endp = (char *)nptr;
+	fraction = parse_fraction(line, &divisor, i);
 	return ((num + fraction/divisor) * sign);
 }
 

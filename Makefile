@@ -21,7 +21,7 @@ SRC_FILES := main.c \
 	intersections/field_of_view.c \
 	intersections/plane_intersection.c \
 	math/vec_utils.c \
-	parser/parcing.c \
+	parser/parser.c \
 	parser/read_lines.c \
 	parser/validate.c
 

@@ -8,6 +8,8 @@ int	parse_file(const char *filename, t_rt *rt)
 	int fd;
 	char *line;
 
+	if (!rt || !filename)
+        return (0);
 	fd = open(filename, O_RDONLY);
 	if(fd < 0)
 	{
@@ -40,74 +42,71 @@ int	parse_file(const char *filename, t_rt *rt)
 		return(0);
 	}
 	return (1);
-	//this one should return something to parser
-	//so next function can catch the logic and prociede with the next step
-	//array of lines?????
 }
+
 void validate_error(int line_counter)
 {
 	char *message;
 
-	message = "Incorrect input:missing space on line";
+	message = "Error: missing space on line";
 	printf("%s %d", message, line_counter);
 }
 
-int validate_symb(t_rt *rt, char *line, int line_counter)
+int validate_line(char *line, int i_line)
+{
+	while(line[i_line] != '\0' && line[i_line] != '\n')
+	{
+		if(!(ft_isdigit(line[i]) ||
+		line[i_line] == ' ' ||
+		line[i_line] == ' ' ||
+		line[i_line] == ',' ||
+		line[i_line] == '.' ||
+		line[i_line] == '-' ||
+		line[i_line] == '+'))
+		{
+			ft_putendl_fd("Error: Invalid character in input", 2);
+			return (0);
+		}
+		i_line++;
+	}
+	return(1);
+}
+
+int validate_identifier(t_rt *rt, char *line, int line_counter)
 {
 	int i;
 	
 	i = 0;
-
 	if(line[i] == '\n' || line[i] == '\0')
 		return 1;
+	//write a funk that setup i_line identifier based on identifier
+	if(!validate_line(line, i_line))
+	{
+		ft_putendl_fd("Error: Unrecogizable symbol", 2);
+		return(0);
+	}
+	//find place to prove that there is no chars in input exept identifier
 	if(line[i] == 'A')
-	{
-		if(!skip_spases(line, &i))
-			validate_error(line_counter);
-		parse_ambient(rt, line, line_counter);
-	}
+		return(parse_ambient(rt, line, line_counter));
 	else if(line[i] == 'C')
-	{
-		if(!skip_spases(line, &i))
-			validate_error(line_counter);
-		parse_camera(rt, line, line_counter);
-	}
+		return(parse_camera(rt, line, line_counter));
 	else if(line[i] == 'L')
-	{
-		if(!skip_spases(line, &i))
-			validate_error(line_counter);
-		parse_light(rt, line, line_counter);
-	}
+		return(parse_light(rt, line, line_counter));
 	else if(line[i] == 's' && line[i + 1] == 'p')
-	{
-		if(!skip_spases(line, &i))
-			validate_error(line_counter);
-		//find place to prove that there is no chars in input exept identifier
-		parse_sphere(rt, line, line_counter);
-	}
+		return(parse_sphere(rt, line, line_counter));
 	else if(line[i] == 'p' && line[i + 1] == 'l')
-	{
-		if(!skip_spases(line, &i))
-			validate_error(line_counter);
-		parse_plane(rt, line, line_counter);
-	}
+		return(parse_plane(rt, line, line_counter));
 	else if(line[i] == 'c' && line[i + 1] == 'y')
-	{
-		if(!skip_spases(line, &i))
-			validate_error(line_counter);
-		parse_cylinder(rt, line, line_counter);
-	}
+		return(parse_cylinder(rt, line, line_counter));
 	else
 	{
-		ft_putendl_fd("Unrecognizable symbol", 2);
+		ft_putendl_fd("Error: Unrecognizable symbol", 2);
 		return (0);
 	}
-	return 1;
 }
 
 int skip_spases(char *line, int *i)
 {
-
 	int symbol;
 
 	symbol = 0;
