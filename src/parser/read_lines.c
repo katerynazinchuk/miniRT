@@ -28,7 +28,7 @@ int	parse_file(const char *filename, t_rt *rt)
             free(line);
             continue;
         }
-		if (!validate_symb(rt, line, rt->line))
+		if (!validate_identifier(rt, line, rt->line))//before there was validate_symb
         {
             free(line);
             close(fd);
@@ -56,7 +56,7 @@ int validate_line(char *line, int i_line)
 {
 	while(line[i_line] != '\0' && line[i_line] != '\n')
 	{
-		if(!(ft_isdigit(line[i]) ||
+		if(!(ft_isdigit(line[i_line]) ||
 		line[i_line] == ' ' ||
 		line[i_line] == ' ' ||
 		line[i_line] == ',' ||
@@ -80,7 +80,7 @@ int validate_identifier(t_rt *rt, char *line, int line_counter)
 	if(line[i] == '\n' || line[i] == '\0')
 		return 1;
 	//write a funk that setup i_line identifier based on identifier
-	if(!validate_line(line, i_line))
+	if(!validate_line(line, i))//change from i_line to i
 	{
 		ft_putendl_fd("Error: Unrecogizable symbol", 2);
 		return(0);

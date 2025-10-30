@@ -31,7 +31,8 @@ int check_color(int color);
 //read_lines.c
 int	parse_file(const char *filename, t_rt *rt);
 void validate_error(int line_counter);
-int validate_symb(t_rt *rt, char *line, int line_counter);
+// int validate_symb(t_rt *rt, char *line, int line_counter);
+int validate_identifier(t_rt *rt, char *line, int line_counter);
 int skip_spases(char *line, int *i);
 
 
