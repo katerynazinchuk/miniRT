@@ -31,7 +31,7 @@ int main(int argc, char **argv)
 {
 
 	t_rt	rt;
-	// mlx_t	*mlx;
+	mlx_t	*mlx;
 
 	//rt = (t_rt *)malloc(sizeof(t_rt*));
 	ft_memset(&rt, 0, sizeof(t_rt));
@@ -51,13 +51,14 @@ int main(int argc, char **argv)
 
 //int32_t for width height
 //false - resize
-/* 	mlx = mlx_init(WIDTH, HEIGHT, "MiniRT", false);
+	mlx = mlx_init(WIDTH, HEIGHT, "MiniRT", false);
 	if (!mlx)
 	{
 		//show error; mlx_strerror(mlx_errno);
 		//destroy from rt;
 		return (1);
-	} */
+	}
+
 
 	return (0);
 }
@@ -104,11 +105,11 @@ int main(int argc, char **argv)
 		{
 			ray = create_ray_per_pixel(camera, x, y);//here we find our field of view
 			color = find_color(ray, scene);//here we looking for intersection
-			put_pixel(x, y, color);
+			put_pixel(image, x, y, color);
 			x++;
 		}
 		y++;
-} */
+	} */
 
 //test main 
 // int main (void)
