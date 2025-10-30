@@ -86,7 +86,7 @@ obj_done:
 clean:
 	@echo "Cleaning object files in $(BUILD_DIR).."
 	@rm -rf $(BUILD_DIR)
-	@echo "Object files in $(BUILD_DIR) cleaned successfully."
+	@echo "Object files in libft/$(BUILD_DIR) cleaned successfully."
 
 fclean: clean
 	@echo "Removing library $(NAME).."
