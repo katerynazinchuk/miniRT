@@ -27,11 +27,14 @@ To calculate color of ray...
 //can impement it with thread multitasking
 #include "rt.h"
 
+static int draw_img(t_scene *scene, mlx_image_t *img);
+
 int main(int argc, char **argv)
 {
 
-	t_rt	rt;
-	mlx_t	*mlx;
+	t_rt		rt;
+	mlx_t		*mlx;
+	mlx_image_t	*img;
 
 	//rt = (t_rt *)malloc(sizeof(t_rt*));
 	ft_memset(&rt, 0, sizeof(t_rt));
@@ -46,23 +49,59 @@ int main(int argc, char **argv)
 		//create camera basis
 		//render
 		//mlx_loop();// loop window to prewent closing
+
+		//int32_t for width height
+		//false - resize
 	}
+		mlx = mlx_init(WIDTH, HEIGHT, "MiniRT", false);
+		if (!mlx)
+		{
+			//show error; mlx_strerror(mlx_errno);
+			//destroy from rt;
+			return (1);
+		}
+		img = mlx_new_image(mlx, (uint32_t)WIDTH, (uint32_t)HEIGHT);
+		if (!img || (mlx_image_to_window(mlx, img, 0, 0) < 0))
+		{
+			//error, clean what is necessary
+			return (1);
+		}
+		draw_img(&rt.scene, img);
+		// mlx_loop_hook(); - need function to handle hooks
+		mlx_loop(mlx);
+		mlx_terminate(mlx);
+		//what we need to clean ?
+		//do we need no clean img ?
+	// 	return (0);
+	// }
 	//free everything;
 
-//int32_t for width height
-//false - resize
-	mlx = mlx_init(WIDTH, HEIGHT, "MiniRT", false);
-	if (!mlx)
-	{
-		//show error; mlx_strerror(mlx_errno);
-		//destroy from rt;
-		return (1);
-	}
-
-
-	return (0);
+	return (1);
 }
 
+
+static int draw_img(t_scene *scene, mlx_image_t *img)
+{
+	t_ray		ray;
+	uint32_t	y;
+	uint32_t	x;
+	uint32_t	color;
+
+	y = 0;
+	while (y < HEIGHT)
+	{
+		x = 0;
+		while (x < WIDTH)
+		{
+			ray = create_ray_per_pixel(&scene->camera, x, y);//here we find our field of view
+			color = find_color(ray, scene);//here we looking for intersection
+			mlx_put_pixel(img, x, y, color);
+			x++;
+		}
+		y++;
+	}
+	return (0);
+}
 
 
 /*

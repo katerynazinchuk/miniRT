@@ -27,6 +27,8 @@
 # include "vec_utils.h"
 # include "parser.h"
 
-bool	hit_plane(t_ray *c_ray, t_plane *plane, double *t);
+bool		hit_plane(t_ray *c_ray, t_plane *plane, double *t);
+t_ray		create_ray_per_pixel(t_camera *camera, int x, int y);
+uint32_t	find_color(t_ray ray, t_scene *scene);
 
 #endif

@@ -1,8 +1,8 @@
 #include "rt.h"
 
-t_color	find_color(t_ray ray, t_scene *scene)
+uint32_t	find_color(t_ray ray, t_scene *scene)
 {
-	t_color	color;
+	uint32_t	color;
 	double	t;
 	(void)scene;
 //for test
@@ -12,15 +12,17 @@ t_color	find_color(t_ray ray, t_scene *scene)
 
 	if (hit_plane(&ray, &plane_test, &t))
 	{
-		color.r= 255;
-		color.g= 128;
-		color.b= 0;
+		color = 0xFF90EE90;
+		// color.r= 255;
+		// color.g= 128;
+		// color.b= 0;
 	}
 	else
 	{
-		color.r= 0;
-		color.g= 0;
-		color.b= 0;
+		color = 0x0;
+		// color.r= 0;
+		// color.g= 0;
+		// color.b= 0;
 	}
 	//find first hit
 	//if no hit color = background_color(black)
