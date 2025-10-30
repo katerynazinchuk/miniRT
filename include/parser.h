@@ -6,7 +6,7 @@
 /*   By: kzinchuk <kzinchuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 14:35:10 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/10/29 19:05:06 by kzinchuk         ###   ########.fr       */
+/*   Updated: 2025/10/30 18:39:15 by kzinchuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int check_color(int color);
 //read_lines.c
 int	parse_file(const char *filename, t_rt *rt);
 void validate_error(int line_counter);
-int validate_symb(t_rt *rt, char *line, int line_counter);
+int validate_identifier(t_rt *rt, char *line, int line_counter);
 int skip_spases(char *line, int *i);
 
 

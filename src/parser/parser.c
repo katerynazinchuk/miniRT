@@ -6,7 +6,7 @@
 /*   By: kzinchuk <kzinchuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/28 17:36:24 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/10/29 19:52:09 by kzinchuk         ###   ########.fr       */
+/*   Updated: 2025/10/30 18:38:55 by kzinchuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -294,7 +294,6 @@ int parse_color(char *line, int *i, t_color *color)
 		return (0);
 	return(1);
 }
-
 
 int check_color(int color)
 {
