@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kzinchuk <kzinchuk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 14:35:10 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/10/29 19:05:06 by kzinchuk         ###   ########.fr       */
+/*   Updated: 2025/10/31 12:49:16 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ int check_color(int color);
 //read_lines.c
 int	parse_file(const char *filename, t_rt *rt);
 void validate_error(int line_counter);
-// int validate_symb(t_rt *rt, char *line, int line_counter);
 int validate_identifier(t_rt *rt, char *line, int line_counter);
 int skip_spases(char *line, int *i);
 

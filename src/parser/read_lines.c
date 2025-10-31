@@ -28,7 +28,7 @@ int	parse_file(const char *filename, t_rt *rt)
             free(line);
             continue;
         }
-		if (!validate_identifier(rt, line, rt->line))//before there was validate_symb
+		if (!validate_identifier(rt, line, rt->line))
         {
             free(line);
             close(fd);
@@ -52,7 +52,7 @@ void validate_error(int line_counter)
 	printf("%s %d", message, line_counter);
 }
 
-int validate_line(char *line, int i_line)
+static int validate_line(char *line, int i_line)
 {
 	while(line[i_line] != '\0' && line[i_line] != '\n')
 	{
@@ -72,20 +72,40 @@ int validate_line(char *line, int i_line)
 	return(1);
 }
 
+static int set_i_line(char *line, int *i_line)
+{
+	int i;
+
+	i = 0;
+	if(line[i] == 'A' || line[i] == 'C' || line[i] == 'L')
+	{
+		*i_line = 1;
+	}
+	if((line[i] == 's' && line[i + 1] == 'p') ||
+		(line[i] == 'p' && line[i + 1] == 'l') ||
+		(line[i] == 'c' && line[i + 1] == 'y'))
+		{
+			*i_line = 2;
+		}
+	return (1);
+}
+
 int validate_identifier(t_rt *rt, char *line, int line_counter)
 {
 	int i;
+	int i_line;
+
 	
 	i = 0;
 	if(line[i] == '\n' || line[i] == '\0')
 		return 1;
+	set_i_line(line, &i_line);
 	//write a funk that setup i_line identifier based on identifier
 	if(!validate_line(line, i))//change from i_line to i
 	{
 		ft_putendl_fd("Error: Unrecogizable symbol", 2);
 		return(0);
 	}
-	//find place to prove that there is no chars in input exept identifier
 	if(line[i] == 'A')
 		return(parse_ambient(rt, line, line_counter));
 	else if(line[i] == 'C')
@@ -118,9 +138,3 @@ int skip_spases(char *line, int *i)
 	return (symbol);
 }
 
-
-/* float float_check(char *str, int *i)
-{
-	//identify some value from beggining to the comma, comma is a separator. dont has to be stored
-	//we gonna have *pos
-} */
