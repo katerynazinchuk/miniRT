@@ -22,7 +22,7 @@ int	parse_file(const char *filename, t_rt *rt)
 		line = get_next_line(fd);
 		if(!line)
 			break;
-		rt->line++;
+		// rt->line++
 		if (line[0] == '\0' || line[0] == '\n' || line[0] == '#')
         {
             free(line);
@@ -101,7 +101,7 @@ int validate_identifier(t_rt *rt, char *line, int line_counter)
 		return 1;
 	set_i_line(line, &i_line);
 	//write a funk that setup i_line identifier based on identifier
-	if(!validate_line(line, i))//change from i_line to i
+	if(!validate_line(line, i_line))
 	{
 		ft_putendl_fd("Error: Unrecogizable symbol", 2);
 		return(0);

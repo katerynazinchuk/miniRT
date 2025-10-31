@@ -52,7 +52,9 @@ int main(int argc, char **argv)
 
 		//int32_t for width height
 		//false - resize
-	}
+	// }
+
+
 		mlx = mlx_init(WIDTH, HEIGHT, "MiniRT", false);
 		if (!mlx)
 		{
@@ -72,8 +74,10 @@ int main(int argc, char **argv)
 		mlx_terminate(mlx);
 		//what we need to clean ?
 		//do we need no clean img ?
-	// 	return (0);
-	// }
+		return (0);
+
+
+	}
 	//free everything;
 
 	return (1);
@@ -88,14 +92,14 @@ static int draw_img(t_scene *scene, mlx_image_t *img)
 	uint32_t	color;
 
 	y = 0;
-	while (y < HEIGHT)
+	while (y < (uint32_t)HEIGHT)
 	{
 		x = 0;
-		while (x < WIDTH)
+		while (x < (uint32_t)WIDTH)
 		{
 			ray = create_ray_per_pixel(&scene->camera, x, y);//here we find our field of view
 			color = find_color(ray, scene);//here we looking for intersection
-			mlx_put_pixel(img, x, y, color);
+			mlx_put_pixel(img, x, y, rgba(0, 255, 0));
 			x++;
 		}
 		y++;

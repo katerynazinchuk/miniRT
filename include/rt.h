@@ -6,7 +6,7 @@
 /*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 15:13:59 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/10/29 17:47:13 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/10/31 14:00:21 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,6 @@
 bool		hit_plane(t_ray *c_ray, t_plane *plane, double *t);
 t_ray		create_ray_per_pixel(t_camera *camera, int x, int y);
 uint32_t	find_color(t_ray ray, t_scene *scene);
+uint32_t	rgba(uint8_t r, uint8_t g, uint8_t b);
 
 #endif

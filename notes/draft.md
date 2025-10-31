@@ -21,11 +21,12 @@ t >= ray distance (t is a different dot on ray)
 we have center
 diameter => parser will give us radius because we need r for calculations
 color
+C - sphere center
 
 **|R(t) - C|^2 = r^2**
 (O + t*D - C)^2 = r^2
 (O - C + t*D ) * (O - C + t*D) = r^2
-(O -C) = k
+(O - C) = k
 (k + t*D)^2= r^2
 k^2 + 2*t*D *k + (t*D)^2 = r^2
 t^2 * D^2 + t * 2 * D *k  + (k^2- r^2) = 0
