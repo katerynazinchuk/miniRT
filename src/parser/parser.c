@@ -6,7 +6,7 @@
 /*   By: kzinchuk <kzinchuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/28 17:36:24 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/10/30 18:38:55 by kzinchuk         ###   ########.fr       */
+/*   Updated: 2025/11/03 15:50:57 by kzinchuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,11 +83,30 @@ int parse_camera(t_rt *rt, char *line, int line_counter)
 	i = 1;
 	if(!skip_spases(line, &i))
 		validate_error(line_counter);
+	printf("curret line %s", &line[i]);
 	if(!parse_vector(line, &i, &rt->scene.camera.position, 0))
 	{
 		ft_putendl_fd("Error: Input outside of the range", 2);
 		return 0;
 	}
+	printf("camera possition x = %f, y = %f z = %f\n", rt->scene.camera.position.x, rt->scene.camera.position.y, rt->scene.camera.position.z);
+	if(!skip_spases(line, &i))
+	{
+		validate_error(line_counter);
+		return (0);
+	}
+	if(!parse_vector(line, &i, &rt->scene.camera.direction, 0))
+	{
+		ft_putendl_fd("Error: Input outside of the range", 2);
+		return 0;
+	}
+	if(!skip_spases(line, &i))
+	{
+		validate_error(line_counter);
+		return (0);
+	}
+	
+
 	world_up = vec_pos(0,1,0);
 	rt->scene.camera.right = vec_cross(rt->scene.camera.position, world_up);
 	rt->scene.camera.right = vec_normalize(rt->scene.camera.right);
@@ -95,9 +114,13 @@ int parse_camera(t_rt *rt, char *line, int line_counter)
 	rt->scene.camera.up = vec_normalize(rt->scene.camera.up);
 	// aspect = (double)WIDTH / (double)HEIGHT;
 	//keep the screen squere
+	printf("curret line %s", &line[i]);
 	rt->scene.camera.angle = ft_atof(line, &i);
+	printf("camera angle = %f\n", rt->scene.camera.angle);
 	rt->scene.camera.angle = rt->scene.camera.angle * M_PI/ 180.0;
-
+	printf("camera angle = %f\n", rt->scene.camera.angle);
+	rt->scene.camera.scale = tan(rt->scene.camera.angle * 0.5);
+	printf("camera scale	 = %f\n", rt->scene.camera.scale);
 	return (1);
 }
 
@@ -113,6 +136,7 @@ int parse_light(t_rt *rt, char *line, int line_counter)
 		ft_putendl_fd("Error: Input outside of the range", 2);
 		return 0;
 	}
+	printf("light possition x = %f, y = %f z = %f\n", rt->scene.light.position.x, rt->scene.light.position.y, rt->scene.light.position.z);
 	if(!skip_spases(line, &i))
 	{
 		validate_error(line_counter);
@@ -298,7 +322,7 @@ int parse_color(char *line, int *i, t_color *color)
 int check_color(int color)
 {
 	int result = (color >= 0 && color <= 255);
-    printf("  check_color(%d) = %d\n", color, result);
+    // printf("  check_color(%d) = %d\n", color, result);
     return (result);
 }
 
