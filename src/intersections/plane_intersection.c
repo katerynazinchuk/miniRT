@@ -24,18 +24,18 @@
 	
 // }
 
-// bool	hit_plane(t_ray *c_ray, t_plane *plane, double *t)
-// {
-// 	double	num;
+bool	hit_plane(t_ray *c_ray, t_plane *plane, double *t)
+{
+	double	num;
 
-// 	num = vec_dot(plane->normal, c_ray->direction);
-// 	if (num == 0)
-// 		return (false);
-// 	*t = vec_dot(plane->normal, vec_sub(plane->point, c_ray->origin)) / num;
-// 	if (*t < 0)
-// 		return (false);
-// 	return (true);
-// }
+	num = vec_dot(plane->normal, c_ray->direction);
+	if (num == 0)
+		return (false);
+	*t = vec_dot(plane->normal, vec_sub(plane->point, c_ray->origin)) / num;
+	if (*t < 0)
+		return (false);
+	return (true);
+}
 
 // t_vec	find_point(t_ray *c_ray, double t)
 // {

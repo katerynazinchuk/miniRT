@@ -62,7 +62,7 @@ int main(int argc, char **argv)
 			//destroy from rt;
 			return (1);
 		}
-		img = mlx_new_image(mlx, (uint32_t)WIDTH, (uint32_t)HEIGHT);
+		img = mlx_new_image(mlx, WIDTH, HEIGHT);
 		if (!img || (mlx_image_to_window(mlx, img, 0, 0) < 0))
 		{
 			//error, clean what is necessary
@@ -99,7 +99,7 @@ static int draw_img(t_scene *scene, mlx_image_t *img)
 		{
 			ray = create_ray_per_pixel(&scene->camera, x, y);//here we find our field of view
 			color = find_color(ray, scene);//here we looking for intersection
-			mlx_put_pixel(img, x, y, rgba(0, 255, 0));
+			mlx_put_pixel(img, x, y, color);
 			x++;
 		}
 		y++;
@@ -131,28 +131,6 @@ int main(int argc, char **argv)
 	return (0);
 	
 }*/
-
-// Add this drawing part in mlx_loop, so we could start our tests,
-// after finishing parser and create_ray =))
-/* t_ray	ray;
-	int		y;
-	int		x;
-
-//int32_t for x & y
-
-	y = 0;
-	while (y < HEIGTH)
-	{
-		x = 0;
-		while (x < WIDTH)
-		{
-			ray = create_ray_per_pixel(camera, x, y);//here we find our field of view
-			color = find_color(ray, scene);//here we looking for intersection
-			put_pixel(image, x, y, color);
-			x++;
-		}
-		y++;
-	} */
 
 //test main 
 // int main (void)

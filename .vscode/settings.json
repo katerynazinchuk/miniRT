@@ -4,7 +4,9 @@
 		"string_view": "c",
 		"random": "c",
 		"stdbool.h": "c",
-		"vec_utils.h": "c"
+		"vec_utils.h": "c",
+		"functional": "c",
+		"numbers": "c"
 	},
 	"C_Cpp.errorSquiggles": "disabled"
 }
