@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
+/*   By: kzinchuk <kzinchuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 15:13:59 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/10/29 17:47:13 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/11/03 16:17:00 by kzinchuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@
 # define WIDTH 1000
 # define HEIGHT 1000
 # define M_PI 3.14159265358979323846
+# define EPS 1e-6
+# define T_MIN 1e-4
+# define T_MAX 1e30
 
 # include <MLX42/MLX42.h>
 # include <fcntl.h>
