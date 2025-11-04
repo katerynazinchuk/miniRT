@@ -16,6 +16,7 @@ DEV_FLAGS := -g -O0 -fno-omit-frame-pointer -fsanitize=address,undefined
 GNL_SRC := $(GNL_DIR)/get_next_line.c \
 	$(GNL_DIR)/get_next_line_utils.c
 SRC_FILES := main.c \
+	utils.c \
 	init_structs.c \
 	intersections/color.c \
 	intersections/field_of_view.c \
@@ -23,7 +24,7 @@ SRC_FILES := main.c \
 	math/vec_utils.c \
 	parser/parser.c \
 	parser/read_lines.c \
-	parser/validate.c
+	parser/validate.c 
 
 SRC := $(addprefix $(SRC_DIR)/, $(SRC_FILES))
 OBJS := $(patsubst $(SRC_DIR)/%.c,$(BUILD_DIR)/%.o,$(SRC))

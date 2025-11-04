@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kzinchuk <kzinchuk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 14:19:46 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/10/22 13:53:56 by kzinchuk         ###   ########.fr       */
+/*   Updated: 2025/11/04 16:52:43 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ int check_file(char *filename)
 
 	if(!check_rt_extension(filename))
 	{
-		ft_putendl_fd("Wrong file extension", 2);
+		print_error("Wrong file extension");
+		// ft_putendl_fd("Wrong file extension", 2);
 		return (0);
 	}
 	fd = open(filename, O_RDONLY);

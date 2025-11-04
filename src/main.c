@@ -25,64 +25,59 @@ To calculate color of ray...
 
 //cast many rays per pixel and combine all colors into one, to gt smoother blending of colors = super-sampling
 //can impement it with thread multitasking
+
+//int32_t for width height
+//false - resize
+
 #include "rt.h"
 
-static int draw_img(t_scene *scene, mlx_image_t *img);
+static int	build_graphic(t_scene *scene);
+static int	draw_img(t_scene *scene, mlx_image_t *img);
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
-
 	t_rt		rt;
-	mlx_t		*mlx;
-	mlx_image_t	*img;
 
 	//rt = (t_rt *)malloc(sizeof(t_rt*));
 	ft_memset(&rt, 0, sizeof(t_rt));
 	if(argc != 2)
 	{
-		ft_putendl_fd("Error: Wrong number of arguments", 2);
+		print_error("Wrong number of arguments");
 		return 1;
 	}
-	if(check_file(argv[1]))
-	{
-		parse_file(argv[1], &rt);
-		//create camera basis
-		//render
-		//mlx_loop();// loop window to prewent closing
-
-		//int32_t for width height
-		//false - resize
-	// }
-
-
-		mlx = mlx_init(WIDTH, HEIGHT, "MiniRT", false);
-		if (!mlx)
-		{
-			//show error; mlx_strerror(mlx_errno);
-			//destroy from rt;
-			return (1);
-		}
-		img = mlx_new_image(mlx, WIDTH, HEIGHT);
-		if (!img || (mlx_image_to_window(mlx, img, 0, 0) < 0))
-		{
-			//error, clean what is necessary
-			return (1);
-		}
-		draw_img(&rt.scene, img);
-		// mlx_loop_hook(); - need function to handle hooks
-		mlx_loop(mlx);
-		mlx_terminate(mlx);
-		//what we need to clean ?
-		//do we need no clean img ?
-		return (0);
-
-
-	}
-	//free everything;
-
-	return (1);
+	if(!check_file(argv[1]))
+		return (1);
+	if (!parse_file(argv[1], &rt))
+		return (1);
+	if (!build_graphic(&rt.scene))
+		return (1);
+	return (0);
 }
 
+static int	build_graphic(t_scene *scene)
+{
+	mlx_t		*mlx;
+	mlx_image_t	*img;
+
+	mlx = mlx_init(WIDTH, HEIGHT, "MiniRT", false);
+	if (!mlx)
+	{
+		print_error(mlx_strerror(mlx_errno));
+		return (0);
+	}
+	img = mlx_new_image(mlx, WIDTH, HEIGHT);
+	if (!img || (mlx_image_to_window(mlx, img, 0, 0) < 0))
+	{
+		mlx_terminate(mlx);
+		print_error(mlx_strerror(mlx_errno));
+		return (0);
+	}
+	draw_img(scene, img);
+	// mlx_loop_hook(); - need function to handle hooks
+	mlx_loop(mlx);
+	mlx_terminate(mlx);
+	return (1);
+}
 
 static int draw_img(t_scene *scene, mlx_image_t *img)
 {
@@ -106,6 +101,7 @@ static int draw_img(t_scene *scene, mlx_image_t *img)
 	}
 	return (0);
 }
+
 
 
 /*

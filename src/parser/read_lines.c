@@ -5,16 +5,16 @@
 //if one line is incorrect the whole valiation processhas been failed
 int	parse_file(const char *filename, t_rt *rt)
 {
-	int fd;
-	char *line;
+	int		fd;
+	char	*line;
 
 	if (!rt || !filename)
-        return (0);
+		return (0);
 	fd = open(filename, O_RDONLY);
 	if(fd < 0)
 	{
 		perror("open");
-		return 0;
+		return (0);
 	}
 	rt->line = 0;
 	while(1)
@@ -24,15 +24,15 @@ int	parse_file(const char *filename, t_rt *rt)
 			break;
 		// rt->line++
 		if (line[0] == '\0' || line[0] == '\n' || line[0] == '#')
-        {
-            free(line);
-            continue;
-        }
+		{
+			free(line);
+			continue;
+		}
 		if (!validate_identifier(rt, line, rt->line))
-        {
-            free(line);
-            close(fd);
-            return 0;
+		{
+			free(line);
+			close(fd);
+			return (0);
 		}
 		free(line);
 	}

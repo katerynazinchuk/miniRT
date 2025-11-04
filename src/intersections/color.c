@@ -2,7 +2,7 @@
 
 uint32_t	rgba(int r, int g, int b)
 {
-	return (((uint32_t)r << 24) | ((uint32_t)g << 16) | (uint32_t)b << 8 | 0xFF);
+	return (((uint32_t)r << 24) | ((uint32_t)g << 16) | (uint32_t)b << 8 | 255);
 }
 
 
