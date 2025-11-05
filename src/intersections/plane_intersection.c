@@ -14,10 +14,58 @@
 */
 
 /* function check is there intersection by using bool and setup value in t */
-// bool	hit_cylinder(t_ray *c_ray, t_plane *plane, double *t)
-// {
+bool	hit_cylinder(t_ray *c_ray, t_cylinder *cylinder, double *t)
+{
+	//V - cylinder axis
+	double half_heigth = cylinder->height * 0.5;//
+	//P(t) = O + tD;
+	//|(P - C) - ((P − C)· V)V|² = r²
+	//|(O + tD - C) - ((O + tD − C)· V)V|² = r²
+	t_vec oc = vec_sub(c_ray->origin, cylinder->center);//O - C
+	//|(oc + tD) - ((oc + tD)· V)V|² = r²;
+	// (oc + tD)·V = (ox + t dx) vx + (oy + t dy) vy + (oz + t dz) vz
+    //         = (ox vx + oy vy + oz vz) + t (dx vx + dy vy + dz vz)
+    //         = oc·V + t (D·V)
+	//(oc+tD)⋅V=(oc⋅V)+t(D⋅V)
+	//oc - (oc · V)*V -  searching for the perp to the axis between part of the oc vector inside cylinder and its projection
+	const double oc_dot_V = vec_dot(oc, cylinder->axis);
+	t_vec oc_perp = vec_sub(oc, vec_scale(cylinder->axis, oc_dot_V));//possition of the whole vector from camera to axis
+	//D - (D · V)*V
+	const double D_dot_V = vec_dot(c_ray->direction, cylinder->axis);
+	t_vec D_perp = vec_sub(c_ray->direction, vec_scale(cylinder->axis, D_dot_V));// direction
+	oc_perp + t * D_perp = r;
+	int camera_pos = 0;
+	double r2 = cylinder->radius * cylinder->radius;
+	double distance2 = vec_dot(oc_perp, oc_perp);
+	if(fabs(distance2 -r2) < EPS)
+		camera_pos = 1
+	else if(distance2 < r2)
+		camera_pos = -1;
+	else
+		camera_pos = 0;
+	double a = vec_dot(D_perp, D_perp); //(D·D); c_ray->direction * c_ray->direction
+	double half_b = vec_dot(oc_perp, D_perp);//oc * c_ray->direction;
+	double c_perp = vec_dot(oc_perp, oc_perp) - (cylinder->radius * cylinder->radius);//oc * oc - cylinder->radius * cylinder->radius;
+	double disc = (half_b * half_b) - (a * c_perp);
+	if(disc < 0 )
+		return false;
+	// find two discs that cut the infinite cylinder
+	//and by comparing two vectors distinguish is my dot within the range of height
+	//choose the minimal t
+	double root;
+	if(root < T_MIN || root > T_MAX)
+		{
+			root = (-half_b + sqrt(disc)) / a;//second cross cos it bigger
+			if(root < T_MIN || root > T_MAX)
+				return false;
+		}
+		*t = root;
+}
 
-// }
+bool hit_cyl_cup(t_ray *c_ray, t_cylinder *cylinder, double *t)
+{
+	
+}
 
 bool	hit_sphere(const t_ray *c_ray, const t_sphere *sphere, double *t)
 {
@@ -57,7 +105,7 @@ bool	hit_plane(const t_ray *c_ray, const t_plane *plane, double *t)
 	denum = vec_dot(plane->normal, c_ray->direction);
 	if (fabs(denum) < EPS)
 		return (false);
-	*t = vec_dot(plane->normal, vec_sub(plane->point, c_ray->origin)) / num;
+	*t = vec_dot(plane->normal, vec_sub(plane->point, c_ray->origin)) / denum;
 	if (*t < T_MIN || *t > T_MAX)
 		return (false);
 	return (true);
