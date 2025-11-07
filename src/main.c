@@ -34,7 +34,6 @@ int	main(int argc, char **argv)
 {
 	t_rt		rt;
 
-	//rt = (t_rt *)malloc(sizeof(t_rt*));
 	ft_memset(&rt, 0, sizeof(t_rt));
 	rt.scene.objects = NULL;
 	if(argc != 2)

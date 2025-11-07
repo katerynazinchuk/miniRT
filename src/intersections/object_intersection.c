@@ -123,6 +123,10 @@
 // 	return true;
 // }
 
+// change all supportivw functions return value to t
+//add find_closest_hit, that will store temporaru hit structure
+
+
 bool	hit_sphere(const t_ray *c_ray, const t_sphere *sphere, double *t)
 {
 	//P(t) = O + tD
