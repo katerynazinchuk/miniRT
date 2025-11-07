@@ -6,7 +6,7 @@
 /*   By: kzinchuk <kzinchuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 14:00:44 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/10/29 18:17:28 by kzinchuk         ###   ########.fr       */
+/*   Updated: 2025/11/07 13:22:29 by kzinchuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ double vec_length(t_vec v)
 {
 	double len;
 
-	len = sqrtf(v.x * v.x + v.y * v.y + v.z * v.z);
+	len = sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
 	//sqrtf return float. sqrt return double
 	return (len);
 }

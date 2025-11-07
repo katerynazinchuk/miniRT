@@ -14,7 +14,7 @@
 */
 
 /* function check is there intersection by using bool and setup value in t */
-bool	hit_cylinder_body(t_ray *c_ray, t_cylinder *cylinder, double *t)
+bool	hit_cyl_body(t_ray *c_ray, t_cylinder *cylinder, double *t)
 {
 	//P(t) = O + tD;
 	//|(P - C) - ((P − C)· V)V|² = r²
@@ -41,20 +41,18 @@ bool	hit_cylinder_body(t_ray *c_ray, t_cylinder *cylinder, double *t)
 	if(disc < 0 )
 		return false;
 	double sqrt_disk = sqrt(disc);
-	double t1 = (-half_b + sqrt_disk) / a;
-	double t2 = (-half_b - sqrt_disk) / a;
-	double half_heigth = cylinder->height * 0.5;
-	if(t1 >= T_MIN || t1 <= T_MAX)
+	double t1 = (-half_b - sqrt_disk) / a;
+	double t2 = (-half_b + sqrt_disk) / a;
+	double half_height = cylinder->height * 0.5;
+	if(t1 >= T_MIN && t1 <= T_MAX)
 	{
 		// Calculate the actual 3D point where the ray intersects the infinite cylinder
-		// Formula: P = Origin + t × Direction
 		t_vec p1 = vec_add(c_ray->origin, vec_scale(c_ray->direction, t1));
 		// Get vector from cylinder center to intersection point
-		// This tells us where p1 is relative to the cylinder's center
 		t_vec cp1 = vec_sub(p1, cylinder->center);
 		// Project cp1 onto the cylinder's axis to find height position
 		double height_at_p1 = vec_dot(cp1, cylinder->axis);
-		if(height_at_p1 >= -half_heigth && height_at_p1 <= half_heigth)
+		if(height_at_p1 >= -half_height && height_at_p1 <= half_height)
 		{
 			*t = t1;
 			return true;
@@ -63,14 +61,12 @@ bool	hit_cylinder_body(t_ray *c_ray, t_cylinder *cylinder, double *t)
 	if(t2 >= T_MIN || t2 <= T_MAX)
 	{
 		// Calculate the actual 3D point where the ray intersects the infinite cylinder
-		// Formula: P = Origin + t × Direction
 		t_vec p2 = vec_add(c_ray->origin, vec_scale(c_ray->direction, t2));
 		// Get vector from cylinder center to intersection point
-		// This tells us where p1 is relative to the cylinder's center
-		t_vec cp2 = vec_sub(p1, cylinder->center);
+		t_vec cp2 = vec_sub(p2, cylinder->center);
 		// Project cp1 onto the cylinder's axis to find height position
 		double height_at_p2 = vec_dot(cp2, cylinder->axis);
-		if(height_at_p2 >= -half_heigth && height_at_p2 <= half_heigth)
+		if(height_at_p2 >= -half_height && height_at_p2 <= half_height)
 		{
 			*t = t2;
 			return true;
@@ -79,35 +75,52 @@ bool	hit_cylinder_body(t_ray *c_ray, t_cylinder *cylinder, double *t)
 	return false;
 }
 	//oc_perp + t * D_perp = r;
-	int camera_pos = 0;
-	double r2 = cylinder->radius * cylinder->radius;
-	double distance2 = vec_dot(oc_perp, oc_perp);
-	if(fabs(distance2 -r2) < EPS)
-		camera_pos = 1
-	else if(distance2 < r2)
-		camera_pos = -1;
-	else
-		camera_pos = 0;
-	
-	// find two discs that cut the infinite cylinder
-	//and by comparing two vectors distinguish is my dot within the range of height
-	//choose the minimal t
+	// int camera_pos = 0;
+	// double r2 = cylinder->radius * cylinder->radius;
+	// double distance2 = vec_dot(oc_perp, oc_perp);
+	// if(fabs(distance2 -r2) < EPS)
+	// 	camera_pos = 1
+	// else if(distance2 < r2)
+	// 	camera_pos = -1;
+	// else
+	// 	camera_pos = 0;
 	
 
 bool hit_cyl_cap(t_ray *c_ray, t_cylinder *cylinder, double *t)
 {
-	
+	const double r2 = cylinder->radius * cylinder->radius;
+	double half_height = cylinder->height * 0.5;
+	t_vec top_center;
+	t_vec bottom_center;
+
+	top_center = vec_add(cylinder->center, vec_scale(cylinder->axis, half_height));
+	bottom_center = vec_sub(cylinder->center, vec_scale(cylinder->axis, half_height));
+
+	t_plane cyl_cap;
+	cyl_cap.point = 
+	double t_cap;
+	//build a plane based on the dot from center of cap
+	//we know it from axis
+	//build a vec_add(bebween )
+	hit_plane(c_ray, cyl_cap, t_cap);
+
 }
 
 bool	hit_cylinder(t_ray *c_ray, t_cylinder *cylinder, double *t)
 {
-	//V - cylinder axis
+	t_vec top_center;
+	t_vec bottom_center;
+
+	double half_height = cylinder->height * 0.5;
+	top_center = vec_add(cylinder->center, vec_scale(cylinder->axis, half_height));
+	bottom_center = vec_sub(cylinder->center, vec_scale(cylinder->axis, half_height));
+	t_vec bottom_normal = vec_neg(cylinder->axis);
+
 	double half_heigth = cylinder->height * 0.5;
-	hit_cylinder;
-	hit_cyl_cap;
-	hit_cyl_cap;
-
-
+	hit_cyl_cap(bottom_center, bottom_normal, cylinder->radius);
+	hit_cyl_cap(top_center, cylinder->axis, cylinder->radius);
+	hit_cyls_body(c_ray, cylinder, t);
+	return true;
 }
 
 bool	hit_sphere(const t_ray *c_ray, const t_sphere *sphere, double *t)
