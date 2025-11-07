@@ -5,7 +5,8 @@
 		"random": "c",
 		"stdbool.h": "c",
 		"vec_utils.h": "c",
-		"cmath": "c"
+		"cmath": "c",
+		"rt.h": "c"
 	},
 	"C_Cpp.errorSquiggles": "disabled"
 }

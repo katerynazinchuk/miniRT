@@ -6,7 +6,7 @@
 /*   By: kzinchuk <kzinchuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 14:58:45 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/10/29 19:21:46 by kzinchuk         ###   ########.fr       */
+/*   Updated: 2025/11/07 17:49:19 by kzinchuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,12 @@ typedef struct s_ambient
 typedef struct s_camera
 {
 	t_vec	position;
-	t_vec	direction;//normalized direction; comes from .rt
-	t_vec	right;// cross from direction and...???
-	t_vec	up;//cross from direction and right
-	double	angle;//in radiant so angle = 70 * M_PI / 180.0 and result will be in radiant
-	double	scale;// scale = tan((camera->angle * 0,5));
-	double	aspect;// aspect = (double)WIDTH / (double)HEIGHT;
+	t_vec	direction;
+	t_vec	right;
+	t_vec	up;
+	double	angle;
+	double	scale;
+	//double	aspect;// aspect = (double)WIDTH / (double)HEIGHT; no ned to use an aspect if we not rescale the window
 }	t_camera;
 
 typedef struct s_light
@@ -78,7 +78,7 @@ typedef struct s_material
 typedef struct s_sphere
 {
 	t_vec		center;
-	double		radius;//in .rt we have diametr
+	double		radius;
 	t_material	mat;
 }	t_sphere;
 
@@ -87,7 +87,7 @@ typedef struct s_cylinder
 	t_vec center;
 	t_vec axis;
 	double radius;
-	double height;// float?? or double??
+	double height;
 	t_material	mat;
 }	t_cylinder;
 
@@ -111,13 +111,14 @@ typedef struct s_objects
 	t_objtype type;
 	t_material material;
 	t_shape shape;
+	struct s_objects *next;
 }	t_objects;
 
 typedef struct s_scene
 {
 	t_camera	camera;
 	t_light		light;
-	t_objects	objects;
+	t_objects	*objects;
 	t_ambient	ambient;
 }	t_scene;
 

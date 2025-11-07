@@ -6,7 +6,7 @@
 /*   By: kzinchuk <kzinchuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 15:13:59 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/11/07 15:53:21 by kzinchuk         ###   ########.fr       */
+/*   Updated: 2025/11/07 16:21:35 by kzinchuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,11 @@
 # include "vec_utils.h"
 # include "parser.h"
 
-bool	hit_plane(t_ray *c_ray, t_plane *plane, double *t);
+bool		hit_plane(const t_ray *c_ray, const t_plane *plane, double *t);
+bool		hit_sphere(const t_ray *c_ray, const t_sphere *sphere, double *t);
+t_ray		create_ray_per_pixel(t_camera *camera, int x, int y);
+uint32_t	find_color(t_ray ray, t_scene *scene);
+uint32_t	rgba(int r, int g, int b);
+void		print_error(const char *msg);
 
 #endif
