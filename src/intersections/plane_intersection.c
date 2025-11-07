@@ -23,16 +23,46 @@
 // {
 	
 // }
-
-bool	hit_plane(t_ray *c_ray, t_plane *plane, double *t)
+bool	hit_sphere(const t_ray *c_ray, const t_sphere *sphere, double *t)
 {
-	double	num;
+	//P(t) = O + tD
+	//|X − C|² = r²
+	//|(O + tD) − C|² = r²
+	//oc = O - C
+	t_vec oc = vec_sub(c_ray->origin, sphere->center);//to know how far camers is from sphere center
+	//|(oc + tD|² = r²
+	//|(oc + tD|² = (oc + t·D) · (oc + t·D) = oc·oc + 2t (oc·D) + t² (D·D)
+	// oc·oc + 2t (oc·D) + t² (D·D) = r²
+	//t² (D·D) + 2t (oc·D) + (oc·oc − r²) = 0, where a = (D·D), b = 2(oc·D), c = oc·oc - r²
+	//at² + 2·half_b·t + c = 0
+	double a = vec_dot(c_ray->direction, c_ray->direction); //(D·D); c_ray->direction * c_ray->direction
+	double half_b = vec_dot(oc, c_ray->direction);//oc * c_ray->direction;
+	double c = vec_dot(oc, oc) - (sphere->radius * sphere->radius);//oc * oc - sphere->radius * sphere->radius;
+	double disc = (half_b * half_b) - (a * c);
+	if(disc < 0)
+		return false;
+	//var for getting root. result of moving elements to the right to find clean t from squere equesion
+	double root = (-half_b - sqrt(disc)) / a;//first cross cos it always smaller
+	if(root < T_MIN || root > T_MAX)
+	{
+		root = (-half_b + sqrt(disc)) / a;//second cross cos it bigger
+		if(root < T_MIN || root > T_MAX)
+			return false;
+	}
+	*t = root;
+	return true;
+}
 
-	num = vec_dot(plane->normal, c_ray->direction);
-	if (num == 0)
+bool	hit_plane(const t_ray *c_ray, const t_plane *plane, double *t)
+{
+	double	denum;
+
+	//printf("plane normal x = %f, y = %f, z = %f\n", plane->normal.x, plane->normal.y, plane->normal.z);
+	denum = vec_dot(plane->normal, c_ray->direction);
+	if (fabs(denum) < EPS)
 		return (false);
-	*t = vec_dot(plane->normal, vec_sub(plane->point, c_ray->origin)) / num;
-	if (*t < 0)
+	*t = vec_dot(plane->normal, vec_sub(plane->point, c_ray->origin)) / denum;
+	if (*t < T_MIN || *t > T_MAX)
 		return (false);
 	return (true);
 }

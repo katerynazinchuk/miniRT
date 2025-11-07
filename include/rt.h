@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
+/*   By: kzinchuk <kzinchuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 15:13:59 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/11/04 17:16:57 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/11/07 16:13:28 by kzinchuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@
 # define WIDTH 1000
 # define HEIGHT 1000
 # define M_PI 3.14159265358979323846
+# define EPS 1e-6
+# define T_MIN 1e-4
+# define T_MAX 1e30
 
 # include <MLX42/MLX42.h>
 # include <fcntl.h>
@@ -27,7 +30,8 @@
 # include "vec_utils.h"
 # include "parser.h"
 
-bool		hit_plane(t_ray *c_ray, t_plane *plane, double *t);
+bool		hit_plane(const t_ray *c_ray, const t_plane *plane, double *t);
+bool		hit_sphere(const t_ray *c_ray, const t_sphere *sphere, double *t);
 t_ray		create_ray_per_pixel(t_camera *camera, int x, int y);
 uint32_t	find_color(t_ray ray, t_scene *scene);
 uint32_t	rgba(int r, int g, int b);

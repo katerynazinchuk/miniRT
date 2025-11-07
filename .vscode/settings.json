@@ -6,7 +6,8 @@
 		"stdbool.h": "c",
 		"vec_utils.h": "c",
 		"functional": "c",
-		"numbers": "c"
+		"numbers": "c",
+		"get_next_line.h": "c"
 	},
 	"C_Cpp.errorSquiggles": "disabled"
 }
