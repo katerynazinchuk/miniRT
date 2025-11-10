@@ -25,16 +25,7 @@
 // }
 bool	hit_sphere(const t_ray *c_ray, const t_sphere *sphere, double *t)
 {
-	//P(t) = O + tD
-	//|X − C|² = r²
-	//|(O + tD) − C|² = r²
-	//oc = O - C
-	t_vec oc = vec_sub(c_ray->origin, sphere->center);//to know how far camers is from sphere center
-	//|(oc + tD|² = r²
-	//|(oc + tD|² = (oc + t·D) · (oc + t·D) = oc·oc + 2t (oc·D) + t² (D·D)
-	// oc·oc + 2t (oc·D) + t² (D·D) = r²
-	//t² (D·D) + 2t (oc·D) + (oc·oc − r²) = 0, where a = (D·D), b = 2(oc·D), c = oc·oc - r²
-	//at² + 2·half_b·t + c = 0
+	t_vec oc = vec_sub(c_ray->origin, sphere->center);
 	double a = vec_dot(c_ray->direction, c_ray->direction); //(D·D); c_ray->direction * c_ray->direction
 	double half_b = vec_dot(oc, c_ray->direction);//oc * c_ray->direction;
 	double c = vec_dot(oc, oc) - (sphere->radius * sphere->radius);//oc * oc - sphere->radius * sphere->radius;
@@ -52,6 +43,7 @@ bool	hit_sphere(const t_ray *c_ray, const t_sphere *sphere, double *t)
 	*t = root;
 	return true;
 }
+
 
 bool	hit_plane(const t_ray *c_ray, const t_plane *plane, double *t)
 {
