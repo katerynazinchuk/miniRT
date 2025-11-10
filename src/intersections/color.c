@@ -16,6 +16,8 @@ uint32_t	find_color(t_ray ray, t_scene *scene)
 // pl -11,0,0 1,0,0 180,180,255
 // pl 0,0,20 0,0,-1 255,200,200
 	// t_plane	plane_test;
+
+	// t_hit_record closest = find_closest_hit();
 	t_sphere sphere_test;
 	sphere_test.center = vec_pos(0.0, 0.0, 2.0);
 	sphere_test.radius = 2.0;

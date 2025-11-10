@@ -6,7 +6,7 @@
 /*   By: kzinchuk <kzinchuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/28 17:36:24 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/11/07 18:14:00 by kzinchuk         ###   ########.fr       */
+/*   Updated: 2025/11/10 14:35:32 by kzinchuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,7 @@ int parse_sphere(t_rt *rt, char *line, int line_counter)
 	i = 2;	
 	if(!skip_spases(line, &i))
 		validate_error(line_counter);
-	if(!parse_vector(line, &i, &radius, 0))
+	if(!parse_vector(line, &i, &center, 0))
 	{
 		ft_putendl_fd("Error: Input outside of the range", 2);
 		return 0;
@@ -179,12 +179,11 @@ int parse_sphere(t_rt *rt, char *line, int line_counter)
 		ft_putendl_fd("Error: Color outside of range", 2);
 		return (0);
 	}
-	
 	new_object = malloc(sizeof( t_objects));
 	if(!new_object)
-		return NULL;
-	new_object->material = color;
-	new_object->shape.sp.center = rt->scene.objects.shape.sp.center;
+		return 0;
+	new_object->material.albedo = color;
+	new_object->shape.sp.center = rt->scene.objects->shape.sp.center;
 	new_object->type = OBJ_SPHERE;
 	new_object->next = rt->scene.objects;
 	rt->scene.objects = new_object;
@@ -206,7 +205,7 @@ int parse_plane(t_rt *rt, char *line, int line_counter)
 		validate_error(line_counter);
 		return (0);
 	}
-	if(!parse_vector(line, &i, &rt->scene.objects.shape.pl.point, 0))
+	if(!parse_vector(line, &i, &point, 0))
 	{
 		ft_putendl_fd("Error: Input outside of the range", 2);
 		return (0);
@@ -234,11 +233,11 @@ int parse_plane(t_rt *rt, char *line, int line_counter)
 	}
 	new_object = malloc(sizeof(t_objects));
 	if(!new_object)
-		return NULL;
+		return 0;
 	new_object->type = OBJ_PLANE;
-	new_object.material.albedo = albedo;
-	new_object.shape.pl.point = point;
-	new_object.shape.pl.normal = normal;
+	new_object->material.albedo = albedo;
+	new_object->shape.pl.point = point;
+	new_object->shape.pl.normal = normal;
 	new_object->next = rt->scene.objects;
 	rt->scene.objects = new_object;
 	
@@ -301,13 +300,13 @@ int parse_cylinder(t_rt *rt, char *line, int line_counter)
 	}
 	new_object = malloc(sizeof(t_objects));
 	if(!new_object)
-		return NULL;
+		return 0;
 	new_object->type = OBJ_CYL;
 	new_object->material.albedo = albedo;
 	new_object->shape.cy.center = center;
 	new_object->shape.cy.axis = axis;
 	new_object->shape.cy.height = height;
-	new_object->shape.cy.mat = albedo;
+	// new_object->shape.cy.mat = albedo;
 	new_object->shape.cy.radius = radius;
 	new_object->next = rt->scene.objects;
 	rt->scene.objects = new_object;
@@ -332,7 +331,6 @@ int parse_vector(char *line, int *i, t_vec *vec, int normal_range)
 		if(!check_vector(vec->x) || !check_vector(vec->y) || !check_vector(vec->z))
             return (0);
 	}
-	
 	return (1);
 }
 

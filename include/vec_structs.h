@@ -6,7 +6,7 @@
 /*   By: kzinchuk <kzinchuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 14:58:45 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/11/07 17:49:19 by kzinchuk         ###   ########.fr       */
+/*   Updated: 2025/11/10 14:29:09 by kzinchuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ typedef struct s_color
 
 typedef struct s_ambient
 {
-	t_color color;
-	double ratio;
+	t_color	color;
+	double	ratio;
 
 }	t_ambient;
 
@@ -84,18 +84,18 @@ typedef struct s_sphere
 
 typedef struct s_cylinder
 {
-	t_vec center;
-	t_vec axis;
-	double radius;
-	double height;
+	t_vec		center;
+	t_vec		axis;
+	double		radius;
+	double		height;
 	t_material	mat;
 }	t_cylinder;
 
 
 typedef struct s_plane
 {
-	t_vec point;
-	t_vec normal;
+	t_vec		point;
+	t_vec		normal;
 	t_material	mat;
 }	t_plane;
 
@@ -108,11 +108,20 @@ typedef union u_shape
 
 typedef struct s_objects
 {
-	t_objtype type;
-	t_material material;
-	t_shape shape;
-	struct s_objects *next;
+	t_objtype			type;
+	t_material			material;
+	t_shape				shape;
+	struct s_objects	*next;
 }	t_objects;
+
+// typedef struct s_hit_record
+// {
+// 	bool	hit;
+// 	double	t;
+// 	t_vec	point;
+// 	t_vec	normal;
+// 	t_color	color;
+// }	t_hit_record;
 
 typedef struct s_scene
 {
@@ -124,9 +133,8 @@ typedef struct s_scene
 
 typedef struct s_rt
 {
-	int	line;
-	t_scene scene;
-
+	int		line;
+	t_scene	scene;
 }	t_rt;
 
 #endif
