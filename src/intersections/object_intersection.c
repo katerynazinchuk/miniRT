@@ -1,23 +1,25 @@
 #include "rt.h"
+
+//P(t) = O + tD;
+//|(P - C) - ((P − C)· V)V|² = r²
+//|(O + tD - C) - ((O + tD − C)· V)V|² = r²
+//t_vec oc = vec_sub(c_ray->origin, cylinder->center);//O - C
+//|(oc + tD) - ((oc + tD)· V)V|² = r²;
+// (oc + tD)·V = (ox + t dx) vx + (oy + t dy) vy + (oz + t dz) vz
+//= (ox vx + oy vy + oz vz) + t (dx vx + dy vy + dz vz)
+//= oc·V + t (D·V)
+//(oc+tD)⋅V=(oc⋅V)+t(D⋅V)
+//oc - (oc · V)*V -  searching for the perp to the axis between part of the oc vector inside cylinder and its projection
+// Project oc and ray direction onto plane perpendicular to axis
+
 bool	hit_cyl_body(t_ray *c_ray, t_cylinder *cylinder, double *t)
 {
-	//P(t) = O + tD;
-	//|(P - C) - ((P − C)· V)V|² = r²
-	//|(O + tD - C) - ((O + tD − C)· V)V|² = r²
 	t_vec oc = vec_sub(c_ray->origin, cylinder->center);//O - C
-	//|(oc + tD) - ((oc + tD)· V)V|² = r²;
-	// (oc + tD)·V = (ox + t dx) vx + (oy + t dy) vy + (oz + t dz) vz
-    //= (ox vx + oy vy + oz vz) + t (dx vx + dy vy + dz vz)
-    //= oc·V + t (D·V)
-	//(oc+tD)⋅V=(oc⋅V)+t(D⋅V)
-	//oc - (oc · V)*V -  searching for the perp to the axis between part of the oc vector inside cylinder and its projection
-	// Project oc and ray direction onto plane perpendicular to axis
 	const double oc_dot_V = vec_dot(oc, cylinder->axis);
 	t_vec oc_perp = vec_sub(oc, vec_scale(cylinder->axis, oc_dot_V));//possition of the whole vector from camera to axis
 	//D - (D · V)*V
 	const double D_dot_V = vec_dot(c_ray->direction, cylinder->axis);
 	t_vec D_perp = vec_sub(c_ray->direction, vec_scale(cylinder->axis, D_dot_V));// direction
-
 	// Quadratic equation for infinite cylinder: at² + 2bt + c = 0
 	double a = vec_dot(D_perp, D_perp); //(D·D); c_ray->direction * c_ray->direction
 	double half_b = vec_dot(oc_perp, D_perp);//oc * c_ray->direction;
@@ -59,17 +61,6 @@ bool	hit_cyl_body(t_ray *c_ray, t_cylinder *cylinder, double *t)
 	}
 	return false;
 }
-	//oc_perp + t * D_perp = r;
-	// int camera_pos = 0;
-	// double r2 = cylinder->radius * cylinder->radius;
-	// double distance2 = vec_dot(oc_perp, oc_perp);
-	// if(fabs(distance2 -r2) < EPS)
-	// 	camera_pos = 1
-	// else if(distance2 < r2)
-	// 	camera_pos = -1;
-	// else
-	// 	camera_pos = 0;
-	
 
 bool hit_cyl_cap(t_ray *c_ray, t_vec cap_center, t_vec cap_normal,  double *t, double radius)
 {
