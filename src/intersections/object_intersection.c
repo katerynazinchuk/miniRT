@@ -109,16 +109,13 @@ bool	hit_cylinder(t_ray *c_ray, t_cylinder *cylinder, double *t)
 	t_top = -1;
 	t_bottom = -1;
 	closest = -1;
-	if(!hit_cyl_body(c_ray, cylinder, &t_body))
-		return false;
+	hit_cyl_body(c_ray, cylinder, &t_body);
 	half_height = cylinder->height * 0.5;
 	top_center = vec_add(cylinder->center, vec_scale(cylinder->axis, half_height));
-	if(!hit_cyl_cap(c_ray, top_center, cylinder->axis, &t_top, cylinder->radius))
-		return false;
+	hit_cyl_cap(c_ray, top_center, cylinder->axis, &t_top, cylinder->radius);
 	bottom_center = vec_sub(cylinder->center, vec_scale(cylinder->axis, half_height));
 	bottom_normal = vec_neg(cylinder->axis);
-	if(!hit_cyl_cap(c_ray, bottom_center, bottom_normal, &t_bottom, cylinder->radius))
-		return false;
+	hit_cyl_cap(c_ray, bottom_center, bottom_normal, &t_bottom, cylinder->radius);
 	if (t_body > 0)
 		closest = t_body;
 	if (t_top > 0 && (closest < 0 || t_top < closest))
