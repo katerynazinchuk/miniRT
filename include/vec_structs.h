@@ -118,6 +118,9 @@ typedef struct s_scene
 	t_camera	camera;
 	t_light		light;
 	t_objects	objects;
+	t_sphere	*spheres;
+	t_cylinder	*cylinders;
+	t_plane		*planes;
 	t_ambient	ambient;
 }	t_scene;
 
