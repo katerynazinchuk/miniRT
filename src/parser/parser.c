@@ -6,7 +6,7 @@
 /*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/28 17:36:24 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/11/11 16:23:12 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/11/11 16:37:45 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,12 +166,17 @@ int parse_sphere(t_rt *rt, char *line, int line_counter)
 	if (!rt->scene->objects->sp_count)
 	{
 		if (!init_array(rt->scene->objects, OBJ_SPHERE))
-			return (0)//as allocate error, need to clean and go out 
+			return (0)//as allocate error, need to clean all allocations and go out
 	}
+	else if (rt->scene->objects->sp_count % ARR_SIZE)
+		//call grow_realloc;
+	else
+		objects->sp_count++;
 	i = 2;
 	if(!skip_spases(line, &i))
 		validate_error(line_counter);
-	if(!parse_vector(line, &i, &rt->scene.objects.shape.sp.center, 0))
+	// if(!parse_vector(line, &i, &rt->scene.objects.shape.sp.center, 0))
+	if(!parse_vector(line, &i, &rt->scene->objects[], 0))
 	{
 		ft_putendl_fd("Error: Input outside of the range", 2);
 		return 0;

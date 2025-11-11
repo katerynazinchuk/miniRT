@@ -6,7 +6,7 @@
 /*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 14:58:45 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/11/11 16:17:16 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/11/11 17:00:10 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,9 @@ typedef struct	s_objects
 	int			sp_count;
 	int			cy_count;
 	int			pl_count;
+	int			sp_arr_cap;
+	int			cy_arr_cap;
+	int			pl_arr_cap;
 }	t_objects;
 
 
