@@ -6,7 +6,7 @@
 /*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 14:58:45 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/11/11 16:00:53 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/11/11 16:17:16 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,12 +61,12 @@ typedef struct s_light
 	//..ambient or not, possition of light??
 } t_light;
 
-/* typedef enum e_objtype
+typedef enum e_objtype
 {
 	OBJ_SPHERE,
 	OBJ_PLANE,
 	OBJ_CYL,
-}	t_objtype; */
+}	t_objtype;
 
 typedef struct s_material
 {

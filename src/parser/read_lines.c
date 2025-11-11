@@ -95,7 +95,6 @@ int validate_identifier(t_rt *rt, char *line, int line_counter)
 	int i;
 	int i_line;
 
-	
 	i = 0;
 	if(line[i] == '\n' || line[i] == '\0')
 		return 1;

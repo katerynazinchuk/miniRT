@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kzinchuk <kzinchuk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/28 17:36:24 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/11/03 15:50:57 by kzinchuk         ###   ########.fr       */
+/*   Updated: 2025/11/11 16:23:12 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,12 +156,18 @@ int parse_light(t_rt *rt, char *line, int line_counter)
 	return (1);
 }
 
+//
 int parse_sphere(t_rt *rt, char *line, int line_counter)
 {
 	double	radius;
 	t_color	color;
 	int		i;
 	
+	if (!rt->scene->objects->sp_count)
+	{
+		if (!init_array(rt->scene->objects, OBJ_SPHERE))
+			return (0)//as allocate error, need to clean and go out 
+	}
 	i = 2;
 	if(!skip_spases(line, &i))
 		validate_error(line_counter);

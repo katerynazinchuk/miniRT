@@ -52,3 +52,31 @@ void	*growing_realloc(void *ptr, size_t old_size)
 	free(ptr);
 	return (new_ptr);
 }
+
+bool	init_array(t_objects *objects, t_objtype code)
+{
+	if (code == OBJ_SPHERE)
+	{
+		objects->spheres = (t_sphere)malloc(sizeof(t_sphere) * ARR_SIZE);
+		if (!objects->spheres)
+			return (false);
+		objects->sp_count++;
+		return (true);
+	}
+	if (code == OBJ_CYL)
+	{
+		objects->cylinders = (t_cylinder)malloc(sizeof(t_cylinder) * ARR_SIZE);
+		if (!objects->cylinders)
+			return (false);
+		objects->cy_count++;
+		return (true);
+	}
+	if (code == OBJ_PLANE)
+	{
+		objects->planes = (t_plane)malloc(sizeof(t_plane) * ARR_SIZE);
+		if (!objects->planes)
+			return (false);
+		objects->pl_count++;
+		return (true);
+	}
+}
