@@ -1,6 +1,6 @@
 #include "rt.h"
 
-bool	init_structs(t_rt *rt)
+/* bool	init_structs(t_rt *rt)
 {
 	ft_memset(&rt, 0, sizeof(t_rt));
 	rt->scene->spheres = (t_sphere)malloc(sizeof(t_sphere * 5));
@@ -20,9 +20,14 @@ bool	init_structs(t_rt *rt)
 		return (false);
 	}
 	return (true);
-}
+} */
 
 //realloc with potentional grows
+//first alloc for 5 or 1?
+//do I need to check is it NULL before I call realloc - no, cause I fisrt time make allocation and then try to add new memory
+//how I track does array has sth? if not I shouldnt use it for finding intersection
+//mayde set some additional flag true/false do we have sp pl cy or not?
+//how to check if I have space before I try to write sth in array?
 void	*growing_realloc(void *ptr, size_t old_size)
 {
 	void	*new_ptr;

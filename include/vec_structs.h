@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vec_structs.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kzinchuk <kzinchuk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 14:58:45 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/10/29 19:21:46 by kzinchuk         ###   ########.fr       */
+/*   Updated: 2025/11/11 16:00:53 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 // A ray: P(t) = origin + direction * t  (direction must be normalized)
 //if there is no origin only direction, then origin is 0,0,0
-typedef struct s_ray
+typedef struct	s_ray
 {
 	t_vec	origin;
 	t_vec	direction;
@@ -61,12 +61,12 @@ typedef struct s_light
 	//..ambient or not, possition of light??
 } t_light;
 
-typedef enum e_objtype
+/* typedef enum e_objtype
 {
 	OBJ_SPHERE,
 	OBJ_PLANE,
 	OBJ_CYL,
-}	t_objtype;
+}	t_objtype; */
 
 typedef struct s_material
 {
@@ -91,7 +91,6 @@ typedef struct s_cylinder
 	t_material	mat;
 }	t_cylinder;
 
-
 typedef struct s_plane
 {
 	t_vec point;
@@ -99,36 +98,43 @@ typedef struct s_plane
 	t_material	mat;
 }	t_plane;
 
-typedef union u_shape
+/* typedef union u_shape
 {
 	t_sphere	sp;
 	t_plane		pl;
 	t_cylinder	cy;
-}	t_shape;
+}	t_shape; */
 
-typedef struct s_objects
+/* typedef struct s_objects
 {
 	t_objtype type;
 	t_material material;
 	t_shape shape;
+}	t_objects; */
+
+typedef struct	s_objects
+{
+	t_sphere	*spheres;
+	t_cylinder	*cylinders;
+	t_plane		*planes;
+	int			sp_count;
+	int			cy_count;
+	int			pl_count;
 }	t_objects;
+
 
 typedef struct s_scene
 {
 	t_camera	camera;
 	t_light		light;
-	t_objects	objects;
-	t_sphere	*spheres;
-	t_cylinder	*cylinders;
-	t_plane		*planes;
+	t_objects	*objects;
 	t_ambient	ambient;
 }	t_scene;
 
 typedef struct s_rt
 {
-	int	line;
-	t_scene scene;
-
+	int		line;
+	t_scene	scene;
 }	t_rt;
 
 #endif
