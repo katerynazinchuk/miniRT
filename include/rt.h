@@ -6,7 +6,7 @@
 /*   By: kzinchuk <kzinchuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 15:13:59 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/11/10 17:12:28 by kzinchuk         ###   ########.fr       */
+/*   Updated: 2025/11/11 15:40:23 by kzinchuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,16 @@
 # include "vec_utils.h"
 # include "parser.h"
 
+//--------------intersections
 bool		hit_plane(const t_ray *c_ray, const t_plane *plane, double *t);
 bool		hit_sphere(const t_ray *c_ray, const t_sphere *sphere, double *t);
 bool		hit_cylinder(t_ray *c_ray, t_cylinder *cylinder, double *t);
 bool		hit_cyl_body(t_ray *c_ray, t_cylinder *cylinder, double *t);
 bool		hit_cyl_cap(t_ray *c_ray, t_vec cap_center, t_vec cap_normal,  double *t, double radius);
+
+//--------------light
+int find_light_spot(t_vec t, t_scene *scene, t_color *color);
+t_vec find_normal(t_scene *scene, t_vec *t, t_objtype type);
 t_ray		create_ray_per_pixel(t_camera *camera, int x, int y);
 uint32_t	find_color(t_ray ray, t_scene *scene);
 uint32_t	rgba(int r, int g, int b);
