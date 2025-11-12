@@ -6,7 +6,7 @@
 /*   By: kzinchuk <kzinchuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 14:55:34 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/11/12 18:38:34 by kzinchuk         ###   ########.fr       */
+/*   Updated: 2025/11/12 19:02:31 by kzinchuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,9 @@ int find_light_spot(t_scene *scene, t_hit_rec *hit_rec)
 	light_ray = vec_sub(scene->light.position, hit_rec->intersection);
 	light_ray = vec_normalize(light_ray);
 	brightness = fmax(0.0, vec_dot(hit_rec->normal, light_ray));
+	brightness = brightness * scene->light.intensity;
+	brightness = brightness + scene->ambient.ratio;
+	brightness = fmin(1.0, brightness);
 	hit_rec->color = color_scale(hit_rec->object->material.albedo, brightness);
 	return (1);
 }
