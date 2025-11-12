@@ -6,7 +6,7 @@
 /*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 14:58:45 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/11/11 17:00:10 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/11/12 17:58:33 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,11 @@ typedef struct	s_ray
 }	t_ray;
 //next i need to create a struct that will store the current hit reccord. with actual value of t
 
-typedef struct s_color
+typedef struct	s_color
 {
 	int	r;
 	int	g;
 	int	b;
-
 }	t_color;
 
 typedef struct s_ambient
@@ -79,6 +78,7 @@ typedef struct s_sphere
 {
 	t_vec		center;
 	double		radius;//in .rt we have diametr
+	t_color		color;
 	t_material	mat;
 }	t_sphere;
 
@@ -117,12 +117,12 @@ typedef struct	s_objects
 	t_sphere	*spheres;
 	t_cylinder	*cylinders;
 	t_plane		*planes;
-	int			sp_count;
-	int			cy_count;
-	int			pl_count;
-	int			sp_arr_cap;
-	int			cy_arr_cap;
-	int			pl_arr_cap;
+	size_t		sp_count;
+	size_t		cy_count;
+	size_t		pl_count;
+	size_t		sp_arr_cap;
+	size_t		cy_arr_cap;
+	size_t		pl_arr_cap;
 }	t_objects;
 
 

@@ -112,7 +112,7 @@ int validate_identifier(t_rt *rt, char *line, int line_counter)
 	else if(line[i] == 'L')
 		return(parse_light(rt, line, line_counter));
 	else if(line[i] == 's' && line[i + 1] == 'p')
-		return(parse_sphere(rt, line, line_counter));
+		return(parse_sphere(rt->scene.objects, line, line_counter));
 	else if(line[i] == 'p' && line[i + 1] == 'l')
 		return(parse_plane(rt, line, line_counter));
 	else if(line[i] == 'c' && line[i + 1] == 'y')

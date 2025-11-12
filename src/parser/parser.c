@@ -6,7 +6,7 @@
 /*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/28 17:36:24 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/11/11 16:37:45 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/11/12 17:55:11 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,27 +156,49 @@ int parse_light(t_rt *rt, char *line, int line_counter)
 	return (1);
 }
 
-//
-int parse_sphere(t_rt *rt, char *line, int line_counter)
+//experiment 
+//we need to keep amount of sphere and update memory if capacity is low
+int	parse_sphere(t_objects *obj, char *line, int line_counter)
+{
+	t_sphere	*sphere;
+	int		i;
+	
+	i = 2;
+	if(!skip_spases(line, &i))
+		validate_error(line_counter);
+	if(!parse_vector(line, &i, &rt->scene.objects.shape.sp.center, 0))
+	{
+		return 0;
+	}
+	if(!skip_spases(line, &i))
+	{
+		validate_error(line_counter);
+		return (0);
+	}
+	rt->scene.objects.shape.sp.radius = (ft_atof(line, &i) / 2);
+	if(!skip_spases(line, &i))
+	{
+		validate_error(line_counter);
+		return (0);
+	}
+	if(!parse_color(line, &i, &color))
+	{
+		return (0);
+	}
+	rt->scene.objects.type = OBJ_SPHERE;
+	return (1);
+}
+
+/* int	parse_sphere(t_rt *rt, char *line, int line_counter)
 {
 	double	radius;
 	t_color	color;
 	int		i;
 	
-	if (!rt->scene->objects->sp_count)
-	{
-		if (!init_array(rt->scene->objects, OBJ_SPHERE))
-			return (0)//as allocate error, need to clean all allocations and go out
-	}
-	else if (rt->scene->objects->sp_count % ARR_SIZE)
-		//call grow_realloc;
-	else
-		objects->sp_count++;
 	i = 2;
 	if(!skip_spases(line, &i))
 		validate_error(line_counter);
-	// if(!parse_vector(line, &i, &rt->scene.objects.shape.sp.center, 0))
-	if(!parse_vector(line, &i, &rt->scene->objects[], 0))
+	if(!parse_vector(line, &i, &rt->scene.objects.shape.sp.center, 0))
 	{
 		ft_putendl_fd("Error: Input outside of the range", 2);
 		return 0;
@@ -200,7 +222,7 @@ int parse_sphere(t_rt *rt, char *line, int line_counter)
 	rt->scene.objects.type = OBJ_SPHERE;
 	rt->scene.objects.shape.sp.radius = radius;
 	return (1);
-}
+} */
 
 int parse_plane(t_rt *rt, char *line, int line_counter)
 {
@@ -297,6 +319,34 @@ int parse_vector(char *line, int *i, t_vec *vec, int normal_range)
 {
 	vec->x = ft_atof(line, i);
 	if (line[*i] != ',')
+	{
+		print_error("Input outside of the range");
+		return (0);
+	}
+	(*i)++;
+	vec->y = ft_atof(line, i);
+	if (line[*i] != ',')
+	{
+		print_error("Input outside of the range");
+		return (0);
+	}
+	(*i)++;
+	vec->z = ft_atof(line, i);
+	if(normal_range)
+	{
+		if(!check_vector(vec->x) || !check_vector(vec->y) || !check_vector(vec->z))
+		{
+			print_error("Input outside of the range");
+			return (0);
+		}
+	}
+	return (1);
+}
+
+/* int parse_vector(char *line, int *i, t_vec *vec, int normal_range)
+{
+	vec->x = ft_atof(line, i);
+	if (line[*i] != ',')
         return (0);
 	(*i)++;
 	vec->y = ft_atof(line, i);
@@ -312,9 +362,34 @@ int parse_vector(char *line, int *i, t_vec *vec, int normal_range)
 	}
 	
 	return (1);
-}
+} */
 
 int parse_color(char *line, int *i, t_color *color)
+{
+	color->r = (int)ft_atof(line, i);
+	if (line[*i] != ',')
+	{
+		print_error("Color input outside of the range");
+		return (0);
+	}
+	(*i)++;
+	color->g = (int)ft_atof(line, i);
+	if (line[*i] != ',')
+	{
+		print_error("Color input outside of the range");
+		return (0);
+	}
+	(*i)++;
+	color->b = (int)ft_atof(line, i);
+	if(!check_color(color->r) || !check_color(color->g) || !check_color(color->b))
+	{
+		print_error("Color input outside of the range");
+		return (0);
+	}
+	return(1);
+}
+
+/* int parse_color(char *line, int *i, t_color *color)
 {
 	color->r = (int)ft_atof(line, i);
 	if (line[*i] != ',')
@@ -328,7 +403,7 @@ int parse_color(char *line, int *i, t_color *color)
 	if(!check_color(color->r) || !check_color(color->g) || !check_color(color->b))
 		return (0);
 	return(1);
-}
+} */
 
 int check_color(int color)
 {

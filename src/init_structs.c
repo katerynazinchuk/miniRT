@@ -35,7 +35,7 @@ bool	init_structs(t_rt *rt)
 //how I track does array has sth? if not I shouldnt use it for finding intersection
 //mayde set some additional flag true/false do we have sp pl cy or not?
 //how to check if I have space before I try to write sth in array?
-void	*growing_realloc(void *ptr, size_t old_size)
+void	*growing_realloc(void *ptr, size_t old_size, size_t *capacity)
 {
 	void	*new_ptr;
 	size_t	new_size;
