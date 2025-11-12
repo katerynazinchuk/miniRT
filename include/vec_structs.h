@@ -6,7 +6,7 @@
 /*   By: kzinchuk <kzinchuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 14:58:45 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/10/29 19:21:46 by kzinchuk         ###   ########.fr       */
+/*   Updated: 2025/11/12 18:26:30 by kzinchuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,6 @@ typedef struct s_ray
 
 }	t_ray;
 //next i need to create a struct that will store the current hit reccord. with actual value of t
-
-typedef struct s_color
-{
-	int	r;
-	int	g;
-	int	b;
-
-}	t_color;
 
 typedef struct s_ambient
 {
@@ -79,6 +71,7 @@ typedef struct s_sphere
 {
 	t_vec		center;
 	double		radius;//in .rt we have diametr
+	struct s_objects *owner;
 	t_material	mat;
 }	t_sphere;
 
@@ -88,6 +81,7 @@ typedef struct s_cylinder
 	t_vec axis;
 	double radius;
 	double height;// float?? or double??
+	struct s_objects *owner;
 	t_material	mat;
 }	t_cylinder;
 
@@ -96,6 +90,7 @@ typedef struct s_plane
 {
 	t_vec point;
 	t_vec normal;
+	struct s_objects *owner;
 	t_material	mat;
 }	t_plane;
 
@@ -118,6 +113,7 @@ typedef struct s_scene
 	t_camera	camera;
 	t_light		light;
 	t_objects	objects;
+	struct s_hit_rec	*hit_rec;
 	t_ambient	ambient;
 }	t_scene;
 
@@ -125,7 +121,16 @@ typedef struct s_rt
 {
 	int	line;
 	t_scene scene;
-
 }	t_rt;
+
+typedef struct s_hit_rec
+{
+	double		t;
+	t_vec		intersection;
+	t_vec		normal;
+	t_objects	*object;
+	t_color		color;
+	
+}	t_hit_rec;
 
 #endif

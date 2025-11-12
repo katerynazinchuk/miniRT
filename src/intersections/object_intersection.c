@@ -68,24 +68,25 @@ bool hit_cyl_cap(t_ray *c_ray, t_vec cap_center, t_vec cap_normal,  double *t, d
 	t_vec cp;
 	double dist_sq;
 	t_plane cyl_cap;
+	t_hit_rec hit_rec;
+	
 
 	cyl_cap.point = cap_center;
 	cyl_cap.normal = cap_normal;
-	double t_cap;
-	if(!hit_plane(c_ray, &cyl_cap, &t_cap))
+	if(!hit_plane(c_ray, &cyl_cap, &hit_rec))
 		return false;
-	p = vec_add(c_ray->origin, vec_scale(c_ray->direction, t_cap));// looking for the actual t on the surface
+	p = vec_add(c_ray->origin, vec_scale(c_ray->direction, hit_rec.t));// looking for the actual t on the surface
 	cp = vec_sub(p, cap_center); //vec from intesection to the plane center
 	dist_sq = vec_dot(cp, cp);// only operaton that return double for comparison
 	if (dist_sq <= radius * radius)
 	{ 
-		*t = t_cap;
+		*t = hit_rec.t;
 		return (true);
 	}
 	return (false);
 }
 
-bool	hit_cylinder(t_ray *c_ray, t_cylinder *cylinder, double *t)
+bool	hit_cylinder(t_ray *c_ray, t_cylinder *cylinder, t_hit_rec *hit_rec)
 {
 	double t_body;
 	double t_top;
@@ -115,11 +116,14 @@ bool	hit_cylinder(t_ray *c_ray, t_cylinder *cylinder, double *t)
 		closest = t_bottom;
 	if(closest < 0)
 		return false;
-	*t = closest;
+	hit_rec->t = closest;
+	// hit_rec->intersection = ;
+	// hit_rec->normal = ;
+	hit_rec->object = cylinder->owner;
 	return true;
 }
 
-bool	hit_sphere(const t_ray *c_ray, const t_sphere *sphere, double *t)
+bool	hit_sphere(const t_ray *c_ray, const t_sphere *sphere, t_hit_rec *hit_rec)
 {
 	t_vec oc = vec_sub(c_ray->origin, sphere->center);
 	double a = vec_dot(c_ray->direction, c_ray->direction); //(D·D); c_ray->direction * c_ray->direction
@@ -129,18 +133,23 @@ bool	hit_sphere(const t_ray *c_ray, const t_sphere *sphere, double *t)
 	if(disc < 0)
 		return false;
 	//var for getting root. result of moving elements to the right to find clean t from squere equesion
-	double root = (-half_b - sqrt(disc)) / a;//first cross cos it always smaller
-	if(root < T_MIN || root > T_MAX)
+	hit_rec->t = (-half_b - sqrt(disc)) / a;//first cross cos it always smaller
+	if(hit_rec->t < T_MIN || hit_rec->t > T_MAX)
 	{
-		root = (-half_b + sqrt(disc)) / a;//second cross cos it bigger
-		if(root < T_MIN || root > T_MAX)
+		hit_rec->t = (-half_b + sqrt(disc)) / a;//second cross cos it bigger
+		if(hit_rec->t < T_MIN || hit_rec->t > T_MAX)
 			return false;
 	}
-	*t = root;
+	hit_rec->intersection = vec_add(c_ray->origin, vec_scale(c_ray->direction, hit_rec->t));
+	hit_rec->normal = vec_sub(hit_rec->intersection, sphere->center);
+	hit_rec->normal = vec_normalize(hit_rec->normal);
+	hit_rec->object = sphere->owner;
+	//printf("hit record data hit.point x = %f, y=%f z= %f\n", hit_rec->intersection.x,hit_rec->intersection.y, hit_rec->intersection.z);
+	//printf("hit record data hit.normal x=%f y = %f z = %f\n", hit_rec->normal.x, hit_rec->normal.y, hit_rec->normal.z);
 	return true;
 }
 
-bool	hit_plane(const t_ray *c_ray, const t_plane *plane, double *t)
+bool	hit_plane(const t_ray *c_ray, const t_plane *plane, t_hit_rec *hit_rec)
 {
 	double	denum;
 
@@ -148,9 +157,13 @@ bool	hit_plane(const t_ray *c_ray, const t_plane *plane, double *t)
 	denum = vec_dot(plane->normal, c_ray->direction);
 	if (fabs(denum) < EPS)
 		return (false);
-	*t = vec_dot(plane->normal, vec_sub(plane->point, c_ray->origin)) / denum;
-	if (*t < T_MIN || *t > T_MAX)
+	hit_rec->t = vec_dot(plane->normal, vec_sub(plane->point, c_ray->origin)) / denum;
+	if (hit_rec->t < T_MIN || hit_rec->t > T_MAX)
 		return (false);
+	
+	hit_rec->intersection  = vec_add(c_ray->origin, vec_scale(c_ray->direction, hit_rec->t));
+	hit_rec->normal = plane->normal;
+	hit_rec->object = plane->owner;
 	return (true);
 }
 
