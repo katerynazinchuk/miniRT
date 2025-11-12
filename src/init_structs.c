@@ -1,26 +1,33 @@
 #include "rt.h"
 
-/* bool	init_structs(t_rt *rt)
+/* static void	increase_nums(int *obj_count, int *capacity); */
+
+//if I allocate before parsing, I set capacity
+//maybe I can make better syntax using void type to make allocation in one function (?)
+bool	init_structs(t_rt *rt)
 {
 	ft_memset(&rt, 0, sizeof(t_rt));
-	rt->scene->spheres = (t_sphere)malloc(sizeof(t_sphere * 5));
-	if (!rt->scene->spheres)
+	rt->scene.objects->spheres = (t_sphere*)malloc(sizeof(t_sphere) * ARR_SIZE);
+	if (!rt->scene.objects->spheres)
 		return (false);
-	rt->scene->cylinders = (t_cylinder)malloc(t_cylinder * 5);
-	if (!rt->scene->cylinders)
+	rt->scene.objects->sp_arr_cap = ARR_SIZE;
+	rt->scene.objects->cylinders = (t_cylinder*)malloc(sizeof(t_cylinder) * ARR_SIZE);
+	if (!rt->scene.objects->cylinders)
 	{
-		free(rt->scene->spheres);
+		free(rt->scene.objects->spheres);
 		return (false);
 	}
-	rt->scene->planes = (t_plane)malloc(t_plane * 5);
-	if (!rt->scene->cylinders)
+	rt->scene.objects->cy_arr_cap = ARR_SIZE;
+	rt->scene.objects->planes = (t_plane*)malloc(sizeof(t_plane) * ARR_SIZE);
+	if (!rt->scene.objects->cylinders)
 	{
-		free(rt->scene->spheres);
-		free(rt->scene->cylinders);
+		free(rt->scene.objects->spheres);
+		free(rt->scene.objects->cylinders);
 		return (false);
 	}
+	rt->scene.objects->pl_arr_cap = ARR_SIZE;
 	return (true);
-} */
+}
 
 //realloc with potentional grows
 //first alloc for 5 or 1?
@@ -53,6 +60,8 @@ void	*growing_realloc(void *ptr, size_t old_size)
 	return (new_ptr);
 }
 
+/* //Do I need ARR_SIZE+1 for NULL element?
+//this function needed if I allocate inside parser
 bool	init_array(t_objects *objects, t_objtype code)
 {
 	if (code == OBJ_SPHERE)
@@ -60,7 +69,8 @@ bool	init_array(t_objects *objects, t_objtype code)
 		objects->spheres = (t_sphere)malloc(sizeof(t_sphere) * ARR_SIZE);
 		if (!objects->spheres)
 			return (false);
-		objects->sp_count++;
+		objects->sp_arr_cap = ARR_SIZE;
+		// increase_nums(objects->sp_count, objects->sp_arr_cap);
 		return (true);
 	}
 	if (code == OBJ_CYL)
@@ -68,7 +78,8 @@ bool	init_array(t_objects *objects, t_objtype code)
 		objects->cylinders = (t_cylinder)malloc(sizeof(t_cylinder) * ARR_SIZE);
 		if (!objects->cylinders)
 			return (false);
-		objects->cy_count++;
+		objects->cy_arr_cap = ARR_SIZE;
+		// increase_nums(objects->cy_count, objects->cy_arr_cap);
 		return (true);
 	}
 	if (code == OBJ_PLANE)
@@ -76,7 +87,14 @@ bool	init_array(t_objects *objects, t_objtype code)
 		objects->planes = (t_plane)malloc(sizeof(t_plane) * ARR_SIZE);
 		if (!objects->planes)
 			return (false);
-		objects->pl_count++;
+		objects->pl_arr_cap = ARR_SIZE;
+		// increase_nums(objects->pl_count, objects->pl_arr_cap);
 		return (true);
 	}
-}
+} */
+
+/* static void	increase_nums(int *obj_count, int *capacity)
+{
+	(*obj_count)++;
+	(*capacity) = ARR_SIZE;
+} */

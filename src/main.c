@@ -39,12 +39,12 @@ int	main(int argc, char **argv)
 	t_rt		rt;
 
 	//rt = (t_rt *)malloc(sizeof(t_rt*));
-/* 	if (init_structs(&rt))
+	if (init_structs(&rt))
 	{
-		print_error("Wrong number of arguments");
+		print_error("Can't allocate memory");
 		return (1);
-	} */
-	ft_memset(&rt, 0, sizeof(t_rt));
+	}
+	// ft_memset(&rt, 0, sizeof(t_rt));
 	if(argc != 2)
 	{
 		print_error("Wrong number of arguments");
