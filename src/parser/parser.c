@@ -59,18 +59,15 @@ int parse_ambient(t_rt *rt, char *line, int line_counter)
 	int	i;
 
 	i = 1;
-	if(!skip_spases(line, &i))
-		validate_error(line_counter);
+	skip_spases(line, &i, false);
 	rt->scene.ambient.ratio = ft_atof(line, &i);
-	if(!skip_spases(line, &i))
-		validate_error(line_counter);
-	if(!parse_color(line, &i, &rt->scene.ambient.color))
-	{
-		ft_putendl_fd("Error: Input outside of the range", 2);
+	if (!skip_spases(line, &i, true))
+		return (0);
+	if (!parse_color(line, &i, &rt->scene.ambient.color))
 		return 0;
-	}
-	return(1);
+	return (1);
 }
+
 //float	angle;//in radiant so angle = 70 * M_PI / 180.0 and result will be in radiant
 //float	scale;// scale = tan((camera->angle * 0,5));
 //float	aspect;// aspect = (double)WIDTH / (double)HEIGHT;
@@ -81,31 +78,17 @@ int parse_camera(t_rt *rt, char *line, int line_counter)
 	int i;
 
 	i = 1;
-	if(!skip_spases(line, &i))
-		validate_error(line_counter);
+	skip_spases(line, &i, false);
 	printf("curret line %s", &line[i]);
-	if(!parse_vector(line, &i, &rt->scene.camera.position, 0))
-	{
-		ft_putendl_fd("Error: Input outside of the range", 2);
+	if (!parse_vector(line, &i, &rt->scene.camera.position, 0))
 		return 0;
-	}
 	printf("camera possition x = %f, y = %f z = %f\n", rt->scene.camera.position.x, rt->scene.camera.position.y, rt->scene.camera.position.z);
-	if(!skip_spases(line, &i))
-	{
-		validate_error(line_counter);
+	if (!skip_spases(line, &i, true))
 		return (0);
-	}
-	if(!parse_vector(line, &i, &rt->scene.camera.direction, 0))
-	{
-		ft_putendl_fd("Error: Input outside of the range", 2);
+	if (!parse_vector(line, &i, &rt->scene.camera.direction, 0))
 		return 0;
-	}
-	if(!skip_spases(line, &i))
-	{
-		validate_error(line_counter);
+	if (!skip_spases(line, &i, true))
 		return (0);
-	}
-	
 
 	world_up = vec_pos(0,1,0);
 	rt->scene.camera.right = vec_cross(rt->scene.camera.position, world_up);
@@ -129,30 +112,17 @@ int parse_light(t_rt *rt, char *line, int line_counter)
 	int	i;
 
 	i = 1;
-	if(!skip_spases(line, &i))
-		validate_error(line_counter);
+	skip_spases(line, &i, false);
 	if(!parse_vector(line, &i, &rt->scene.light.position, 0))
-	{
-		ft_putendl_fd("Error: Input outside of the range", 2);
 		return 0;
-	}
 	printf("light possition x = %f, y = %f z = %f\n", rt->scene.light.position.x, rt->scene.light.position.y, rt->scene.light.position.z);
-	if(!skip_spases(line, &i))
-	{
-		validate_error(line_counter);
+	if(!skip_spases(line, &i, true))
 		return (0);
-	}
 	rt->scene.light.intensity = ft_atof(line, &i);
-	if(!skip_spases(line, &i))
-	{
-		validate_error(line_counter);
+	if(!skip_spases(line, &i, true))
 		return (0);
-	}
 	if(!parse_color(line, &i, &rt->scene.light.color))
-	{
-		ft_putendl_fd("Error: Color outside of range", 2);
 		return (0);
-	}
 	return (1);
 }
 
@@ -238,37 +208,18 @@ int parse_plane(t_rt *rt, char *line, int line_counter)
 	int i;
 
 	i = 2;
-	if(!skip_spases(line, &i))
-	{
-		validate_error(line_counter);
-		return (0);
-	}
+	skip_spases(line, &i, false);
 	if(!parse_vector(line, &i, &rt->scene.objects.shape.pl.point, 0))
-	{
-		ft_putendl_fd("Error: Input outside of the range", 2);
 		return (0);
-	}
-	if(!skip_spases(line, &i))
-	{
-		validate_error(line_counter);
+	if(!skip_spases(line, &i, true))
 		return (0);
-	}
 	if(!parse_vector(line, &i, &rt->scene.objects.shape.pl.normal, 1))
-	{
-		ft_putendl_fd("Error: Input outside of the range", 2);
 		return (0);
-	}
 	rt->scene.objects.shape.pl.normal = vec_normalize(rt->scene.objects.shape.pl.normal);
-	if(!skip_spases(line, &i))
-	{
-		validate_error(line_counter);
+	if(!skip_spases(line, &i, true))
 		return (0);
-	}
 	if(!parse_color(line, &i, &rt->scene.objects.shape.pl.mat.albedo))
-	{
-		ft_putendl_fd("Error: Color outside of range", 2);
 		return (0);
-	}
 	rt->scene.objects.type = OBJ_PLANE;
 	return (1);
 }
@@ -278,49 +229,24 @@ int parse_cylinder(t_rt *rt, char *line, int line_counter)
 	int	i;
 
 	i = 2;
-	if(!skip_spases(line, &i))
-	{
-		validate_error(line_counter);
-		return (0);
-	}
+	skip_spases(line, &i, false);
 	if(!parse_vector(line, &i, &rt->scene.objects.shape.cy.center, 0))
-	{
-		ft_putendl_fd("Error: Input outside of the range", 2);
 		return (0);
-	}
 	if(!skip_spases(line, &i))
-	{
-		validate_error(line_counter);
 		return (0);
-	}
 	if(!parse_vector(line, &i, &rt->scene.objects.shape.cy.axis, 1))
-	{
-		ft_putendl_fd("Error: Input outside of the range", 2);
 		return (0);
-	}
 	rt->scene.objects.shape.cy.axis = vec_normalize(rt->scene.objects.shape.cy.axis);
-	if(!skip_spases(line, &i))
-	{
-		validate_error(line_counter);
+	if(!skip_spases(line, &i, true))
 		return (0);
-	}
 	rt->scene.objects.shape.cy.radius = (ft_atof(line, &i) / 2);
-	if(!skip_spases(line, &i))
-	{
-		validate_error(line_counter);
+	if(!skip_spases(line, &i, true))
 		return (0);
-	}
 	rt->scene.objects.shape.cy.height = ft_atof(line, &i); 
-	if(!skip_spases(line, &i))
-	{
-		validate_error(line_counter);
+	if(!skip_spases(line, &i, true))
 		return (0);
-	}
 	if(!parse_color(line, &i, &rt->scene.objects.shape.cy.mat.albedo))
-	{
-		ft_putendl_fd("Error: Input outside of the range", 2);
 		return (0);
-	}
 	return (1);
 }
 
@@ -417,8 +343,8 @@ int parse_color(char *line, int *i, t_color *color)
 int check_color(int color)
 {
 	int result = (color >= 0 && color <= 255);
-    // printf("  check_color(%d) = %d\n", color, result);
-    return (result);
+	// printf("  check_color(%d) = %d\n", color, result);
+	return (result);
 }
 
 int check_vector(double vec)
