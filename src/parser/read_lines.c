@@ -151,7 +151,7 @@ int	validate_geometric_objects(t_objects *obj, char *line, int line_counter)
 	# Be carefull - now skip spaces show error msg
 	# Need to check all parser part with this function
 */
-int	skip_spases(char *line, int *i, force_print)
+int	skip_spases(char *line, int *i, bool force_print)
 {
 	int	symbol;
 
@@ -161,7 +161,7 @@ int	skip_spases(char *line, int *i, force_print)
 		(*i)++;
 		symbol = 1;
 	}
-	if (!symbol )
+	if (!symbol && force_print)
 		print_error("Missing space on line")
 	return (symbol);
 }

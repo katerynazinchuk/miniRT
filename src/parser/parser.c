@@ -181,24 +181,20 @@ int	parse_sphere(t_sphere *sphere, char *line, int line_counter)
 	int		i;
 	
 	i = 2;
-	skip_spases(line, &i, true);
-	if(!parse_vector(line, &i, &rt->scene.objects.shape.sp.center, 0))
-	{
+	skip_spases(line, &i, false);
+	if(!parse_vector(line, &i, &sphere->center, 0))
 		return 0;
-	}
-	if(!skip_spases(line, &i))
-	{
+	if(!skip_spases(line, &i, true))
 		return (0);
-	}
-	rt->scene.objects.shape.sp.radius = (ft_atof(line, &i) / 2);
-	if(!skip_spases(line, &i))
-	{
+	/*
+		# can ft_atof return to us negative radius value (?)
+		# 
+	*/
+	sphere->radius = (ft_atof(line, &i) / 2);
+	if(!skip_spases(line, &i, true))
 		return (0);
-	}
-	if(!parse_color(line, &i, &color))
-	{
+	if(!parse_color(line, &i, &sphere->color))
 		return (0);
-	}
 	return (1);
 }
 
