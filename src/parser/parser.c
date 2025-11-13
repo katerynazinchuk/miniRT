@@ -132,16 +132,15 @@ int parse_light(t_rt *rt, char *line, int line_counter)
 // add description what is line_counter to make navigation easy
 int	process_sphere(t_objects *obj, char *line, int line_counter)
 {
-	t_sphere	sphere;
+	t_sphere	sp_temp;
 	// bool		flag;
 
-	if (!parse_sphere(&sphere, line, line_counter))
+	if (!parse_sphere(&sp_temp, line, line_counter))
 		return (0);
 	if (!handle_capacity(obj->sp_arr_cap, obj->sp_count))
 		return (0);
-	if (!ft_memmove(obj->spheres[sp_count], sphere, ???))
-		return (0);
-	sp_count++;
+	obj->sp_arr[sp_count] = sp_temp;
+	obj->sp_count++;
 	return (1);
 }
 //experiment 
@@ -352,3 +351,7 @@ int check_vector(double vec)
 	return (vec >= -1.0 && vec <= 1.0);
 }
 
+int	handle_capacity(int capacity, int num, t_objects *obj)
+{
+	
+}
