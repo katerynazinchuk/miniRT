@@ -6,7 +6,7 @@
 /*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/28 17:36:24 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/11/12 17:55:11 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/11/13 15:57:25 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,11 +156,22 @@ int parse_light(t_rt *rt, char *line, int line_counter)
 	return (1);
 }
 
+//from first parser version we have return logic:
+// 0 as false
+// 1 as error
+int	process_sphere(t_objects *obj, char *line, int line_counter)
+{
+	t_sphere	sphere;
+	bool		flag;
+
+	if (!parse_sphere(&sphere, line,))
+		
+	return (1);
+}
 //experiment 
 //we need to keep amount of sphere and update memory if capacity is low
-int	parse_sphere(t_objects *obj, char *line, int line_counter)
+int	parse_sphere(t_sphere *sphere, char *line, int line_counter)
 {
-	t_sphere	*sphere;
 	int		i;
 	
 	i = 2;

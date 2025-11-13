@@ -16,7 +16,7 @@ int	parse_file(const char *filename, t_rt *rt)
 		perror("open");
 		return (0);
 	}
-	rt->line = 0;
+	rt->line_counter = 0;
 	while(1)
 	{
 		line = get_next_line(fd);
@@ -28,7 +28,7 @@ int	parse_file(const char *filename, t_rt *rt)
 			free(line);
 			continue;
 		}
-		if (!validate_identifier(rt, line, rt->line))
+		if (!validate_identifier(rt, line, rt->line_counter))
 		{
 			free(line);
 			close(fd);
@@ -74,9 +74,10 @@ static int validate_line(char *line, int i_line)
 
 static int set_i_line(char *line, int *i_line)
 {
-	int i;
+	int	i;
 
 	i = 0;
+	*i_line = 0;
 	if(line[i] == 'A' || line[i] == 'C' || line[i] == 'L')
 	{
 		*i_line = 1;
@@ -84,44 +85,64 @@ static int set_i_line(char *line, int *i_line)
 	if((line[i] == 's' && line[i + 1] == 'p') ||
 		(line[i] == 'p' && line[i + 1] == 'l') ||
 		(line[i] == 'c' && line[i + 1] == 'y'))
-		{
-			*i_line = 2;
-		}
+	{
+		*i_line = 2;
+	}
 	return (1);
 }
 
 int validate_identifier(t_rt *rt, char *line, int line_counter)
 {
-	int i;
-	int i_line;
+	int	i_line;
+	int	code;
 
-	i = 0;
-	if(line[i] == '\n' || line[i] == '\0')
-		return 1;
+	//we make this check in upper level
+	// if(line[i] == '\n' || line[i] == '\0')
+	// 	return (1);
 	set_i_line(line, &i_line);
 	//write a funk that setup i_line identifier based on identifier
 	if(!validate_line(line, i_line))
-	{
-		ft_putendl_fd("Error: Unrecogizable symbol", 2);
-		return(0);
-	}
+		return (0);
+	if (i_line == 1)
+		code = validate_singe_element(rt, line, line_counter);
+	else
+		code = validate_geometric_objects(rt->scene.objects, line, line_counter);
+	return (code);
+}
+
+/* 
+	# !!!! this project not about parser, so we will use just last one data we get abot A & C
+	# we need to check that we have only one A, C, according to project rules
+	# we can do it with flag and check this flag in upper level
+	# need to check is it the same with light, because it depends on bonus part
+	#
+*/
+int	validate_singe_element(t_rt *rt, char *line, int line_counter)
+{
+	int	i;
+
+	i = 0;
 	if(line[i] == 'A')
 		return(parse_ambient(rt, line, line_counter));
 	else if(line[i] == 'C')
 		return(parse_camera(rt, line, line_counter));
 	else if(line[i] == 'L')
 		return(parse_light(rt, line, line_counter));
-	else if(line[i] == 's' && line[i + 1] == 'p')
-		return(parse_sphere(rt->scene.objects, line, line_counter));
+	return (1);
+}
+
+int	validate_geometric_objects(t_objects *obj, char *line, int line_counter)
+{
+	int	i;
+
+	i = 0;
+	if(line[i] == 's' && line[i + 1] == 'p')
+		return (process_sphere(obj, line, line_counter));//need to check how I go through levels to free heap
 	else if(line[i] == 'p' && line[i + 1] == 'l')
-		return(parse_plane(rt, line, line_counter));
+		return(parse_plane(obj, line, line_counter));
 	else if(line[i] == 'c' && line[i + 1] == 'y')
-		return(parse_cylinder(rt, line, line_counter));
-	else
-	{
-		ft_putendl_fd("Error: Unrecognizable symbol", 2);
-		return (0);
-	}
+		return(parse_cylinder(obj, line, line_counter));
+	return (1);
 }
 
 int skip_spases(char *line, int *i)
@@ -136,4 +157,5 @@ int skip_spases(char *line, int *i)
 	}
 	return (symbol);
 }
+
 
