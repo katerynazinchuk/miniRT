@@ -159,13 +159,19 @@ int parse_light(t_rt *rt, char *line, int line_counter)
 //from first parser version we have return logic:
 // 0 as false
 // 1 as error
+// add description what is line_counter to make navigation easy
 int	process_sphere(t_objects *obj, char *line, int line_counter)
 {
 	t_sphere	sphere;
-	bool		flag;
+	// bool		flag;
 
-	if (!parse_sphere(&sphere, line,))
-		
+	if (!parse_sphere(&sphere, line, line_counter))
+		return (0);
+	if (!handle_capacity(obj->sp_arr_cap, obj->sp_count))
+		return (0);
+	if (!ft_memmove(obj->spheres[sp_count], sphere, ???))
+		return (0);
+	sp_count++;
 	return (1);
 }
 //experiment 
@@ -175,28 +181,24 @@ int	parse_sphere(t_sphere *sphere, char *line, int line_counter)
 	int		i;
 	
 	i = 2;
-	if(!skip_spases(line, &i))
-		validate_error(line_counter);
+	skip_spases(line, &i, true);
 	if(!parse_vector(line, &i, &rt->scene.objects.shape.sp.center, 0))
 	{
 		return 0;
 	}
 	if(!skip_spases(line, &i))
 	{
-		validate_error(line_counter);
 		return (0);
 	}
 	rt->scene.objects.shape.sp.radius = (ft_atof(line, &i) / 2);
 	if(!skip_spases(line, &i))
 	{
-		validate_error(line_counter);
 		return (0);
 	}
 	if(!parse_color(line, &i, &color))
 	{
 		return (0);
 	}
-	rt->scene.objects.type = OBJ_SPHERE;
 	return (1);
 }
 

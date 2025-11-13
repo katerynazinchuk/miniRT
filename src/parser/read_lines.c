@@ -44,6 +44,7 @@ int	parse_file(const char *filename, t_rt *rt)
 	return (1);
 }
 
+/*
 void validate_error(int line_counter)
 {
 	char *message;
@@ -51,6 +52,7 @@ void validate_error(int line_counter)
 	message = "Error: missing space on line";
 	printf("%s %d", message, line_counter);
 }
+*/
 
 static int validate_line(char *line, int i_line)
 {
@@ -72,7 +74,7 @@ static int validate_line(char *line, int i_line)
 	return(1);
 }
 
-static int set_i_line(char *line, int *i_line)
+static int	set_i_line(char *line, int *i_line)
 {
 	int	i;
 
@@ -145,17 +147,21 @@ int	validate_geometric_objects(t_objects *obj, char *line, int line_counter)
 	return (1);
 }
 
-int skip_spases(char *line, int *i)
+/*
+	# Be carefull - now skip spaces show error msg
+	# Need to check all parser part with this function
+*/
+int	skip_spases(char *line, int *i, force_print)
 {
-	int symbol;
+	int	symbol;
 
 	symbol = 0;
-	while(line[*i] == ' ' || line[*i] == '\t')
+	while (line[*i] == ' ' || line[*i] == '\t')
 	{
 		(*i)++;
 		symbol = 1;
 	}
+	if (!symbol )
+		print_error("Missing space on line")
 	return (symbol);
 }
-
-
