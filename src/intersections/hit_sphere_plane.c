@@ -20,7 +20,6 @@ bool	hit_sphere(const t_ray *c_ray, const t_sphere *sphere, t_hit_rec *hit_rec)
 	hit_rec->intersection = vec_add(c_ray->origin, vec_scale(c_ray->direction, hit_rec->t));
 	hit_rec->normal = vec_sub(hit_rec->intersection, sphere->center);
 	hit_rec->normal = vec_normalize(hit_rec->normal);
-	hit_rec->object = sphere->owner;
 	//printf("hit record data hit.point x = %f, y=%f z= %f\n", hit_rec->intersection.x,hit_rec->intersection.y, hit_rec->intersection.z);
 	//printf("hit record data hit.normal x=%f y = %f z = %f\n", hit_rec->normal.x, hit_rec->normal.y, hit_rec->normal.z);
 	return true;
@@ -40,6 +39,5 @@ bool	hit_plane(const t_ray *c_ray, const t_plane *plane, t_hit_rec *hit_rec)
 	
 	hit_rec->intersection  = vec_add(c_ray->origin, vec_scale(c_ray->direction, hit_rec->t));
 	hit_rec->normal = plane->normal;
-	hit_rec->object = plane->owner;
 	return (true);
 }
