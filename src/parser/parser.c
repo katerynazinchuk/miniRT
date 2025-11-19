@@ -6,7 +6,7 @@
 /*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/28 17:36:24 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/11/13 15:57:25 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/11/19 18:09:26 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ ________________________________________________________________________________
 //https://42-cursus.gitbook.io/guide/4-rank-04/minirt/building-the-thing
 #include "rt.h"
 
-int parse_ambient(t_rt *rt, char *line, int line_counter)
+int	parse_ambient(t_rt *rt, char *line, int line_counter)
 {
 	int	i;
 
@@ -71,9 +71,9 @@ int parse_ambient(t_rt *rt, char *line, int line_counter)
 //float	angle;//in radiant so angle = 70 * M_PI / 180.0 and result will be in radiant
 //float	scale;// scale = tan((camera->angle * 0,5));
 //float	aspect;// aspect = (double)WIDTH / (double)HEIGHT;
-int parse_camera(t_rt *rt, char *line, int line_counter)
+int	parse_camera(t_rt *rt, char *line, int line_counter)
 {
-	t_vec world_up;
+	t_vec	world_up;
 	// float aspect;//if we gonna make not square window
 	int i;
 
@@ -103,7 +103,7 @@ int parse_camera(t_rt *rt, char *line, int line_counter)
 	rt->scene.camera.angle = rt->scene.camera.angle * M_PI/ 180.0;
 	printf("camera angle = %f\n", rt->scene.camera.angle);
 	rt->scene.camera.scale = tan(rt->scene.camera.angle * 0.5);
-	printf("camera scale	 = %f\n", rt->scene.camera.scale);
+	printf("camera scale = %f\n", rt->scene.camera.scale);
 	return (1);
 }
 
@@ -128,19 +128,18 @@ int parse_light(t_rt *rt, char *line, int line_counter)
 
 //from first parser version we have return logic:
 // 0 as false
-// 1 as error
+// 1 as success
 // add description what is line_counter to make navigation easy
 int	process_sphere(t_objects *obj, char *line, int line_counter)
 {
 	t_sphere	sp_temp;
-	// bool		flag;
 
 	if (!parse_sphere(&sp_temp, line, line_counter))
 		return (0);
-	if (!handle_capacity(obj->sp_arr_cap, obj->sp_count))
+	if (!check_capacity((void**)&obj->spheres, &obj->sp_arr_cap, obj->sp_count, sizeof(t_sphere)))
 		return (0);
 	obj->sp_arr[sp_count] = sp_temp;
-	obj->sp_count++;
+	obj->sp_count++;//we need to check growing is neccessary with previous value, so ++ after growing
 	return (1);
 }
 //experiment 
@@ -350,8 +349,38 @@ int check_vector(double vec)
 {
 	return (vec >= -1.0 && vec <= 1.0);
 }
-
-int	handle_capacity(int capacity, int num, t_objects *obj)
+//keep project return logic
+// 1 - success
+// 0 - false
+int	check_capacity(void **array, size_t *capacity, size_t count, size_t type_size)//need to return rewrite array if nesseccary
 {
+	size_t	new_capacity;
+	size_t	new_size;
+	int		flag;
+
+	if (count < *capacity)
+		return (1);//this is success, cause we dont need to reallocate
+	new_capacity = *capacity * 2;
+	new_size = new_capacity * type_size;
+	flag = growing_realloc(*array, new_size);
+	if (!flag)
+		return (0);
+	*capacity = new_capacity;
+	return (1);
+}
+
+// int	check_capacity(int capacity, int num, t_objects *obj)
+// {
 	
+// 	return (1);
+// }
+
+
+int check_capacity(void **arr, size_t *arr_cap, size_t count, size_t type_size) 
+{
+	 if (count < arr_cap) return (1);
+	  if (!growing_realloc(arr, type_size * (*arr_cap))) 
+	  	return (0); 
+	  (*arr_cap) *= 2 
+	  return (1); 
 }
