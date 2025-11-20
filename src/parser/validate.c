@@ -6,13 +6,13 @@
 /*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 14:19:46 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/11/04 16:52:43 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/11/20 16:44:16 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-int check_file(char *filename)
+int	check_file(char *filename)
 {
 	int fd;
 
@@ -36,7 +36,7 @@ int check_file(char *filename)
 	return 1;
 }
 
-int check_rt_extension(char *filename)
+int	check_rt_extension(char *filename)
 {
 	int	len;
 

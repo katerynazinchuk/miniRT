@@ -24,6 +24,10 @@ SRC_FILES := main.c \
 	math/vec_utils.c \
 	parser/parser.c \
 	parser/read_lines.c \
+	parser/parse_plane.c \
+	parser/parse_sphere.c \
+	parser/parse_cylinder.c \
+	parser/parser_utils.c \
 	parser/validate.c 
 
 SRC := $(addprefix $(SRC_DIR)/, $(SRC_FILES))

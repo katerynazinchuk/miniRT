@@ -21,14 +21,14 @@ int	parse_file(const char *filename, t_rt *rt)
 	{
 		line = get_next_line(fd);
 		if(!line)
-			break;
+			break;//close (fd) ?
 		// rt->line++
 		if (line[0] == '\0' || line[0] == '\n' || line[0] == '#')
 		{
 			free(line);
 			continue;
 		}
-		if (!validate_identifier(rt, line, rt->line_counter))
+		if (!validate_identifier(rt, line/* , rt->line_counter */))
 		{
 			free(line);
 			close(fd);
@@ -54,6 +54,25 @@ void validate_error(int line_counter)
 }
 */
 
+static int	set_i_line(char *line, int *i_line)
+{
+	int	i;
+
+	i = 0;
+	*i_line = 0;
+	if(line[i] == 'A' || line[i] == 'C' || line[i] == 'L')
+	{
+		*i_line = 1;
+	}
+	if((line[i] == 's' && line[i + 1] == 'p') ||
+		(line[i] == 'p' && line[i + 1] == 'l') ||
+		(line[i] == 'c' && line[i + 1] == 'y'))
+	{
+		*i_line = 2;
+	}
+	return (1);
+}
+
 static int validate_line(char *line, int i_line)
 {
 	while(line[i_line] != '\0' && line[i_line] != '\n')
@@ -74,26 +93,7 @@ static int validate_line(char *line, int i_line)
 	return(1);
 }
 
-static int	set_i_line(char *line, int *i_line)
-{
-	int	i;
-
-	i = 0;
-	*i_line = 0;
-	if(line[i] == 'A' || line[i] == 'C' || line[i] == 'L')
-	{
-		*i_line = 1;
-	}
-	if((line[i] == 's' && line[i + 1] == 'p') ||
-		(line[i] == 'p' && line[i + 1] == 'l') ||
-		(line[i] == 'c' && line[i + 1] == 'y'))
-	{
-		*i_line = 2;
-	}
-	return (1);
-}
-
-int validate_identifier(t_rt *rt, char *line, int line_counter)
+int validate_identifier(t_rt *rt, char *line/* , int line_counter */)
 {
 	int	i_line;
 	int	code;
@@ -106,9 +106,9 @@ int validate_identifier(t_rt *rt, char *line, int line_counter)
 	if(!validate_line(line, i_line))
 		return (0);
 	if (i_line == 1)
-		code = validate_singe_element(rt, line, line_counter);
+		code = validate_singe_element(rt, line/* , line_counter */);
 	else
-		code = validate_geometric_objects(rt->scene.objects, line, line_counter);
+		code = validate_geometric_objects(&rt->scene.objects, line/* , line_counter */);
 	return (code);
 }
 
@@ -119,49 +119,30 @@ int validate_identifier(t_rt *rt, char *line, int line_counter)
 	# need to check is it the same with light, because it depends on bonus part
 	#
 */
-int	validate_singe_element(t_rt *rt, char *line, int line_counter)
+int	validate_singe_element(t_rt *rt, char *line/* , int line_counter */)
 {
 	int	i;
 
 	i = 0;
 	if(line[i] == 'A')
-		return(parse_ambient(rt, line, line_counter));
+		return(parse_ambient(rt, line/* , line_counter */));
 	else if(line[i] == 'C')
-		return(parse_camera(rt, line, line_counter));
+		return(parse_camera(rt, line/* , line_counter */));
 	else if(line[i] == 'L')
-		return(parse_light(rt, line, line_counter));
+		return(parse_light(rt, line/* , line_counter */));
 	return (1);
 }
 
-int	validate_geometric_objects(t_objects *obj, char *line, int line_counter)
+int	validate_geometric_objects(t_objects *obj, char *line/* , int line_counter */)
 {
 	int	i;
 
 	i = 0;
 	if(line[i] == 's' && line[i + 1] == 'p')
-		return (process_sphere(obj, line, line_counter));//need to check how I go through levels to free heap
+		return (process_sphere(obj, line/* , line_counter */));//need to check how I go through levels to free heap
 	else if(line[i] == 'p' && line[i + 1] == 'l')
-		return(parse_plane(obj, line, line_counter));
+		return(process_plane(obj, line/* , line_counter */));
 	else if(line[i] == 'c' && line[i + 1] == 'y')
-		return(parse_cylinder(obj, line, line_counter));
+		return(process_cylinder(obj, line/* , line_counter */));
 	return (1);
-}
-
-/*
-	# Be carefull - now skip spaces show error msg
-	# Need to check all parser part with this function
-*/
-int	skip_spases(char *line, int *i, bool force_print)
-{
-	int	symbol;
-
-	symbol = 0;
-	while (line[*i] == ' ' || line[*i] == '\t')
-	{
-		(*i)++;
-		symbol = 1;
-	}
-	if (!symbol && force_print)
-		print_error("Missing space on line")
-	return (symbol);
 }

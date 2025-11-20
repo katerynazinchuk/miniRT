@@ -6,7 +6,7 @@
 /*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/28 17:36:24 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/11/19 18:09:26 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/11/20 15:49:29 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,15 @@ ________________________________________________________________________________
 //https://42-cursus.gitbook.io/guide/4-rank-04/minirt/building-the-thing
 #include "rt.h"
 
-int	parse_ambient(t_rt *rt, char *line, int line_counter)
+int	parse_ambient(t_rt *rt, char *line/* , int line_counter */)
 {
 	int	i;
 
 	i = 1;
-	skip_spases(line, &i, false);
+	if (!skip_spases(line, &i))
+		return (0);
 	rt->scene.ambient.ratio = ft_atof(line, &i);
-	if (!skip_spases(line, &i, true))
+	if (!skip_spases(line, &i))
 		return (0);
 	if (!parse_color(line, &i, &rt->scene.ambient.color))
 		return 0;
@@ -71,23 +72,24 @@ int	parse_ambient(t_rt *rt, char *line, int line_counter)
 //float	angle;//in radiant so angle = 70 * M_PI / 180.0 and result will be in radiant
 //float	scale;// scale = tan((camera->angle * 0,5));
 //float	aspect;// aspect = (double)WIDTH / (double)HEIGHT;
-int	parse_camera(t_rt *rt, char *line, int line_counter)
+int	parse_camera(t_rt *rt, char *line/* , int line_counter */)
 {
 	t_vec	world_up;
 	// float aspect;//if we gonna make not square window
 	int i;
 
 	i = 1;
-	skip_spases(line, &i, false);
+	if (!skip_spases(line, &i))
+		return (0);
 	printf("curret line %s", &line[i]);
 	if (!parse_vector(line, &i, &rt->scene.camera.position, 0))
 		return 0;
 	printf("camera possition x = %f, y = %f z = %f\n", rt->scene.camera.position.x, rt->scene.camera.position.y, rt->scene.camera.position.z);
-	if (!skip_spases(line, &i, true))
+	if (!skip_spases(line, &i))
 		return (0);
 	if (!parse_vector(line, &i, &rt->scene.camera.direction, 0))
 		return 0;
-	if (!skip_spases(line, &i, true))
+	if (!skip_spases(line, &i))
 		return (0);
 
 	world_up = vec_pos(0,1,0);
@@ -107,143 +109,22 @@ int	parse_camera(t_rt *rt, char *line, int line_counter)
 	return (1);
 }
 
-int parse_light(t_rt *rt, char *line, int line_counter)
+int parse_light(t_rt *rt, char *line/* , int line_counter */)
 {
 	int	i;
 
 	i = 1;
-	skip_spases(line, &i, false);
+	if (!skip_spases(line, &i))
+		return (0);
 	if(!parse_vector(line, &i, &rt->scene.light.position, 0))
 		return 0;
 	printf("light possition x = %f, y = %f z = %f\n", rt->scene.light.position.x, rt->scene.light.position.y, rt->scene.light.position.z);
-	if(!skip_spases(line, &i, true))
+	if(!skip_spases(line, &i))
 		return (0);
 	rt->scene.light.intensity = ft_atof(line, &i);
-	if(!skip_spases(line, &i, true))
+	if(!skip_spases(line, &i))
 		return (0);
 	if(!parse_color(line, &i, &rt->scene.light.color))
-		return (0);
-	return (1);
-}
-
-//from first parser version we have return logic:
-// 0 as false
-// 1 as success
-// add description what is line_counter to make navigation easy
-int	process_sphere(t_objects *obj, char *line, int line_counter)
-{
-	t_sphere	sp_temp;
-
-	if (!parse_sphere(&sp_temp, line, line_counter))
-		return (0);
-	if (!check_capacity((void**)&obj->spheres, &obj->sp_arr_cap, obj->sp_count, sizeof(t_sphere)))
-		return (0);
-	obj->sp_arr[sp_count] = sp_temp;
-	obj->sp_count++;//we need to check growing is neccessary with previous value, so ++ after growing
-	return (1);
-}
-//experiment 
-//we need to keep amount of sphere and update memory if capacity is low
-int	parse_sphere(t_sphere *sphere, char *line, int line_counter)
-{
-	int		i;
-	
-	i = 2;
-	skip_spases(line, &i, false);
-	if(!parse_vector(line, &i, &sphere->center, 0))
-		return 0;
-	if(!skip_spases(line, &i, true))
-		return (0);
-	/*
-		# can ft_atof return to us negative radius value (?)
-		# 
-	*/
-	sphere->radius = (ft_atof(line, &i) / 2);
-	if(!skip_spases(line, &i, true))
-		return (0);
-	if(!parse_color(line, &i, &sphere->color))
-		return (0);
-	return (1);
-}
-
-/* int	parse_sphere(t_rt *rt, char *line, int line_counter)
-{
-	double	radius;
-	t_color	color;
-	int		i;
-	
-	i = 2;
-	if(!skip_spases(line, &i))
-		validate_error(line_counter);
-	if(!parse_vector(line, &i, &rt->scene.objects.shape.sp.center, 0))
-	{
-		ft_putendl_fd("Error: Input outside of the range", 2);
-		return 0;
-	}
-	if(!skip_spases(line, &i))
-	{
-		validate_error(line_counter);
-		return (0);
-	}
-	radius = (ft_atof(line, &i) / 2);
-	if(!skip_spases(line, &i))
-	{
-		validate_error(line_counter);
-		return (0);
-	}
-	if(!parse_color(line, &i, &color))
-	{
-		ft_putendl_fd("Error: Color outside of range", 2);
-		return (0);
-	}
-	rt->scene.objects.type = OBJ_SPHERE;
-	rt->scene.objects.shape.sp.radius = radius;
-	return (1);
-} */
-
-int parse_plane(t_rt *rt, char *line, int line_counter)
-{
-	int i;
-
-	i = 2;
-	skip_spases(line, &i, false);
-	if(!parse_vector(line, &i, &rt->scene.objects.shape.pl.point, 0))
-		return (0);
-	if(!skip_spases(line, &i, true))
-		return (0);
-	if(!parse_vector(line, &i, &rt->scene.objects.shape.pl.normal, 1))
-		return (0);
-	rt->scene.objects.shape.pl.normal = vec_normalize(rt->scene.objects.shape.pl.normal);
-	if(!skip_spases(line, &i, true))
-		return (0);
-	if(!parse_color(line, &i, &rt->scene.objects.shape.pl.mat.albedo))
-		return (0);
-	rt->scene.objects.type = OBJ_PLANE;
-	return (1);
-}
-
-int parse_cylinder(t_rt *rt, char *line, int line_counter)
-{
-	int	i;
-
-	i = 2;
-	skip_spases(line, &i, false);
-	if(!parse_vector(line, &i, &rt->scene.objects.shape.cy.center, 0))
-		return (0);
-	if(!skip_spases(line, &i))
-		return (0);
-	if(!parse_vector(line, &i, &rt->scene.objects.shape.cy.axis, 1))
-		return (0);
-	rt->scene.objects.shape.cy.axis = vec_normalize(rt->scene.objects.shape.cy.axis);
-	if(!skip_spases(line, &i, true))
-		return (0);
-	rt->scene.objects.shape.cy.radius = (ft_atof(line, &i) / 2);
-	if(!skip_spases(line, &i, true))
-		return (0);
-	rt->scene.objects.shape.cy.height = ft_atof(line, &i); 
-	if(!skip_spases(line, &i, true))
-		return (0);
-	if(!parse_color(line, &i, &rt->scene.objects.shape.cy.mat.albedo))
 		return (0);
 	return (1);
 }
@@ -338,49 +219,3 @@ int parse_color(char *line, int *i, t_color *color)
 	return(1);
 } */
 
-int check_color(int color)
-{
-	int result = (color >= 0 && color <= 255);
-	// printf("  check_color(%d) = %d\n", color, result);
-	return (result);
-}
-
-int check_vector(double vec)
-{
-	return (vec >= -1.0 && vec <= 1.0);
-}
-//keep project return logic
-// 1 - success
-// 0 - false
-int	check_capacity(void **array, size_t *capacity, size_t count, size_t type_size)//need to return rewrite array if nesseccary
-{
-	size_t	new_capacity;
-	size_t	new_size;
-	int		flag;
-
-	if (count < *capacity)
-		return (1);//this is success, cause we dont need to reallocate
-	new_capacity = *capacity * 2;
-	new_size = new_capacity * type_size;
-	flag = growing_realloc(*array, new_size);
-	if (!flag)
-		return (0);
-	*capacity = new_capacity;
-	return (1);
-}
-
-// int	check_capacity(int capacity, int num, t_objects *obj)
-// {
-	
-// 	return (1);
-// }
-
-
-int check_capacity(void **arr, size_t *arr_cap, size_t count, size_t type_size) 
-{
-	 if (count < arr_cap) return (1);
-	  if (!growing_realloc(arr, type_size * (*arr_cap))) 
-	  	return (0); 
-	  (*arr_cap) *= 2 
-	  return (1); 
-}

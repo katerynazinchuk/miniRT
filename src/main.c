@@ -39,23 +39,35 @@ int	main(int argc, char **argv)
 	t_rt		rt;
 
 	//rt = (t_rt *)malloc(sizeof(t_rt*));
-	if (init_structs(&rt))
-	{
-		print_error("Can't allocate memory");
-		return (1);
-	}
 	// ft_memset(&rt, 0, sizeof(t_rt));
 	if(argc != 2)
 	{
 		print_error("Wrong number of arguments");
 		return (1);
 	}
+	if (init_structs(&rt))
+	{
+		print_error("Can't allocate memory");
+		return (1);
+	}
 	if(!check_file(argv[1]))
+	{
+		free_arrays(&rt.scene.objects);
 		return (1);
+	}
+	write(1, "1\n", 2);
 	if (!parse_file(argv[1], &rt))
+	{
+		free_arrays(&rt.scene.objects);
 		return (1);
+	}
+
 	if (!build_graphic(&rt.scene))
+	{
+		free_arrays(&rt.scene.objects);
 		return (1);
+	}
+	free_arrays(&rt.scene.objects);
 	return (0);
 }
 

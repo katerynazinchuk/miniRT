@@ -6,7 +6,7 @@
 /*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 14:58:45 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/11/13 16:08:09 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/11/20 17:41:39 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,35 +67,37 @@ typedef enum e_objtype
 	OBJ_CYL,
 }	t_objtype;
 
-typedef struct s_material
+/* typedef struct s_material
 {
 	t_color	albedo;
 	//more comming..
 	
-}	t_material;
+}	t_material; */
 
 typedef struct s_sphere
 {
 	t_vec		center;
 	double		radius;//in .rt we have diametr
 	t_color		color;
-	t_material	mat;
+	// t_material	mat;
 }	t_sphere;
 
 typedef struct s_cylinder
 {
-	t_vec center;
-	t_vec axis;
-	double radius;
-	double height;// float?? or double??
-	t_material	mat;
+	t_vec		center;
+	t_vec		axis;
+	double		radius;
+	double		height;// float?? or double??
+	t_color		color;
+	// t_material	mat;
 }	t_cylinder;
 
 typedef struct s_plane
 {
-	t_vec point;
-	t_vec normal;
-	t_material	mat;
+	t_vec		point;
+	t_vec		normal;
+	t_color		color;
+	// t_material	mat;
 }	t_plane;
 
 /* typedef union u_shape
@@ -130,7 +132,7 @@ typedef struct s_scene
 {
 	t_camera	camera;
 	t_light		light;
-	t_objects	*objects;
+	t_objects	objects;
 	t_ambient	ambient;
 }	t_scene;
 
