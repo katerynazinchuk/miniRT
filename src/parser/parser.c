@@ -6,7 +6,7 @@
 /*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/28 17:36:24 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/11/20 15:49:29 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/11/24 17:19:11 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,10 +81,10 @@ int	parse_camera(t_rt *rt, char *line/* , int line_counter */)
 	i = 1;
 	if (!skip_spases(line, &i))
 		return (0);
-	printf("curret line %s", &line[i]);
+	// printf("curret line %s", &line[i]);
 	if (!parse_vector(line, &i, &rt->scene.camera.position, 0))
 		return 0;
-	printf("camera possition x = %f, y = %f z = %f\n", rt->scene.camera.position.x, rt->scene.camera.position.y, rt->scene.camera.position.z);
+	// printf("camera possition x = %f, y = %f z = %f\n", rt->scene.camera.position.x, rt->scene.camera.position.y, rt->scene.camera.position.z);
 	if (!skip_spases(line, &i))
 		return (0);
 	if (!parse_vector(line, &i, &rt->scene.camera.direction, 0))

@@ -6,7 +6,7 @@
 /*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 15:13:59 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/11/12 14:49:00 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/11/24 18:01:44 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,9 @@ uint32_t	find_color(t_ray ray, t_scene *scene);
 uint32_t	rgba(int r, int g, int b);
 void		print_error(const char *msg);
 bool		init_structs(t_rt *rt);
+
+/* Tests */
+void	test_parser(t_scene *scene, t_objects *obj);
+
 
 #endif

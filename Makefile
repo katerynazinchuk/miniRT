@@ -28,7 +28,8 @@ SRC_FILES := main.c \
 	parser/parse_sphere.c \
 	parser/parse_cylinder.c \
 	parser/parser_utils.c \
-	parser/validate.c 
+	parser/validate.c \
+	tests/parser_check.c
 
 SRC := $(addprefix $(SRC_DIR)/, $(SRC_FILES))
 OBJS := $(patsubst $(SRC_DIR)/%.c,$(BUILD_DIR)/%.o,$(SRC))

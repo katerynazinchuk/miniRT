@@ -45,8 +45,10 @@ int	main(int argc, char **argv)
 		print_error("Wrong number of arguments");
 		return (1);
 	}
-	if (!init_structs(&rt))
+	if (init_structs(&rt))
 	{
+		// write(1, "2", 1);
+		test_parser(&rt.scene, &rt.scene.objects);
 		print_error("Can't allocate memory");
 		return (1);
 	}

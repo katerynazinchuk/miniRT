@@ -7,7 +7,8 @@
 		"vec_utils.h": "c",
 		"functional": "c",
 		"numbers": "c",
-		"get_next_line.h": "c"
+		"get_next_line.h": "c",
+		"rt.h": "c"
 	},
 	"C_Cpp.errorSquiggles": "disabled"
 }

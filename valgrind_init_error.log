@@ -1,0 +1,15 @@
+==158287== Memcheck, a memory error detector
+==158287== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==158287== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==158287== Command: ./minirt base.rt
+==158287== Parent PID: 44601
+==158287== 
+==158287== 
+==158287== HEAP SUMMARY:
+==158287==     in use at exit: 0 bytes in 0 blocks
+==158287==   total heap usage: 3 allocs, 3 frees, 960 bytes allocated
+==158287== 
+==158287== All heap blocks were freed -- no leaks are possible
+==158287== 
+==158287== For lists of detected and suppressed errors, rerun with: -s
+==158287== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
