@@ -7,6 +7,7 @@
 bool	init_structs(t_rt *rt)
 {
 	ft_memset(rt, 0, sizeof(t_rt));
+	// rt->scene.objects
 	rt->scene.objects.spheres = (t_sphere*)malloc(sizeof(t_sphere) * ARR_SIZE);
 	if (!rt->scene.objects.spheres)
 		return (false);

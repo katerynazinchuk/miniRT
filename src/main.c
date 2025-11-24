@@ -45,7 +45,7 @@ int	main(int argc, char **argv)
 		print_error("Wrong number of arguments");
 		return (1);
 	}
-	if (init_structs(&rt))
+	if (!init_structs(&rt))
 	{
 		print_error("Can't allocate memory");
 		return (1);
@@ -55,7 +55,6 @@ int	main(int argc, char **argv)
 		free_arrays(&rt.scene.objects);
 		return (1);
 	}
-	write(1, "1\n", 2);
 	if (!parse_file(argv[1], &rt))
 	{
 		free_arrays(&rt.scene.objects);

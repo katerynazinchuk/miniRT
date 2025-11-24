@@ -19,6 +19,11 @@ int	process_sphere(t_objects *obj, char *line/* , int line_counter */)
 
 //experiment 
 //we need to keep amount of sphere and update memory if capacity is low
+	/*
+		# can ft_atof return to us negative radius value (?)
+		# 
+	*/
+
 int	parse_sphere(t_sphere *sphere, char *line/* , int line_counter */)
 {
 	int		i;
@@ -30,10 +35,6 @@ int	parse_sphere(t_sphere *sphere, char *line/* , int line_counter */)
 		return 0;
 	if(!skip_spases(line, &i))
 		return (0);
-	/*
-		# can ft_atof return to us negative radius value (?)
-		# 
-	*/
 	sphere->radius = (ft_atof(line, &i) / 2);
 	if (sphere->radius <= 0)
 		return(0);

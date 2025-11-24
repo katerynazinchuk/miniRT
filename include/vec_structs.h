@@ -6,7 +6,7 @@
 /*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 14:58:45 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/11/20 17:41:39 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/11/24 13:49:04 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,14 @@ typedef struct	s_color
 	int	b;
 }	t_color;
 
-typedef struct s_ambient
+typedef struct	s_ambient
 {
 	t_color color;
 	double ratio;
 
 }	t_ambient;
 
-typedef struct s_camera
+typedef struct	s_camera
 {
 	t_vec	position;
 	t_vec	direction;//normalized direction; comes from .rt
@@ -52,7 +52,7 @@ typedef struct s_camera
 	double	aspect;// aspect = (double)WIDTH / (double)HEIGHT;
 }	t_camera;
 
-typedef struct s_light
+typedef struct	s_light
 {
 	t_vec	position;
 	t_color	color;
@@ -60,7 +60,7 @@ typedef struct s_light
 	//..ambient or not, possition of light??
 } t_light;
 
-typedef enum e_objtype
+typedef enum	e_objtype
 {
 	OBJ_SPHERE,
 	OBJ_PLANE,
@@ -74,7 +74,7 @@ typedef enum e_objtype
 	
 }	t_material; */
 
-typedef struct s_sphere
+typedef struct	s_sphere
 {
 	t_vec		center;
 	double		radius;//in .rt we have diametr
@@ -82,7 +82,7 @@ typedef struct s_sphere
 	// t_material	mat;
 }	t_sphere;
 
-typedef struct s_cylinder
+typedef struct	s_cylinder
 {
 	t_vec		center;
 	t_vec		axis;
@@ -92,7 +92,7 @@ typedef struct s_cylinder
 	// t_material	mat;
 }	t_cylinder;
 
-typedef struct s_plane
+typedef struct	s_plane
 {
 	t_vec		point;
 	t_vec		normal;
@@ -128,7 +128,7 @@ typedef struct	s_objects
 }	t_objects;
 
 
-typedef struct s_scene
+typedef struct	s_scene
 {
 	t_camera	camera;
 	t_light		light;
@@ -136,7 +136,7 @@ typedef struct s_scene
 	t_ambient	ambient;
 }	t_scene;
 
-typedef struct s_rt
+typedef struct	s_rt
 {
 	int		line_counter;
 	t_scene	scene;
