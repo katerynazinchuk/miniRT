@@ -6,7 +6,7 @@
 /*   By: kzinchuk <kzinchuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 14:00:44 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/10/29 18:17:28 by kzinchuk         ###   ########.fr       */
+/*   Updated: 2025/11/12 18:22:09 by kzinchuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,4 +120,14 @@ t_vec  vec_neg(t_vec v)
 	negative.y = -v.y;
 	negative.z = -v.z;
 	return (negative);
+}
+
+t_color	color_scale(t_color color, double brightness)
+{
+	t_color scale_c;
+
+	scale_c.r = color.r * brightness;
+	scale_c.g = color.g * brightness;
+	scale_c.b = color.b * brightness;
+	return (scale_c);
 }

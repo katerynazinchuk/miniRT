@@ -20,7 +20,8 @@ SRC_FILES := main.c \
 	init_structs.c \
 	intersections/color.c \
 	intersections/field_of_view.c \
-	intersections/plane_intersection.c \
+	intersections/object_intersection.c \
+	light/light.c \
 	math/vec_utils.c \
 	parser/parser.c \
 	parser/read_lines.c \

@@ -6,7 +6,7 @@
 /*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/28 17:36:24 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/11/25 15:12:11 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/11/25 17:36:46 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,7 +174,6 @@ int	parse_vector(char *line, int *i, t_vec *vec, int normal_range)
 		if(!check_vector(vec->x) || !check_vector(vec->y) || !check_vector(vec->z))
             return (0);
 	}
-	
 	return (1);
 } */
 
