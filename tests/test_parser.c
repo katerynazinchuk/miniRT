@@ -26,19 +26,19 @@ void	test_parser(t_scene *scene, t_objects *obj)
 	i = 0;
 	while (obj->sp_count > i)
 	{
-		print_sphere(&obj->spheres[i], i);
+		print_sphere(&obj->sps[i], i);
 		i++;
 	}
 	i = 0;
 	while (obj->pl_count > i)
 	{
-		print_plane(&obj->planes[i], i);
+		print_plane(&obj->pls[i], i);
 		i++;
 	}
 	i = 0;
 	while (obj->cy_count > i)
 	{
-		print_cylinder(&obj->cylinders[i], i);
+		print_cylinder(&obj->cys[i], i);
 		i++;
 	}
 }

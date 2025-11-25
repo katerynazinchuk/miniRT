@@ -6,7 +6,7 @@
 /*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 15:13:59 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/11/25 17:02:38 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/11/25 17:52:07 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ bool		hit_sphere(const t_ray *c_ray, const t_sphere *sphere, t_hit_rec *hit_rec)
 bool		hit_cylinder(t_ray *c_ray, t_cylinder *cylinder, t_hit_rec *hit_rec);
 bool		hit_cyl_body(t_ray *c_ray, t_cylinder *cylinder, double *t);
 bool		hit_cyl_cap(t_ray *c_ray, t_vec cap_center, t_vec cap_normal, double *t, double radius);
+bool		hit_scene(const t_ray *c_ray, t_scene *scene, t_hit_rec *hit_rec);
 
 //--------------light
 int			find_light_spot(t_scene *scene, t_hit_rec *hit_rec);

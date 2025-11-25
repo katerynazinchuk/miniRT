@@ -9,7 +9,7 @@ void	print_error(const char *msg)
 
 void	free_arrays(t_objects *obj)
 {
-	free(obj->spheres);
-	free(obj->planes);
-	free(obj->cylinders);
+	free(obj->sps);
+	free(obj->pls);
+	free(obj->cys);
 }

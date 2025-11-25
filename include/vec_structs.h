@@ -6,7 +6,7 @@
 /*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 14:58:45 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/11/25 17:34:56 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/11/25 18:24:53 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ typedef struct	s_ambient
 {
 	t_color color;
 	double ratio;
-
 }	t_ambient;
 
 typedef struct	s_camera
@@ -69,10 +68,11 @@ typedef enum	e_objtype
 
 typedef struct	s_sphere
 {
-	t_vec		center;
-	double		radius;//in .rt we have diametr
-	struct s_objects *owner;
-	t_material	mat;
+	t_vec				center;
+	double				radius;//in .rt we have diametr
+	struct s_objects	*owner;
+	t_color				color;
+	// t_material		mat;
 }	t_sphere;
 
 typedef struct	s_cylinder
@@ -81,8 +81,9 @@ typedef struct	s_cylinder
 	t_vec axis;
 	double radius;
 	double height;// float?? or double??
+	t_color				color;
 	struct s_objects *owner;
-	t_material	mat;
+	// t_material		mat;
 }	t_cylinder;
 
 typedef struct	s_plane
@@ -90,7 +91,8 @@ typedef struct	s_plane
 	t_vec point;
 	t_vec normal;
 	struct s_objects *owner;
-	t_material	mat;
+	t_color				color;
+	// t_material		mat;
 }	t_plane;
 
 /* typedef union u_shape
@@ -109,9 +111,9 @@ typedef struct	s_plane
 
 typedef struct	s_objects
 {
-	t_sphere	*spheres;
-	t_cylinder	*cylinders;
-	t_plane		*planes;
+	t_sphere	*sps;
+	t_cylinder	*cys;
+	t_plane		*pls;
 	size_t		sp_count;
 	size_t		cy_count;
 	size_t		pl_count;
@@ -143,6 +145,7 @@ typedef struct s_hit_rec
 	t_vec		normal;
 	t_objtype	type;
 	int index;
+	struct s_objects *object;
 	t_color	color;
 	
 }	t_hit_rec;

@@ -8,22 +8,22 @@ bool	init_structs(t_rt *rt)
 {
 	ft_memset(rt, 0, sizeof(t_rt));
 	// rt->scene.objects
-	rt->scene.objects.spheres = (t_sphere*)malloc(sizeof(t_sphere) * ARR_SIZE);
-	if (!rt->scene.objects.spheres)
+	rt->scene.objects.sps = (t_sphere*)malloc(sizeof(t_sphere) * ARR_SIZE);
+	if (!rt->scene.objects.sps)
 		return (false);
 	rt->scene.objects.sp_arr_cap = ARR_SIZE;
-	rt->scene.objects.cylinders = (t_cylinder*)malloc(sizeof(t_cylinder) * ARR_SIZE);
-	if (!rt->scene.objects.cylinders)
+	rt->scene.objects.cys = (t_cylinder*)malloc(sizeof(t_cylinder) * ARR_SIZE);
+	if (!rt->scene.objects.cys)
 	{
-		free(rt->scene.objects.spheres);
+		free(rt->scene.objects.sps);
 		return (false);
 	}
 	rt->scene.objects.cy_arr_cap = ARR_SIZE;
-	rt->scene.objects.planes = (t_plane*)malloc(sizeof(t_plane) * ARR_SIZE);
-	if (!rt->scene.objects.cylinders)
+	rt->scene.objects.pls = (t_plane*)malloc(sizeof(t_plane) * ARR_SIZE);
+	if (!rt->scene.objects.cys)
 	{
-		free(rt->scene.objects.spheres);
-		free(rt->scene.objects.cylinders);
+		free(rt->scene.objects.sps);
+		free(rt->scene.objects.cys);
 		return (false);
 	}
 	rt->scene.objects.pl_arr_cap = ARR_SIZE;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hit_objects.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kzinchuk <kzinchuk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 12:13:30 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/11/17 14:49:05 by kzinchuk         ###   ########.fr       */
+/*   Updated: 2025/11/25 18:25:42 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ bool hit_all_spheres(t_ray *c_ray, t_scene *scene, t_hit_rec *hit_rec)
 	bool hit_any = false;
 	double closest_t = T_MAX;
 	t_hit_rec hit;
-	int i;
+	size_t	i;
 	
 	i = 0;
 	
@@ -44,13 +44,13 @@ bool hit_all_planes(t_ray *c_ray, t_scene *scene, t_hit_rec *hit_rec)
 	bool hit_any = false;
 	double closest_t = T_MAX;
 	t_hit_rec hit;
-	int i;
+	size_t i;
 	
 	i = 0;
 	
 	while(i < scene->objects.pl_count)
 	{
-		if(hit_cylinder(c_ray, &scene->objects.pls[i], &hit))
+		if(hit_plane(c_ray, &scene->objects.pls[i], &hit))
 		{
 			if(hit.t < closest_t && hit.t > T_MIN)
 			{
@@ -71,7 +71,7 @@ bool hit_all_cylinders(t_ray *c_ray, t_scene *scene, t_hit_rec *hit_rec)
 	bool hit_any = false;
 	double closest_t = T_MAX;
 	t_hit_rec hit;
-	int i;
+	size_t i;
 	
 	i = 0;
 	

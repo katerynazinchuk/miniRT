@@ -6,9 +6,9 @@ int	process_plane(t_objects *obj, char *line/* , int line_counter */)
 
 	if (!parse_plane(&pl_temp, line/* , line_counter */))
 		return (0);
-	if (!check_capacity((void**)&obj->planes, &obj->pl_arr_cap, obj->pl_count, sizeof(t_plane)))
+	if (!check_capacity((void**)&obj->pls, &obj->pl_arr_cap, obj->pl_count, sizeof(t_plane)))
 		return (0);
-	obj->planes[obj->pl_count] = pl_temp;
+	obj->pls[obj->pl_count] = pl_temp;
 	obj->pl_count++;//we need to check growing is neccessary with previous value, so ++ after growing
 	return (1);
 }

@@ -10,9 +10,9 @@ int	process_sphere(t_objects *obj, char *line/* , int line_counter */)
 
 	if (!parse_sphere(&sp_temp, line/* , line_counter */))
 		return (0);
-	if (!check_capacity((void**)&obj->spheres, &obj->sp_arr_cap, obj->sp_count, sizeof(t_sphere)))
+	if (!check_capacity((void**)&obj->sps, &obj->sp_arr_cap, obj->sp_count, sizeof(t_sphere)))
 		return (0);
-	obj->spheres[obj->sp_count] = sp_temp;
+	obj->sps[obj->sp_count] = sp_temp;
 	obj->sp_count++;//we need to check growing is neccessary with previous value, so ++ after growing
 	return (1);
 }

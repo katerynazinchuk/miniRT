@@ -6,9 +6,9 @@ int	process_cylinder(t_objects *obj, char *line/* , int line_counter */)
 
 	if (!parse_cylinder(&cy_temp, line/* , line_counter */))
 		return (0);
-	if (!check_capacity((void**)&obj->cylinders, &obj->cy_arr_cap, obj->cy_count, sizeof(t_cylinder)))
+	if (!check_capacity((void**)&obj->cys, &obj->cy_arr_cap, obj->cy_count, sizeof(t_cylinder)))
 		return (0);
-	obj->cylinders[obj->cy_count] = cy_temp;
+	obj->cys[obj->cy_count] = cy_temp;
 	obj->cy_count++;//we need to check growing is neccessary with previous value, so ++ after growing
 	return (1);
 }
