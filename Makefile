@@ -9,10 +9,10 @@ GNL_BUILD_DIR := $(BUILD_DIR)/$(GNL_DIR)
 LIBS := $(LIBFT_DIR)/libft.a $(MLX42_DIR)/build/libmlx42.a
 CC := cc
 CFLAGS := -Wextra -Werror -Wall -g #-O2 -MMD 
-CPPFLAGS := -I$(INC_DIR) -I$(LIBFT_DIR)/include -I$(MLX42_DIR)/include -Iget_next_line
+CPPFLAGS := -I$(INC_DIR) -I$(LIBFT_DIR)/include -I$(MLX42_DIR)/include -I$(GNL_DIR)
 LDFLAGS := -L$(LIBFT_DIR) -L$(MLX42_DIR)/build
 LDLIBS := -lft -lmlx42 -ldl -lglfw -lpthread -lm
-DEV_FLAGS := -g -O0 -fno-omit-frame-pointer -fsanitize=address,undefined
+DEV_FLAGS := -g -O0 -fno-omit-frame-pointer #-fsanitize=address,undefined
 GNL_SRC := $(GNL_DIR)/get_next_line.c \
 	$(GNL_DIR)/get_next_line_utils.c
 SRC_FILES := main.c \
@@ -28,27 +28,48 @@ SRC_FILES := main.c \
 	parser/parse_sphere.c \
 	parser/parse_cylinder.c \
 	parser/parser_utils.c \
-	parser/validate.c \
-	tests/parser_check.c
+	parser/validate.c
 
 SRC := $(addprefix $(SRC_DIR)/, $(SRC_FILES))
 OBJS := $(patsubst $(SRC_DIR)/%.c,$(BUILD_DIR)/%.o,$(SRC))
 GNL_OBJS := $(patsubst $(GNL_DIR)/%.c,$(GNL_BUILD_DIR)/%.o,$(GNL_SRC))
 DEP := $(OBJS:.o=.d)
 
+TEST_NAME := minirt_test
+TEST_DIR := tests
+TEST_BUILD_DIR := $(BUILD_DIR)/$(TEST_DIR)
+TEST_SRC := $(TEST_DIR)/test_parser.c \
+			$(TEST_DIR)/main_test.c
+TEST_OBJ := $(patsubst $(TEST_DIR)/%.c,$(TEST_BUILD_DIR)/%.o,$(TEST_SRC))
+MAIN_SRC_FILES := utils.c \
+	init_structs.c \
+	intersections/color.c \
+	intersections/field_of_view.c \
+	intersections/plane_intersection.c \
+	math/vec_utils.c \
+	parser/parser.c \
+	parser/read_lines.c \
+	parser/parse_plane.c \
+	parser/parse_sphere.c \
+	parser/parse_cylinder.c \
+	parser/parser_utils.c \
+	parser/validate.c
+MAIN_SRCS := $(addprefix $(SRC_DIR)/, $(MAIN_SRC_FILES))
+MAIN_OBJS := $(patsubst $(SRC_DIR)/%.c,$(BUILD_DIR)/%.o,$(MAIN_SRCS))
+
 all: $(NAME)
 
 $(NAME): $(OBJS) $(LIBS) $(GNL_OBJS)
 	@$(CC) $(OBJS) $(GNL_OBJS) $(LDFLAGS) $(LDLIBS) -o $(NAME)
 
+$(GNL_BUILD_DIR)/%.o: $(GNL_DIR)/%.c
+	@mkdir -p $(dir $@)
+	@$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
+	@echo "Object files for GNL created."
+
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(@D)
 	@echo "Compiling $<.."
-	@$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
-	@echo "Object files created."
-
-$(GNL_BUILD_DIR)/%.o: $(GNL_DIR)/%.c
-	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
 	@echo "Object files created."
 
@@ -73,6 +94,18 @@ fclean: clean
 	@$(MAKE) fclean -C $(LIBFT_DIR)
 
 re: fclean all
+
+test: $(TEST_NAME)
+$(TEST_NAME): $(MAIN_OBJS) $(LIBS) $(GNL_OBJS) $(TEST_OBJ)
+	@$(CC) $(MAIN_OBJS) $(GNL_OBJS) $(TEST_OBJ) $(LDFLAGS) $(LDLIBS) -o $(TEST_NAME)
+
+$(TEST_BUILD_DIR)/%.o: $(TEST_DIR)/%.c
+	@mkdir -p $(dir $@)
+	@$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
+	@echo "Object files for tests created."
+
+test_fclean: fclean
+	@rm -rf $(TEST_NAME)
 
 .PHONY: all clean fclean re
 
