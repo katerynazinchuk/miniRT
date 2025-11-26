@@ -39,5 +39,6 @@ int	parse_cylinder(t_cylinder *cylinder, char *line/* , int line_counter */)
 		return (0);
 	if(!parse_color(line, &i, &cylinder->color))
 		return (0);
+	cylinder->type = OBJ_CYL;
 	return (1);
 }

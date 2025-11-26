@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kzinchuk <kzinchuk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 16:28:36 by tchernia          #+#    #+#             */
-/*   Updated: 2025/10/29 18:46:13 by kzinchuk         ###   ########.fr       */
+/*   Updated: 2025/11/26 17:37:25 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # include <stddef.h>
 # include "ft_printf.h"
+# include "get_next_line.h"
 # define LIBFT_H
 
 int		ft_isalpha(int c);

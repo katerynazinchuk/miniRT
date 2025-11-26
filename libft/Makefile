@@ -1,8 +1,11 @@
 NAME = libft.a
 SRC_DIR = src
 BUILD_DIR = build
+GNL_DIR := get_next_line
 LIBFT_BUILD_DIR = $(BUILD_DIR)/libft
 FT_PRINTF_DIR = $(BUILD_DIR)/ft_printf
+GNL_BUILD_DIR := $(BUILD_DIR)/get_next_line
+
 INCLUDE_DIR = include
 
 CC = cc
@@ -53,9 +56,14 @@ FT_PRINTF_SRC = $(SRC_DIR)/ft_printf/ft_printf.c \
 		$(SRC_DIR)/ft_printf/ft_print_x.c \
 		$(SRC_DIR)/ft_printf/ft_print_p.c
 
+GNL_SRC := $(SRC_DIR)/$(GNL_DIR)/get_next_line.c \
+	$(SRC_DIR)/$(GNL_DIR)/get_next_line_utils.c
+
 LIBFT_OBJ = $(LIBFT_SRC:$(SRC_DIR)/libft/%.c=$(LIBFT_BUILD_DIR)/%.o)
 FT_PRINTF_OBJ = $(FT_PRINTF_SRC:$(SRC_DIR)/ft_printf/%.c=$(FT_PRINTF_DIR)/%.o)
-OBJ = $(LIBFT_OBJ) $(FT_PRINTF_OBJ)
+GNL_OBJS := $(GNL_SRC:$(SRC_DIR)/$(GNL_DIR)/%.c=$(GNL_BUILD_DIR)/%.o)
+
+OBJ = $(LIBFT_OBJ) $(FT_PRINTF_OBJ) $(GNL_OBJS)
 
 CFLAGS += -I$(INCLUDE_DIR)
 
@@ -74,11 +82,18 @@ $(FT_PRINTF_DIR)/%.o: $(SRC_DIR)/ft_printf/%.c | $(FT_PRINTF_DIR)
 	@echo "Compiling $<..."
 	@$(CC) $(CFLAGS) -c $< -o $@
 
+$(GNL_BUILD_DIR)/%.o: $(SRC_DIR)/$(GNL_DIR)/%.c | $(GNL_BUILD_DIR)
+	@echo "Compiling $<..."
+	@$(CC) $(CFLAGS) -c $< -o $@
+
 $(LIBFT_BUILD_DIR):
 	@mkdir -p $(LIBFT_BUILD_DIR)
 
 $(FT_PRINTF_DIR):
 	@mkdir -p $(FT_PRINTF_DIR)
+
+$(GNL_BUILD_DIR):
+	@mkdir -p $(GNL_BUILD_DIR)
 
 obj_done:
 	@echo "All object files compiled successfully."

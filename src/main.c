@@ -88,7 +88,8 @@ static int	build_graphic(t_scene *scene)
 		return (0);
 	}
 	draw_img(scene, img);
-	// mlx_loop_hook(); - need function to handle hooks
+	mlx_key_hook(mlx, handle_esc, mlx);
+	// mlx_loop_hook(); - need function to handle hooks throuhg loop
 	mlx_loop(mlx);
 	mlx_terminate(mlx);
 	return (1);

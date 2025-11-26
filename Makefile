@@ -4,17 +4,20 @@ BUILD_DIR := obj
 SRC_DIR := src
 LIBFT_DIR := libft
 MLX42_DIR := MLX42
-GNL_DIR := get_next_line
-GNL_BUILD_DIR := $(BUILD_DIR)/$(GNL_DIR)
+
 LIBS := $(LIBFT_DIR)/libft.a $(MLX42_DIR)/build/libmlx42.a
+
 CC := cc
 CFLAGS := -Wextra -Werror -Wall -g #-O2 -MMD 
-CPPFLAGS := -I$(INC_DIR) -I$(LIBFT_DIR)/include -I$(MLX42_DIR)/include -I$(GNL_DIR)
+
+CPPFLAGS := -I$(INC_DIR) -I$(LIBFT_DIR)/include -I$(MLX42_DIR)/include
 LDFLAGS := -L$(LIBFT_DIR) -L$(MLX42_DIR)/build
 LDLIBS := -lft -lmlx42 -ldl -lglfw -lpthread -lm
+
+VALG_FLAGS := --leak-check=full --show-leak-kinds=all --track-origins=yes
+
 DEV_FLAGS := -g -O0 -fno-omit-frame-pointer #-fsanitize=address,undefined
-GNL_SRC := $(GNL_DIR)/get_next_line.c \
-	$(GNL_DIR)/get_next_line_utils.c
+
 SRC_FILES := main.c \
 	utils.c \
 	init_structs.c \
@@ -35,7 +38,6 @@ SRC_FILES := main.c \
 
 SRC := $(addprefix $(SRC_DIR)/, $(SRC_FILES))
 OBJS := $(patsubst $(SRC_DIR)/%.c,$(BUILD_DIR)/%.o,$(SRC))
-GNL_OBJS := $(patsubst $(GNL_DIR)/%.c,$(GNL_BUILD_DIR)/%.o,$(GNL_SRC))
 DEP := $(OBJS:.o=.d)
 
 TEST_NAME := minirt_test
@@ -48,7 +50,10 @@ MAIN_SRC_FILES := utils.c \
 	init_structs.c \
 	intersections/color.c \
 	intersections/field_of_view.c \
-	intersections/plane_intersection.c \
+	intersections/hit_cylinder.c \
+	intersections/hit_objects.c \
+	intersections/hit_sphere_plane.c \
+	light/light.c \
 	math/vec_utils.c \
 	parser/parser.c \
 	parser/read_lines.c \
@@ -57,18 +62,15 @@ MAIN_SRC_FILES := utils.c \
 	parser/parse_cylinder.c \
 	parser/parser_utils.c \
 	parser/validate.c
+
 MAIN_SRCS := $(addprefix $(SRC_DIR)/, $(MAIN_SRC_FILES))
 MAIN_OBJS := $(patsubst $(SRC_DIR)/%.c,$(BUILD_DIR)/%.o,$(MAIN_SRCS))
 
 all: $(NAME)
 
-$(NAME): $(OBJS) $(LIBS) $(GNL_OBJS)
-	@$(CC) $(OBJS) $(GNL_OBJS) $(LDFLAGS) $(LDLIBS) -o $(NAME)
+$(NAME): $(OBJS) $(LIBS) 
+	@$(CC) $(OBJS)  $(LDFLAGS) $(LDLIBS) -o $(NAME)
 
-$(GNL_BUILD_DIR)/%.o: $(GNL_DIR)/%.c
-	@mkdir -p $(dir $@)
-	@$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
-	@echo "Object files for GNL created."
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(@D)
@@ -110,6 +112,9 @@ $(TEST_BUILD_DIR)/%.o: $(TEST_DIR)/%.c
 test_fclean: fclean
 	@rm -rf $(TEST_NAME)
 
-.PHONY: all clean fclean re
+valg:
+	@valgrind $(VALGRIND_FLAGS) --suppressions=MLX.supp ./$(NAME) $(FILE)
+
+.PHONY: all clean fclean re test test_fclean valg
 
 #-Ofast for faster compilation or O2

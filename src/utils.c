@@ -13,3 +13,12 @@ void	free_arrays(t_objects *obj)
 	free(obj->pls);
 	free(obj->cys);
 }
+
+void	handle_esc(mlx_key_data_t key_info, void *param)
+{
+	mlx_t	*mlx;
+
+	mlx = param;
+	if (key_info.key == MLX_KEY_ESCAPE && key_info.action == MLX_PRESS)
+		mlx_close_window(mlx);
+}

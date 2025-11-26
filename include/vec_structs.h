@@ -6,7 +6,7 @@
 /*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 14:58:45 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/11/25 18:24:53 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/11/26 18:09:28 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,9 @@ typedef struct	s_sphere
 {
 	t_vec				center;
 	double				radius;//in .rt we have diametr
-	struct s_objects	*owner;
+	// struct s_objects	*owner;
 	t_color				color;
+	t_objtype			type;
 	// t_material		mat;
 }	t_sphere;
 
@@ -82,7 +83,8 @@ typedef struct	s_cylinder
 	double radius;
 	double height;// float?? or double??
 	t_color				color;
-	struct s_objects *owner;
+	t_objtype			type;
+	// struct s_objects *owner;
 	// t_material		mat;
 }	t_cylinder;
 
@@ -90,7 +92,8 @@ typedef struct	s_plane
 {
 	t_vec point;
 	t_vec normal;
-	struct s_objects *owner;
+	t_objtype			type;
+	// struct s_objects *owner;
 	t_color				color;
 	// t_material		mat;
 }	t_plane;
@@ -145,7 +148,7 @@ typedef struct s_hit_rec
 	t_vec		normal;
 	t_objtype	type;
 	int index;
-	struct s_objects *object;
+	// struct s_objects *object;
 	t_color	color;
 	
 }	t_hit_rec;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hit_cylinder.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kzinchuk <kzinchuk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 12:11:03 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/11/17 12:11:39 by kzinchuk         ###   ########.fr       */
+/*   Updated: 2025/11/25 18:33:17 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 //oc - (oc · V)*V -  searching for the perp to the axis between part of the oc vector inside cylinder and its projection
 // Project oc and ray direction onto plane perpendicular to axis
 
-bool	hit_cyl_body(t_ray *c_ray, t_cylinder *cylinder, double *t)
+bool	hit_cyl_body(const t_ray *c_ray, t_cylinder *cylinder, double *t)
 {
 	t_vec oc = vec_sub(c_ray->origin, cylinder->center);//O - C
 	const double oc_dot_V = vec_dot(oc, cylinder->axis);
@@ -74,7 +74,7 @@ bool	hit_cyl_body(t_ray *c_ray, t_cylinder *cylinder, double *t)
 	return false;
 }
 
-bool hit_cyl_cap(t_ray *c_ray, t_vec cap_center, t_vec cap_normal,  double *t, double radius)
+bool hit_cyl_cap(const t_ray *c_ray, t_vec cap_center, t_vec cap_normal,  double *t, double radius)
 {
 	t_vec p;
 	t_vec cp;
@@ -98,7 +98,7 @@ bool hit_cyl_cap(t_ray *c_ray, t_vec cap_center, t_vec cap_normal,  double *t, d
 	return (false);
 }
 
-bool	hit_cylinder(t_ray *c_ray, t_cylinder *cylinder, t_hit_rec *hit_rec)
+bool	hit_cylinder(const t_ray *c_ray, t_cylinder *cylinder, t_hit_rec *hit_rec)
 {
 	double t_body;
 	double t_top;

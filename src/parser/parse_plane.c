@@ -31,6 +31,6 @@ int	parse_plane(t_plane *plane, char *line/* , int line_counter */)
 		return (0);
 	if(!parse_color(line, &i, &plane->color))
 		return (0);
-	// rt->scene.objects.type = OBJ_PLANE;
+	plane->type = OBJ_PLANE;
 	return (1);
 }

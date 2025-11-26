@@ -6,13 +6,13 @@
 /*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 12:13:30 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/11/25 18:25:42 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/11/25 19:31:46 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-bool hit_all_spheres(t_ray *c_ray, t_scene *scene, t_hit_rec *hit_rec)
+bool hit_all_spheres(const t_ray *c_ray, t_scene *scene, t_hit_rec *hit_rec)
 {
 	bool hit_any = false;
 	double closest_t = T_MAX;
@@ -30,7 +30,7 @@ bool hit_all_spheres(t_ray *c_ray, t_scene *scene, t_hit_rec *hit_rec)
 				hit_any = true;
 				closest_t = hit.t;
 				*hit_rec = hit;
-				hit_rec->type = OBJ_PLANE;
+				hit_rec->type = OBJ_SPHERE;
 				hit_rec->index = i;
 			}
 		}
@@ -39,7 +39,7 @@ bool hit_all_spheres(t_ray *c_ray, t_scene *scene, t_hit_rec *hit_rec)
 	return (hit_any);
 }
 
-bool hit_all_planes(t_ray *c_ray, t_scene *scene, t_hit_rec *hit_rec)
+bool hit_all_planes(const t_ray *c_ray, t_scene *scene, t_hit_rec *hit_rec)
 {
 	bool hit_any = false;
 	double closest_t = T_MAX;
@@ -66,7 +66,7 @@ bool hit_all_planes(t_ray *c_ray, t_scene *scene, t_hit_rec *hit_rec)
 	return (hit_any);
 }
 
-bool hit_all_cylinders(t_ray *c_ray, t_scene *scene, t_hit_rec *hit_rec)
+bool hit_all_cylinders(const t_ray *c_ray, t_scene *scene, t_hit_rec *hit_rec)
 {
 	bool hit_any = false;
 	double closest_t = T_MAX;

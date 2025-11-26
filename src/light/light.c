@@ -6,7 +6,7 @@
 /*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 14:55:34 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/11/25 18:24:27 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/11/25 18:44:46 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 //brightness = cos(angle) = vec_dot(normal, light_ray);
 // then we have to multiply the object color by the brightness factor vec_scale(t, brightness)
 //diffuse = color * intencity
+
+static t_color	get_hit_color(t_scene *scene, t_hit_rec *hit_rec);
 
 int find_light_spot(t_scene *scene, t_hit_rec *hit_rec)
 {
@@ -35,14 +37,18 @@ int find_light_spot(t_scene *scene, t_hit_rec *hit_rec)
 	hit_rec->color = color_scale(base, brightness);
 	return (1);
 }
-
-t_color   get_hit_color(t_scene *scene, t_hit_rec *hit_rec)
+//memset was added
+static t_color   get_hit_color(t_scene *scene, t_hit_rec *hit_rec)
 {
+	t_color	black;
+
     if (hit_rec->type == OBJ_SPHERE)
-        return (&scene->objects.sps[hit_rec->index].color);
+        return (/* & */scene->objects.sps[hit_rec->index].color);
     else if (hit_rec->type == OBJ_PLANE)
-        return (&scene->objects.pls[hit_rec->index].color);
+        return (/* & */scene->objects.pls[hit_rec->index].color);
     else if (hit_rec->type == OBJ_CYL)
-        return (&scene->objects.cyls[hit_rec->index].color);
-    return (rgba(0, 0, 0));
+        return (/* & */scene->objects.cys[hit_rec->index].color);
+	else
+		ft_memset(&black, 0, sizeof(t_color));
+    return (black);
 }

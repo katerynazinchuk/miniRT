@@ -60,7 +60,6 @@ uint32_t	find_color(t_ray ray, t_scene *scene)
 	uint32_t	color;
 
 	color = rgba(110, 110, 110);
-
 	if (hit_scene(&ray, scene, &hit_rec))
 	{
 		if (find_light_spot(scene, &hit_rec))

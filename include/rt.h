@@ -6,7 +6,7 @@
 /*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 15:13:59 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/11/25 17:52:07 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/11/26 15:24:58 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@
 //--------------intersections
 bool		hit_plane(const t_ray *c_ray, const t_plane *plane, t_hit_rec *hit_rec);
 bool		hit_sphere(const t_ray *c_ray, const t_sphere *sphere, t_hit_rec *hit_rec);
-bool		hit_cylinder(t_ray *c_ray, t_cylinder *cylinder, t_hit_rec *hit_rec);
-bool		hit_cyl_body(t_ray *c_ray, t_cylinder *cylinder, double *t);
-bool		hit_cyl_cap(t_ray *c_ray, t_vec cap_center, t_vec cap_normal, double *t, double radius);
+bool		hit_cylinder(const t_ray *c_ray, t_cylinder *cylinder, t_hit_rec *hit_rec);
+bool		hit_cyl_body(const t_ray *c_ray, t_cylinder *cylinder, double *t);
+bool		hit_cyl_cap(const t_ray *c_ray, t_vec cap_center, t_vec cap_normal, double *t, double radius);
 bool		hit_scene(const t_ray *c_ray, t_scene *scene, t_hit_rec *hit_rec);
 
 //--------------light
@@ -44,8 +44,13 @@ int			find_light_spot(t_scene *scene, t_hit_rec *hit_rec);
 t_ray		create_ray_per_pixel(t_camera *camera, int x, int y);
 uint32_t	find_color(t_ray ray, t_scene *scene);
 uint32_t	rgba(int r, int g, int b);
+
+//--------------utils
 void		print_error(const char *msg);
 bool		init_structs(t_rt *rt);
+void		handle_esc(mlx_key_data_t key_info, void *param);
+
+
 
 /* Tests */
 void	test_parser(t_scene *scene, t_objects *obj);
