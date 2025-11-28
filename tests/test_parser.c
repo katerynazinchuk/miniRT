@@ -17,6 +17,7 @@ void	test_parser(t_scene *scene, t_objects *obj)
 	printf("possition:	x = %f, y = %f z = %f\n", scene->camera.position.x, scene->camera.position.y, scene->camera.position.z);
 	printf("direction:	x = %f, y = %f z = %f\n", scene->camera.direction.x, scene->camera.direction.y, scene->camera.direction.z);
 	printf("angle in degrees:	%f\n", (scene->camera.angle * 180 / M_PI));
+	printf("angle in radiants:	%f\n", (scene->camera.angle));
 
 	printf("\nLight: \n");
 	printf("possition:	x = %f, y = %f z = %f\n", scene->light.position.x, scene->light.position.y, scene->light.position.z);

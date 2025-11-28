@@ -6,7 +6,7 @@
 /*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 14:55:34 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/11/25 18:44:46 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/11/28 14:10:40 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int find_light_spot(t_scene *scene, t_hit_rec *hit_rec)
 	return (1);
 }
 //memset was added
-static t_color   get_hit_color(t_scene *scene, t_hit_rec *hit_rec)
+static t_color	get_hit_color(t_scene *scene, t_hit_rec *hit_rec)
 {
 	t_color	black;
 

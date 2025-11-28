@@ -42,7 +42,7 @@ int	parse_sphere(t_sphere *sphere, char *line/* , int line_counter */)
 		return (0);
 	if(!parse_color(line, &i, &sphere->color))
 		return (0);
-	sphere->type = OBJ_SPHERE;
+	// sphere->type = OBJ_SPHERE;
 	return (1);
 }
 

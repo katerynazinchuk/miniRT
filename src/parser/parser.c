@@ -6,7 +6,7 @@
 /*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/28 17:36:24 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/11/28 14:00:30 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/11/28 18:11:15 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ int	parse_camera(t_rt *rt, char *line/* , int line_counter */)
 		return (0);
 
 	rt->scene.camera.aspect = (double)WIDTH / (double)HEIGHT;
+	
 	world_up = vec_pos(0,1,0);
 	rt->scene.camera.right = vec_cross(rt->scene.camera.direction, world_up);
 	rt->scene.camera.right = vec_normalize(rt->scene.camera.right);

@@ -4,6 +4,7 @@
 *.log
 
 minirt
+minirt_test
 
 # Object directories
 obj/
