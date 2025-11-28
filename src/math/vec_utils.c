@@ -6,7 +6,7 @@
 /*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 14:00:44 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/11/28 14:02:45 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/11/28 14:21:49 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ double vec_length(t_vec v)
 {
 	double len;
 
-	len = sqrtf(v.x * v.x + v.y * v.y + v.z * v.z);
+	len = sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
 	//sqrtf return float. sqrt return double
 	return (len);
 }
@@ -101,7 +101,7 @@ t_vec vec_normalize(t_vec v)
 	double len;
 
 	len = vec_length(v);
-	if(len == 0)
+	if (len < EPS)
 		return (v);
 	normalized.x = v.x / len;
 	normalized.y = v.y / len;
