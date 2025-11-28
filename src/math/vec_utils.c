@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vec_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kzinchuk <kzinchuk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 14:00:44 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/11/12 18:22:09 by kzinchuk         ###   ########.fr       */
+/*   Updated: 2025/11/28 14:02:45 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_vec vec_pos(double x, double y, double z)
 
 //move a poit by a vector
 //usage: pos + offset, normal + something, color1 + color2
-t_vec vec_add(t_vec a, t_vec b)
+t_vec	vec_add(t_vec a, t_vec b)
 {
 	t_vec add_p;
 	

@@ -15,12 +15,11 @@ t_ray	create_ray_per_pixel(t_camera *camera, int x, int y)
 	
 	ray.origin = camera->position;
 	norm_x = 2.0 * (x + 0.5) / (double)WIDTH - 1.0;
-	norm_y = 2.0 * (y + 0.5) / (double)HEIGHT - 1.0;
-	// norm_x = norm_x * camera->aspect;
-	norm_x *= camera->scale;
-	norm_y *= camera->scale;
+	norm_y = 1.0 - 2.0 * (y + 0.5) / (double)HEIGHT;
+	norm_x = norm_x * camera->aspect * camera->scale;
+	norm_y = norm_y * camera->scale;
 	temp = vec_add(vec_scale(camera->right, norm_x), vec_scale(camera->up, norm_y));
-	ray.direction = vec_normalize(vec_add(temp, camera->direction));
+	ray.direction = vec_normalize(vec_add(camera->direction, temp));
 	return (ray);
 }
 	// ray.direction.x = ;

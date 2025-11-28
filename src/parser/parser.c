@@ -6,7 +6,7 @@
 /*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/28 17:36:24 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/11/25 17:36:46 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/11/28 14:00:30 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,37 +75,30 @@ int	parse_ambient(t_rt *rt, char *line/* , int line_counter */)
 int	parse_camera(t_rt *rt, char *line/* , int line_counter */)
 {
 	t_vec	world_up;
-	// float aspect;//if we gonna make not square window
-	int i;
+	int		i;
 
 	i = 1;
 	if (!skip_spases(line, &i))
 		return (0);
-	// printf("curret line %s", &line[i]);
 	if (!parse_vector(line, &i, &rt->scene.camera.position, 0))
 		return 0;
-	// printf("camera possition x = %f, y = %f z = %f\n", rt->scene.camera.position.x, rt->scene.camera.position.y, rt->scene.camera.position.z);
 	if (!skip_spases(line, &i))
 		return (0);
 	if (!parse_vector(line, &i, &rt->scene.camera.direction, 0))
 		return 0;
+	rt->scene.camera.direction = vec_normalize(rt->scene.camera.direction);
 	if (!skip_spases(line, &i))
 		return (0);
 
+	rt->scene.camera.aspect = (double)WIDTH / (double)HEIGHT;
 	world_up = vec_pos(0,1,0);
-	rt->scene.camera.right = vec_cross(rt->scene.camera.position, world_up);
+	rt->scene.camera.right = vec_cross(rt->scene.camera.direction, world_up);
 	rt->scene.camera.right = vec_normalize(rt->scene.camera.right);
-	rt->scene.camera.up = vec_cross(rt->scene.camera.position, rt->scene.camera.right);
+	rt->scene.camera.up = vec_cross(rt->scene.camera.right, rt->scene.camera.direction);
 	rt->scene.camera.up = vec_normalize(rt->scene.camera.up);
-	// aspect = (double)WIDTH / (double)HEIGHT;
-	//keep the screen squere
-	// printf("curret line %s", &line[i]);
 	rt->scene.camera.angle = ft_atof(line, &i);
-	// printf("camera angle = %f\n", rt->scene.camera.angle);
 	rt->scene.camera.angle = rt->scene.camera.angle * M_PI/ 180.0;
-	// printf("camera angle = %f\n", rt->scene.camera.angle);
 	rt->scene.camera.scale = tan(rt->scene.camera.angle * 0.5);
-	// printf("camera scale = %f\n", rt->scene.camera.scale);
 	return (1);
 }
 
@@ -118,7 +111,6 @@ int	parse_light(t_rt *rt, char *line/* , int line_counter */)
 		return (0);
 	if(!parse_vector(line, &i, &rt->scene.light.position, 0))
 		return 0;
-	// printf("light possition x = %f, y = %f z = %f\n", rt->scene.light.position.x, rt->scene.light.position.y, rt->scene.light.position.z);
 	if(!skip_spases(line, &i))
 		return (0);
 	rt->scene.light.intensity = ft_atof(line, &i);
