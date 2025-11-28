@@ -14,8 +14,8 @@ t_ray	create_ray_per_pixel(t_camera *camera, int x, int y)
 	double	norm_y;
 	
 	ray.origin = camera->position;
-	norm_x = (2.0 * (x + 0.5) / (double)WIDTH - 1.0);//not sure do we need cast to float. It should be done automatically
-	norm_y = 1.0 - (2.0 * (y + 0.5) / (double)HEIGHT);
+	norm_x = 2.0 * (x + 0.5) / (double)WIDTH - 1.0;
+	norm_y = 2.0 * (y + 0.5) / (double)HEIGHT - 1.0;
 	// norm_x = norm_x * camera->aspect;
 	norm_x *= camera->scale;
 	norm_y *= camera->scale;

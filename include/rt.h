@@ -6,7 +6,7 @@
 /*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 15:13:59 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/11/26 15:24:58 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/11/28 12:12:36 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 # define RT_H
 
 # define ARR_SIZE 5
-# define WIDTH 1000
-# define HEIGHT 1000
+# define WIDTH 2000
+# define HEIGHT 2000
 # define M_PI 3.14159265358979323846
 # define EPS 1e-6
 # define T_MIN 1e-4

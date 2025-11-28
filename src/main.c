@@ -108,14 +108,10 @@ static int draw_img(t_scene *scene, mlx_image_t *img)
 		x = 0;
 		while (x < (uint32_t)WIDTH)
 		{
-			// if (true) {
-				ray = create_ray_per_pixel(&scene->camera, x, y);//here we find our field of view
-				color = find_color(ray, scene);//here we looking for intersection
-				mlx_put_pixel(img, x, y, color);
-				x++;
-			// } else {
-			// 	x++;
-			// }
+			ray = create_ray_per_pixel(&scene->camera, x, y);//here we find our field of view
+			color = find_color(ray, scene);//here we looking for intersection
+			mlx_put_pixel(img, x, y, color);
+			x++;
 		}
 		y++;
 	}
