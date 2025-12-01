@@ -1,0 +1,50 @@
+{
+    "name": "42 School: C/C++ & Graphics",
+    "image": "mcr.microsoft.com/devcontainers/base:noble",
+    
+    "features": {
+        "ghcr.io/devcontainers/features/common-utils:2": {
+            "installZsh": true,
+            "configureZshAsDefaultShell": true,
+            "installOhMyZsh": true,
+            "upgradePackages": false
+        },
+        "ghcr.io/devcontainers/features/git:1": {},
+        "ghcr.io/devcontainers/features/bash-command:1": {}
+    },
+
+    // --------------------------------------------------------------------------------
+    // 1. НАЛАШТУВАННЯ ГРАФІКИ (Виправляє помилку "Failed to initialize GLFW")
+    // --------------------------------------------------------------------------------
+    "runArgs": [
+        "--net=host",                         // Використовувати мережу хоста
+        "-v", "/tmp/.X11-unix:/tmp/.X11-unix:rw" // Прокинути сокет X11
+    ],
+
+    "remoteEnv": {
+        // Автоматично бере DISPLAY з вашого ноутбука (Mac/Windows/Linux)
+        "DISPLAY": "${localEnv:DISPLAY}"
+    },
+
+    // --------------------------------------------------------------------------------
+    // 2. ВСТАНОВЛЕННЯ ПАКЕТІВ (C/C++, MLX42, Valgrind, CMake)
+    // --------------------------------------------------------------------------------
+    // Ця команда запуститься один раз при створенні контейнера.
+    "postCreateCommand": "sudo apt-get update && sudo apt-get install -y --no-install-recommends cmake build-essential clang gdb lldb valgrind manpages-dev libbsd-dev libx11-dev libxext-dev libgl1-mesa-dev xorg libxinerama-dev libxcursor-dev libglfw3-dev libglm-dev x11-utils libgl1-mesa-glx libpng-dev libjpeg-dev",
+
+    // --------------------------------------------------------------------------------
+    // 3. РОЗШИРЕННЯ VS CODE
+    // --------------------------------------------------------------------------------
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-vscode.cpptools",             // C/C++ Intellisense
+                "llvm-vs-code-extensions.vscode-clangd", // Альтернатива для C++ (швидша)
+                "twxs.cmake",                     // Підсвітка CMake
+                "ms-vscode.cmake-tools",          // Інструменти CMake
+                "eamodio.gitlens",                // Покращена робота з Git
+                "oderwat.indent-rainbow"          // Зручно для читання коду
+            ]
+        }
+    }
+}

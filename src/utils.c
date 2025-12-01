@@ -9,12 +9,9 @@ void	print_error(const char *msg)
 
 void	free_arrays(t_objects *obj)
 {
-	if (obj->sps)
-		free(obj->sps);
-	if (obj->pls)
-		free(obj->pls);
-	if (obj->cys)
-		free(obj->cys);
+	free(obj->sps);
+	free(obj->pls);
+	free(obj->cys);
 }
 
 void	handle_esc(mlx_key_data_t key_info, void *param)
