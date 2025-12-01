@@ -6,7 +6,7 @@
 /*   By: kzinchuk <kzinchuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 12:11:03 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/12/01 19:57:54 by kzinchuk         ###   ########.fr       */
+/*   Updated: 2025/12/01 20:17:07 by kzinchuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,35 +59,6 @@ bool	hit_cyl_body(const t_ray *c_ray, t_cylinder *cylinder, t_hit_rec *hit_rec)
 
 	if(find_best_t_for_body(t_root, c_ray, cylinder, hit_rec))
 		return true;
-	
-	// if(t_root[0] >= T_MIN && t_root[0] <= T_MAX)
-	// {
-	// 	// Calculate the actual 3D point where the ray intersects the infinite cylinder
-	// 	t_vec p1 = vec_add(c_ray->origin, vec_scale(c_ray->direction, t_root[0]));
-	// 	// Get vector from cylinder center to intersection point
-	// 	t_vec cp1 = vec_sub(p1, cylinder->center);
-	// 	// Project cp1 onto the cylinder's axis to find height position
-	// 	double height_at_p1 = vec_dot(cp1, cylinder->axis);
-	// 	if(height_at_p1 >= -half_height && height_at_p1 <= half_height)
-	// 	{
-	// 		hit_rec->t = t_root[0];
-	// 		return true;
-	// 	}
-	// }
-	// if (t_root[1] >= T_MIN && t_root[1] <= T_MAX)
-	// {
-	// 	// Calculate the actual 3D point where the ray intersects the infinite cylinder
-	// 	t_vec p2 = vec_add(c_ray->origin, vec_scale(c_ray->direction, t_root[1]));
-	// 	// Get vector from cylinder center to intersection point
-	// 	t_vec cp2 = vec_sub(p2, cylinder->center);
-	// 	// Project cp1 onto the cylinder's axis to find height position
-	// 	double height_at_p2 = vec_dot(cp2, cylinder->axis);
-	// 	if(height_at_p2 >= -half_height && height_at_p2 <= half_height)
-	// 	{
-	// 		hit_rec->t = t_root[1];
-	// 		return true;
-	// 	}
-	// }
 	return false;
 }
 
@@ -99,24 +70,25 @@ bool find_best_t_for_body(double t_root[2], const t_ray *c_ray, t_cylinder *cyli
 	t_vec	pc;
 	t_vec	proj;
 	t_vec	radial;
+	t_vec	p;
+	double	height_at_p;
 
-	i = 0;
 	half_height = cylinder->height * 0.5;
-	t_root[i] = T_MAX;
+	best_t = T_MAX;
+	i = 0;
 	
 	while (i < 2)
 	{
 		if(t_root[i] >= T_MIN && t_root[i] <= best_t)
 		{
 			// Calculate the actual 3D point where the ray intersects the infinite cylinder
-			t_vec p = vec_add(c_ray->origin, vec_scale(c_ray->direction, t_root[i]));
+			p = vec_add(c_ray->origin, vec_scale(c_ray->direction, t_root[i]));
 			// Get vector from cylinder center to intersection point
-			t_vec cp = vec_sub(p, cylinder->center);
-			// Project cp onto the cylinder's axis to find height position
-			double height_at_p = vec_dot(cp, cylinder->axis);
+			pc = vec_sub(p, cylinder->center);
+			// Project pc onto the cylinder's axis to find height position
+			height_at_p = vec_dot(pc, cylinder->axis);
 			if(height_at_p >= -half_height && height_at_p <= half_height)
 			{
-				pc = vec_sub(p, cylinder->center);//vec from cyl center(axis) to hit point
 				proj = vec_scale(cylinder->axis, vec_dot(pc, cylinder->axis));
 				radial = vec_sub(pc, proj);
 				best_t = t_root[i];
