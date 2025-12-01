@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hit_cylinder.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
+/*   By: kzinchuk <kzinchuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 12:11:03 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/11/28 12:07:59 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/12/01 19:57:54 by kzinchuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,63 +24,125 @@
 //oc - (oc · V)*V -  searching for the perp to the axis between part of the oc vector inside cylinder and its projection
 // Project oc and ray direction onto plane perpendicular to axis
 
-bool	hit_cyl_body(const t_ray *c_ray, t_cylinder *cylinder, double *t)
+bool	hit_cyl_body(const t_ray *c_ray, t_cylinder *cylinder, t_hit_rec *hit_rec)
 {
-	t_vec oc = vec_sub(c_ray->origin, cylinder->center);//O - C
-	const double oc_dot_V = vec_dot(oc, cylinder->axis);
-	t_vec oc_perp = vec_sub(oc, vec_scale(cylinder->axis, oc_dot_V));//possition of the whole vector from camera to axis
+	t_vec	oc;
+    double	oc_dot_axis;
+    double	D_dot_axis;
+    t_vec	oc_perp;
+    t_vec	D_perp;
+    double	a;
+    double	half_b;
+    double	c_perp;
+    double	disc;
+    double	sqrt_disc;
+    double	t_root[2];
+	
+	oc = vec_sub(c_ray->origin, cylinder->center);//O - C
+	oc_dot_axis = vec_dot(oc, cylinder->axis);
 	//D - (D · V)*V
-	const double D_dot_V = vec_dot(c_ray->direction, cylinder->axis);
-	t_vec D_perp = vec_sub(c_ray->direction, vec_scale(cylinder->axis, D_dot_V));// direction
+	const double D_dot_axis = vec_dot(c_ray->direction, cylinder->axis);
+	oc_perp = vec_sub(oc, vec_scale(cylinder->axis, oc_dot_axis));//possition of the whole vector from camera to axis
+	D_perp = vec_sub(c_ray->direction, vec_scale(cylinder->axis, D_dot_axis));// direction
 	// Quadratic equation for infinite cylinder: at² + 2bt + c = 0
-	double a = vec_dot(D_perp, D_perp); //(D·D); c_ray->direction * c_ray->direction
-	double half_b = vec_dot(oc_perp, D_perp);//oc * c_ray->direction;
-	double c_perp = vec_dot(oc_perp, oc_perp) - (cylinder->radius * cylinder->radius);//oc * oc - cylinder->radius * cylinder->radius;
-	double disc = (half_b * half_b) - (a * c_perp);
-	if(disc < 0 )
+	a = vec_dot(D_perp, D_perp); //(D·D); c_ray->direction * c_ray->direction
+	if (a < EPS)
 		return false;
-	double sqrt_disk = sqrt(disc);
-	double t1 = (-half_b - sqrt_disk) / a;
-	double t2 = (-half_b + sqrt_disk) / a;
-	double half_height = cylinder->height * 0.5;
-	if(t1 >= T_MIN && t1 <= T_MAX)
-	{
-		// Calculate the actual 3D point where the ray intersects the infinite cylinder
-		t_vec p1 = vec_add(c_ray->origin, vec_scale(c_ray->direction, t1));
-		// Get vector from cylinder center to intersection point
-		t_vec cp1 = vec_sub(p1, cylinder->center);
-		// Project cp1 onto the cylinder's axis to find height position
-		double height_at_p1 = vec_dot(cp1, cylinder->axis);
-		if(height_at_p1 >= -half_height && height_at_p1 <= half_height)
-		{
-			*t = t1;
-			return true;
-		}
-	}
-	if (t2 >= T_MIN && t2 <= T_MAX)
-	{
-		// Calculate the actual 3D point where the ray intersects the infinite cylinder
-		t_vec p2 = vec_add(c_ray->origin, vec_scale(c_ray->direction, t2));
-		// Get vector from cylinder center to intersection point
-		t_vec cp2 = vec_sub(p2, cylinder->center);
-		// Project cp1 onto the cylinder's axis to find height position
-		double height_at_p2 = vec_dot(cp2, cylinder->axis);
-		if(height_at_p2 >= -half_height && height_at_p2 <= half_height)
-		{
-			*t = t2;
-			return true;
-		}
-	}
+	half_b = vec_dot(oc_perp, D_perp);//oc * c_ray->direction;
+	c_perp = vec_dot(oc_perp, oc_perp) - (cylinder->radius * cylinder->radius);//oc * oc - cylinder->radius * cylinder->radius;
+	disc = (half_b * half_b) - (a * c_perp);
+	if(disc < 0.0 )
+		return false;
+	sqrt_disc = sqrt(disc);
+	t_root[0] = (-half_b - sqrt_disc) / a;
+	t_root[1] = (-half_b + sqrt_disc) / a;
+
+	if(find_best_t_for_body(t_root, c_ray, cylinder, hit_rec))
+		return true;
+	
+	// if(t_root[0] >= T_MIN && t_root[0] <= T_MAX)
+	// {
+	// 	// Calculate the actual 3D point where the ray intersects the infinite cylinder
+	// 	t_vec p1 = vec_add(c_ray->origin, vec_scale(c_ray->direction, t_root[0]));
+	// 	// Get vector from cylinder center to intersection point
+	// 	t_vec cp1 = vec_sub(p1, cylinder->center);
+	// 	// Project cp1 onto the cylinder's axis to find height position
+	// 	double height_at_p1 = vec_dot(cp1, cylinder->axis);
+	// 	if(height_at_p1 >= -half_height && height_at_p1 <= half_height)
+	// 	{
+	// 		hit_rec->t = t_root[0];
+	// 		return true;
+	// 	}
+	// }
+	// if (t_root[1] >= T_MIN && t_root[1] <= T_MAX)
+	// {
+	// 	// Calculate the actual 3D point where the ray intersects the infinite cylinder
+	// 	t_vec p2 = vec_add(c_ray->origin, vec_scale(c_ray->direction, t_root[1]));
+	// 	// Get vector from cylinder center to intersection point
+	// 	t_vec cp2 = vec_sub(p2, cylinder->center);
+	// 	// Project cp1 onto the cylinder's axis to find height position
+	// 	double height_at_p2 = vec_dot(cp2, cylinder->axis);
+	// 	if(height_at_p2 >= -half_height && height_at_p2 <= half_height)
+	// 	{
+	// 		hit_rec->t = t_root[1];
+	// 		return true;
+	// 	}
+	// }
 	return false;
+}
+
+bool find_best_t_for_body(double t_root[2], const t_ray *c_ray, t_cylinder *cylinder, t_hit_rec *hit_rec)
+{
+	double	half_height;
+	double	best_t;
+	int		i;
+	t_vec	pc;
+	t_vec	proj;
+	t_vec	radial;
+
+	i = 0;
+	half_height = cylinder->height * 0.5;
+	t_root[i] = T_MAX;
+	
+	while (i < 2)
+	{
+		if(t_root[i] >= T_MIN && t_root[i] <= best_t)
+		{
+			// Calculate the actual 3D point where the ray intersects the infinite cylinder
+			t_vec p = vec_add(c_ray->origin, vec_scale(c_ray->direction, t_root[i]));
+			// Get vector from cylinder center to intersection point
+			t_vec cp = vec_sub(p, cylinder->center);
+			// Project cp onto the cylinder's axis to find height position
+			double height_at_p = vec_dot(cp, cylinder->axis);
+			if(height_at_p >= -half_height && height_at_p <= half_height)
+			{
+				pc = vec_sub(p, cylinder->center);//vec from cyl center(axis) to hit point
+				proj = vec_scale(cylinder->axis, vec_dot(pc, cylinder->axis));
+				radial = vec_sub(pc, proj);
+				best_t = t_root[i];
+				hit_rec->t = t_root[i];
+				hit_rec->intersection = p;
+				hit_rec->normal = vec_normalize(radial);
+				if (vec_dot(hit_rec->normal, c_ray->direction) > 0.0)
+					hit_rec->normal = vec_neg(hit_rec->normal);
+				hit_rec->type = OBJ_CYL;
+				hit_rec->color = cylinder->color;
+			}
+		}
+		i++;
+	}
+	if(best_t == T_MAX)
+		return(false);
+	return(true);
 }
 
 bool hit_cyl_cap(const t_ray *c_ray, t_vec cap_center, t_vec cap_normal,  double *t, double radius)
 {
-	t_vec p;
-	t_vec cp;
-	double dist_sq;
-	t_plane cyl_cap;
-	t_hit_rec hit_rec;
+	t_vec		p;
+	t_vec		cp;
+	double		dist_sq;
+	t_plane		cyl_cap;
+	t_hit_rec	hit_rec;
 	
 
 	cyl_cap.point = cap_center;
@@ -100,14 +162,14 @@ bool hit_cyl_cap(const t_ray *c_ray, t_vec cap_center, t_vec cap_normal,  double
 
 bool	hit_cylinder(const t_ray *c_ray, t_cylinder *cylinder, t_hit_rec *hit_rec)
 {
-	double t_body;
-	double t_top;
-	double t_bottom;
-	t_vec top_center;
-	t_vec bottom_center;
-	t_vec bottom_normal;
-	double half_height;
-	double closest;
+	double		t_body;
+	double		t_top;
+	double		t_bottom;
+	t_vec		top_center;
+	t_vec		bottom_center;
+	t_vec		bottom_normal;
+	double		half_height;
+	double		closest;
 
 	t_body = -1;
 	t_top = -1;

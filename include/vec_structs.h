@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vec_structs.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
+/*   By: kzinchuk <kzinchuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 14:58:45 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/11/26 18:09:28 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/12/01 17:04:21 by kzinchuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,6 @@ typedef struct s_hit_rec
 	t_vec		normal;
 	t_objtype	type;
 	int index;
-	// struct s_objects *object;
 	t_color	color;
 	
 }	t_hit_rec;
