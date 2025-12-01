@@ -6,7 +6,7 @@
 /*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 12:11:03 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/11/28 12:07:59 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/12/01 17:12:37 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,5 @@ bool	hit_cylinder(const t_ray *c_ray, t_cylinder *cylinder, t_hit_rec *hit_rec)
 	hit_rec->t = closest;
 	// hit_rec->intersection = ;
 	// hit_rec->normal = ;
-	// hit_rec->object = cylinder->owner;
 	return true;
 }

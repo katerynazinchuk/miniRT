@@ -124,13 +124,14 @@ int	validate_singe_element(t_rt *rt, char *line/* , int line_counter */)
 	int	i;
 
 	i = 0;
-	if(line[i] == 'A')
+	if(line[i] == 'A' && !rt->scene.ambient.flag)
 		return(parse_ambient(rt, line/* , line_counter */));
-	else if(line[i] == 'C')
+	else if(line[i] == 'C' && !rt->scene.camera.flag)
 		return(parse_camera(rt, line/* , line_counter */));
-	else if(line[i] == 'L')
+	else if(line[i] == 'L' && !rt->scene.light.flag)
 		return(parse_light(rt, line/* , line_counter */));
-	return (1);
+	print_error("Too many capital identifiers");
+	return (0);
 }
 
 int	validate_geometric_objects(t_objects *obj, char *line/* , int line_counter */)

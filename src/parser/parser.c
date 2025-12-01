@@ -6,7 +6,7 @@
 /*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/28 17:36:24 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/11/28 18:11:15 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/12/01 18:03:25 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ int	parse_ambient(t_rt *rt, char *line/* , int line_counter */)
 		return (0);
 	if (!parse_color(line, &i, &rt->scene.ambient.color))
 		return 0;
+	rt->scene.ambient.flag = true;
 	return (1);
 }
 
@@ -88,18 +89,17 @@ int	parse_camera(t_rt *rt, char *line/* , int line_counter */)
 		return 0;
 	rt->scene.camera.direction = vec_normalize(rt->scene.camera.direction);
 	if (!skip_spases(line, &i))
-		return (0);
-
+		return (0); 
 	rt->scene.camera.aspect = (double)WIDTH / (double)HEIGHT;
-	
 	world_up = vec_pos(0,1,0);
-	rt->scene.camera.right = vec_cross(rt->scene.camera.direction, world_up);
+	rt->scene.camera.right = vec_cross(world_up, rt->scene.camera.direction);
 	rt->scene.camera.right = vec_normalize(rt->scene.camera.right);
-	rt->scene.camera.up = vec_cross(rt->scene.camera.right, rt->scene.camera.direction);
+	rt->scene.camera.up = vec_cross(rt->scene.camera.direction, rt->scene.camera.right);
 	rt->scene.camera.up = vec_normalize(rt->scene.camera.up);
 	rt->scene.camera.angle = ft_atof(line, &i);
 	rt->scene.camera.angle = rt->scene.camera.angle * M_PI/ 180.0;
 	rt->scene.camera.scale = tan(rt->scene.camera.angle * 0.5);
+	rt->scene.camera.flag = true;
 	return (1);
 }
 
@@ -119,6 +119,7 @@ int	parse_light(t_rt *rt, char *line/* , int line_counter */)
 		return (0);
 	if(!parse_color(line, &i, &rt->scene.light.color))
 		return (0);
+	rt->scene.light.flag = true;
 	return (1);
 }
 

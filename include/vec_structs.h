@@ -6,7 +6,7 @@
 /*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 14:58:45 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/11/26 18:09:28 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/12/01 17:49:47 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct	s_ambient
 {
 	t_color color;
 	double ratio;
+	bool	flag;
 }	t_ambient;
 
 typedef struct	s_camera
@@ -42,6 +43,7 @@ typedef struct	s_camera
 	double	angle;//in radiant so angle = 70 * M_PI / 180.0 and result will be in radiant
 	double	scale;// scale = tan((camera->angle * 0,5));
 	double	aspect;// aspect = (double)WIDTH / (double)HEIGHT;
+	bool	flag;
 }	t_camera;
 
 typedef struct	s_light
@@ -50,6 +52,7 @@ typedef struct	s_light
 	t_color	color;
 	double	intensity;//will be calculated through vec_dot;
 	//..ambient or not, possition of light??
+	bool	flag;
 } t_light;
 
 typedef enum	e_objtype
