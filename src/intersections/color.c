@@ -62,15 +62,8 @@ uint32_t	find_color(t_ray ray, t_scene *scene)
 	color = rgba(110, 110, 110);
 	if (hit_scene(&ray, scene, &hit_rec))
 	{
-		if (hit_rec.type == OBJ_CYL)
-	{
-		color = rgba(255, 100, 100);
-	}
-	else
-	{
 		if (find_light_spot(scene, &hit_rec))
 			color = rgba(hit_rec.color.r, hit_rec.color.g, hit_rec.color.b);
-	}
 	}
 	return (color);
 }
