@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
+/*   By: kzinchuk <kzinchuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 15:13:59 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/11/28 14:53:58 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/12/02 14:49:49 by kzinchuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,9 @@
 bool		hit_plane(const t_ray *c_ray, const t_plane *plane, t_hit_rec *hit_rec);
 bool		hit_sphere(const t_ray *c_ray, const t_sphere *sphere, t_hit_rec *hit_rec);
 bool		hit_cylinder(const t_ray *c_ray, t_cylinder *cylinder, t_hit_rec *hit_rec);
-bool		hit_cyl_body(const t_ray *c_ray, t_cylinder *cylinder, double *t);
-bool		hit_cyl_cap(const t_ray *c_ray, t_vec cap_center, t_vec cap_normal, double *t, double radius);
+bool		hit_cyl_body(const t_ray *c_ray, t_cylinder *cylinder, t_hit_rec *hit_rec);
+bool		hit_cyl_cap(const t_ray *c_ray, t_vec cap_center, t_vec cap_normal, t_hit_rec *hit_rec, double radius);
+bool		find_best_t_for_body(double t_root[2], const t_ray *c_ray, t_cylinder *cylinder, t_hit_rec *hit_rec);
 bool		hit_scene(const t_ray *c_ray, t_scene *scene, t_hit_rec *hit_rec);
 
 //--------------light

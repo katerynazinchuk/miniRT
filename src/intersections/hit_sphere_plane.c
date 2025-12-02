@@ -27,17 +27,21 @@ bool	hit_sphere(const t_ray *c_ray, const t_sphere *sphere, t_hit_rec *hit_rec)
 
 bool	hit_plane(const t_ray *c_ray, const t_plane *plane, t_hit_rec *hit_rec)
 {
-	double	denum;
+	double	parallel_angle;
+	t_vec	ray_to_plane;
+	t_vec	scaled_t_pos;
 
-	//printf("plane normal x = %f, y = %f, z = %f\n", plane->normal.x, plane->normal.y, plane->normal.z);
-	denum = vec_dot(plane->normal, c_ray->direction);
-	if (fabs(denum) < EPS)
+	parallel_angle = vec_dot(plane->normal, c_ray->direction);
+	if (fabs(parallel_angle) < EPS)
 		return (false);
-	hit_rec->t = vec_dot(plane->normal, vec_sub(plane->point, c_ray->origin)) / denum;
+	ray_to_plane = vec_sub(plane->point, c_ray->origin);
+	hit_rec->t = vec_dot(plane->normal, ray_to_plane) / parallel_angle;
 	if (hit_rec->t < T_MIN || hit_rec->t > T_MAX)
 		return (false);
-	
-	hit_rec->intersection  = vec_add(c_ray->origin, vec_scale(c_ray->direction, hit_rec->t));
+	scaled_t_pos = vec_scale(c_ray->direction, hit_rec->t);
+	hit_rec->intersection  = vec_add(c_ray->origin, scaled_t_pos);
 	hit_rec->normal = plane->normal;
+	hit_rec->color = plane->color;
+	hit_rec->type = OBJ_PLANE;
 	return (true);
 }
