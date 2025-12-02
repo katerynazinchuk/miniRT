@@ -6,7 +6,7 @@
 /*   By: kzinchuk <kzinchuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 12:11:03 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/12/01 20:17:07 by kzinchuk         ###   ########.fr       */
+/*   Updated: 2025/12/01 20:23:24 by kzinchuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,6 @@ bool find_best_t_for_body(double t_root[2], const t_ray *c_ray, t_cylinder *cyli
 				hit_rec->normal = vec_normalize(radial);
 				if (vec_dot(hit_rec->normal, c_ray->direction) > 0.0)
 					hit_rec->normal = vec_neg(hit_rec->normal);
-				hit_rec->type = OBJ_CYL;
 				hit_rec->color = cylinder->color;
 			}
 		}
@@ -108,7 +107,7 @@ bool find_best_t_for_body(double t_root[2], const t_ray *c_ray, t_cylinder *cyli
 	return(true);
 }
 
-bool hit_cyl_cap(const t_ray *c_ray, t_vec cap_center, t_vec cap_normal,  double *t, double radius)
+bool hit_cyl_cap(const t_ray *c_ray, t_vec cap_center, t_vec cap_normal, t_hit_rec *hit_rec, double radius)
 {
 	t_vec		p;
 	t_vec		cp;
