@@ -8,7 +8,7 @@ MLX42_DIR := MLX42
 LIBS := $(LIBFT_DIR)/libft.a $(MLX42_DIR)/build/libmlx42.a
 
 CC := cc
-CFLAGS := -Wextra -Werror -Wall -g #-O2 -MMD 
+CFLAGS := -Wextra -Werror -Wall -g -O3#-O2 -MMD 
 
 CPPFLAGS := -I$(INC_DIR) -I$(LIBFT_DIR)/include -I$(MLX42_DIR)/include
 LDFLAGS := -L$(LIBFT_DIR) -L$(MLX42_DIR)/build
