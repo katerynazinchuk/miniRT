@@ -6,7 +6,7 @@
 /*   By: kzinchuk <kzinchuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 14:58:45 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/12/02 14:50:20 by kzinchuk         ###   ########.fr       */
+/*   Updated: 2025/12/02 15:22:27 by kzinchuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,21 +62,12 @@ typedef enum	e_objtype
 	OBJ_CYL,
 }	t_objtype;
 
-/* typedef struct s_material
-{
-	t_color	albedo;
-	//more comming..
-	
-}	t_material; */
-
 typedef struct	s_sphere
 {
 	t_vec				center;
 	double				radius;//in .rt we have diametr
-	// struct s_objects	*owner;
 	t_color				color;
 	t_objtype			type;
-	// t_material		mat;
 }	t_sphere;
 
 typedef struct	s_cylinder
@@ -87,8 +78,6 @@ typedef struct	s_cylinder
 	double height;// float?? or double??
 	t_color				color;
 	t_objtype			type;
-	// struct s_objects *owner;
-	// t_material		mat;
 }	t_cylinder;
 
 typedef struct	s_plane
@@ -96,24 +85,8 @@ typedef struct	s_plane
 	t_vec point;
 	t_vec normal;
 	t_objtype			type;
-	// struct s_objects *owner;
 	t_color				color;
-	// t_material		mat;
 }	t_plane;
-
-/* typedef union u_shape
-{
-	t_sphere	sp;
-	t_plane		pl;
-	t_cylinder	cy;
-}	t_shape; */
-
-/* typedef struct s_objects
-{
-	t_objtype type;
-	t_material material;
-	t_shape shape;
-}	t_objects; */
 
 typedef struct	s_objects
 {
