@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kzinchuk <kzinchuk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 15:13:59 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/12/02 14:49:49 by kzinchuk         ###   ########.fr       */
+/*   Updated: 2025/12/06 18:32:57 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 # define RT_H
 
 # define ARR_SIZE 5
-# define WIDTH 2000
-# define HEIGHT 2000
+# define WIDTH 1000
+# define HEIGHT 1000
 # define M_PI 3.14159265358979323846
 # define EPS 1e-6
 # define T_MIN 1e-4
@@ -42,7 +42,7 @@ bool		hit_scene(const t_ray *c_ray, t_scene *scene, t_hit_rec *hit_rec);
 
 //--------------light
 int			find_light_spot(t_scene *scene, t_hit_rec *hit_rec);
-t_ray		create_ray_per_pixel(t_camera *camera, int x, int y);
+t_ray		create_ray_per_pix(t_camera *camera, int x, int y);
 uint32_t	find_color(t_ray ray, t_scene *scene);
 uint32_t	rgba(int r, int g, int b);
 

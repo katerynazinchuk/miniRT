@@ -6,7 +6,7 @@
  * aspect ratio - in case if will use window with width > height
  * scale – apply field of view (camera angle)
 */
-t_ray	create_ray_per_pixel(t_camera *camera, int x, int y)
+t_ray	create_ray_per_pix(t_camera *camera, int x, int y)
 {
 	t_ray	ray;
 	t_vec	temp;

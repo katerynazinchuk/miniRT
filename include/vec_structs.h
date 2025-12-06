@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vec_structs.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kzinchuk <kzinchuk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 14:58:45 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/12/02 15:22:27 by kzinchuk         ###   ########.fr       */
+/*   Updated: 2025/12/06 18:19:03 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,14 @@ typedef struct	s_objects
 	size_t		pl_arr_cap;
 }	t_objects;
 
+typedef struct s_data_img
+{
+	uint32_t	x;
+	uint32_t	y;
+	uint32_t	color;
+	mlx_image_t	*img;
+}	t_data_img;
+
 
 typedef struct	s_scene
 {
@@ -109,6 +117,8 @@ typedef struct	s_scene
 	t_objects	objects;
 	struct s_hit_rec	*hit_rec;
 	t_ambient	ambient;
+	int			render;
+	t_data_img	data_i;
 }	t_scene;
 
 typedef struct	s_rt

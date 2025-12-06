@@ -27,6 +27,7 @@ bool	init_structs(t_rt *rt)
 		return (false);
 	}
 	rt->scene.objects.pl_arr_cap = ARR_SIZE;
+	rt->scene.render = 64;
 	return (true);
 }
 
