@@ -6,7 +6,7 @@
 /*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 14:58:45 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/12/06 18:19:03 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/12/06 20:40:11 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ typedef struct	s_light
 	t_color	color;
 	double	intensity;//will be calculated through vec_dot;
 	//..ambient or not, possition of light??
-	bool	flag;
 } t_light;
 
 typedef enum	e_objtype
@@ -101,7 +100,7 @@ typedef struct	s_objects
 	size_t		pl_arr_cap;
 }	t_objects;
 
-typedef struct s_data_img
+typedef struct	s_data_img
 {
 	uint32_t	x;
 	uint32_t	y;
@@ -109,16 +108,23 @@ typedef struct s_data_img
 	mlx_image_t	*img;
 }	t_data_img;
 
+typedef struct	s_l_spots
+{
+	t_light				*multi_spot;
+	size_t				l_count;
+	size_t				l_cap;
+}	t_l_spots;
+
 
 typedef struct	s_scene
 {
-	t_camera	camera;
-	t_light		light;
-	t_objects	objects;
+	t_camera			camera;
+	t_l_spots			l_spots;
+	t_objects			objects;
+	t_ambient			ambient;
+	t_data_img			data_i;
 	struct s_hit_rec	*hit_rec;
-	t_ambient	ambient;
-	int			render;
-	t_data_img	data_i;
+	int					render;
 }	t_scene;
 
 typedef struct	s_rt
@@ -133,8 +139,8 @@ typedef struct s_hit_rec
 	t_vec		intersection;
 	t_vec		normal;
 	t_objtype	type;
-	int index;
-	t_color	color;
+	int			index;
+	t_color		color;
 	
 }	t_hit_rec;
 
