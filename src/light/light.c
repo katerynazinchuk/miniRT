@@ -6,7 +6,7 @@
 /*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 14:55:34 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/12/06 20:11:41 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/12/08 14:16:25 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,10 @@ static bool is_in_shadow(t_scene *scene, t_hit_rec *hit_rec);
 
 int find_light_spot(t_scene *scene, t_hit_rec *hit_rec)
 {
-	t_vec light_ray;
-	double brightness;
-	t_color base;
+	t_vec	light_ray;
+	double	brightness;
+	t_color	base;
 
-	
 	light_ray = vec_sub(scene->light.position, hit_rec->intersection);
 	light_ray = vec_normalize(light_ray);
 	base = get_hit_color(scene, hit_rec);

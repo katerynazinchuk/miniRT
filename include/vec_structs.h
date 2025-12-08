@@ -6,7 +6,7 @@
 /*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 14:58:45 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/12/06 20:40:11 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/12/08 16:33:40 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ typedef struct	s_data_img
 
 typedef struct	s_l_spots
 {
-	t_light				*multi_spot;
+	t_light				*l_arr;//before multi_spot
 	size_t				l_count;
 	size_t				l_cap;
 }	t_l_spots;
@@ -119,12 +119,15 @@ typedef struct	s_l_spots
 typedef struct	s_scene
 {
 	t_camera			camera;
-	t_l_spots			l_spots;
+	t_l_spots			l_sp;
 	t_objects			objects;
 	t_ambient			ambient;
 	t_data_img			data_i;
 	struct s_hit_rec	*hit_rec;
 	int					render;
+	// t_light				*ls;
+	// size_t				l_count;
+	// size_t				l_cap;
 }	t_scene;
 
 typedef struct	s_rt
@@ -143,5 +146,17 @@ typedef struct s_hit_rec
 	t_color		color;
 	
 }	t_hit_rec;
+
+typedef struct s_light_basis
+{
+	t_vec	l_ray;//direction from intersection point to light
+	double	bright;// 0-1 diffuse
+	t_color	l_color;//before it was base
+	
+	t_vec		light_dir;
+	t_hit_rec	temp_rec;
+	double		light_distance;
+	t_ray 		shadow_ray;
+}	t_light_basis;
 
 #endif

@@ -26,14 +26,16 @@ bool	init_structs(t_rt *rt)
 		return (false);
 	}
 	rt->scene.objects.pl_arr_cap = ARR_SIZE;
-	rt->scene.l_spots.multi_spot = (t_light*)malloc(sizeof(t_light) * ARR_SIZE);
-	if (!rt->scene.objects.cys)
+	rt->scene.l_sp.l_arr = (t_light*)malloc(sizeof(t_light) * ARR_SIZE);
+	// rt->scene.ls = (t_light*)malloc(sizeof(t_light) * ARR_SIZE);
+	if (!rt->scene.l_sp.l_arr)
 	{
 		free(rt->scene.objects.sps);
 		free(rt->scene.objects.cys);
 		free(rt->scene.objects.pls);
 		return (false);
 	}
+	rt->scene.l_sp.l_cap = ARR_SIZE;
 	rt->scene.render = 64;
 	return (true);
 }

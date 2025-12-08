@@ -19,11 +19,6 @@ void	test_parser(t_scene *scene, t_objects *obj)
 	printf("angle in degrees:	%f\n", (scene->camera.angle * 180 / M_PI));
 	printf("angle in radiants:	%f\n", (scene->camera.angle));
 
-	printf("\nLight: \n");
-	printf("possition:	x = %f, y = %f z = %f\n", scene->light.position.x, scene->light.position.y, scene->light.position.z);
-	printf("color:			R = %i, G = %i B = %i\n", scene->light.color.r, scene->light.color.g, scene->light.color.b);
-	printf("intencity:		%f\n", scene->light.intensity);
-
 	printf("\nObjects: \n");
 	i = 0;
 	while (obj->sp_count > i)

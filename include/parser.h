@@ -6,7 +6,7 @@
 /*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 14:35:10 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/12/01 17:47:54 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/12/08 16:19:46 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 //parsing.c
 int		parse_ambient(t_rt *rt, char *line/* , int line_counter */);
 int		parse_camera(t_rt *rt, char *line/* , int line_counter */);
-int		parse_light(t_rt *rt, char *line/* , int line_counter */);
+// int		parse_light(t_rt *rt, char *line/* , int line_counter */);
 // int parse_sphere(t_rt *rt, char *line/* , int line_counter */);
 int		parse_sphere(t_sphere *sphere, char *line/* , int line_counter */);
 
@@ -39,6 +39,8 @@ void	free_arrays(t_objects *obj);
 
 int		validate_singe_element(t_rt *rt, char *line);
 int		validate_geometric_objects(t_objects *obj, char *line);
+
+int		process_light(t_l_spots *l_sp, char *line);
 
 
 //read_lines.c

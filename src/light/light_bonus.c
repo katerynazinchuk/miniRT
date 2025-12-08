@@ -12,30 +12,41 @@ static bool is_in_shadow_bonus(t_scene *scene, t_hit_rec *hit_rec);
 
 int find_light_spot_bonus(t_scene *scene, t_hit_rec *hit_rec)
 {
-	t_vec light_ray;//direction from intersection point to light
-	double brightness;// 0-1
-	t_color base;
+	t_light_basis	l_base;
 
-	light_ray = vec_sub(scene->light.position, hit_rec->intersection);//L=P_light​−P_hit  ​Lambert model
-	light_ray = vec_normalize(light_ray);
-	base = get_hit_color(scene, hit_rec);
-	if(is_in_shadow(scene, hit_rec))//
-	{
-		hit_rec->color = color_scale(base, scene->ambient.ratio);
-		return (1);
-	}
-	else
-	{
-		brightness = fmax(0.0, vec_dot(hit_rec->normal, light_ray));
-		brightness = brightness * scene->light.intensity;
-		brightness = brightness + scene->ambient.ratio;
-		brightness = fmin(1.0, brightness);
-		hit_rec->color = color_scale(base, brightness);
-		return (1);
-	}
+	if (!init_light_basis(scene, l_base))
+		return (0);//handle_error and go upper in clear way
+	handle_multi_lights(scene, scene->l_sp, l_base);//case of error?
+	handle_final_color();
 	return (0);
 }
 
+int	handle_multi_lights(t_scene *scene, t_l_spots *spot, t_light_basis *base, t_hit_rec *hit_rec)
+{
+	while ()
+	{
+		base->l_ray = vec_sub(scene->light.position, hit_rec->intersection);//L=P_light​−P_hit  ​Lambert model
+		base->l_ray = vec_normalize(base->l_ray);
+		l_color = get_hit_color(scene, hit_rec);
+		if(is_in_shadow(scene, hit_rec))//
+		{
+			l_sp->color = color_scale(base, scene->ambient.ratio);
+			return (1);
+		}
+		else
+		{
+			brightness = fmax(0.0, vec_dot(hit_rec->normal, l_sp->l_ray));
+			brightness = brightness * scene->light.intensity;
+/* 			brightness = brightness + scene->ambient.ratio;
+			brightness = fmin(1.0, brightness);
+			hit_rec->color = color_scale(base, brightness);
+			this is for all spots */
+			return (1);
+		}
+	}
+
+	return (0);//how to track error
+}
 
 
 bool is_in_shadow_bonus(t_scene *scene, t_hit_rec *hit_rec)
@@ -52,7 +63,7 @@ bool is_in_shadow_bonus(t_scene *scene, t_hit_rec *hit_rec)
 	shadow_ray.direction = light_dir;
 	temp_rec.t = INFINITY;
 
-	if (hit_scene(&shadow_ray, scene, &temp_rec))
+	if (hit_scene(&shadow_ray, scene, &temp_rec))//for all lights spot
 	{
 		if (temp_rec.t < light_distance && temp_rec.t > T_MIN)
 			return (true);
