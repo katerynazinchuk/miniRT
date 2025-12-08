@@ -6,7 +6,7 @@
 /*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 14:58:45 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/12/08 16:33:40 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/12/08 18:00:19 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,7 @@ typedef struct s_hit_rec
 typedef struct s_light_basis
 {
 	t_vec	l_ray;//direction from intersection point to light
-	double	bright;// 0-1 diffuse
+	double	dif;// 0-1 diffuse
 	t_color	l_color;//before it was base
 	
 	t_vec		light_dir;

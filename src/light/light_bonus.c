@@ -8,39 +8,41 @@
 //diffuse = color * intencity
 
 static t_color	get_hit_color_bonus(t_scene *scene, t_hit_rec *hit_rec);
-static bool is_in_shadow_bonus(t_scene *scene, t_hit_rec *hit_rec);
+static bool		is_in_shadow_bonus(t_scene *scene, t_hit_rec *hit_rec);
 
-int find_light_spot_bonus(t_scene *scene, t_hit_rec *hit_rec)
+int	find_light_spot_bonus(t_scene *scene, t_hit_rec *hit_rec)
 {
-	t_light_basis	l_base;
+	t_color	tmp_color;
 
-	if (!init_light_basis(scene, l_base))
-		return (0);//handle_error and go upper in clear way
-	handle_multi_lights(scene, scene->l_sp, l_base);//case of error?
-	handle_final_color();
+	handle_multi_lights(scene, scene->l_sp, hit_rec, &tmp_color);//case of error?
+	hit_rec->color = handle_final_color(scene, tmp_color);
 	return (0);
 }
-
-int	handle_multi_lights(t_scene *scene, t_l_spots *spot, t_light_basis *base, t_hit_rec *hit_rec)
+/* go through all light spots and save information about each ray */
+int	handle_multi_lights(t_scene *scene, t_l_spots *light, t_hit_rec *hit, t_color *color)
 {
-	while ()
+	t_light_basis	base;
+	size_t	i;
+
+	while (i < light->l_count)
 	{
-		base->l_ray = vec_sub(scene->light.position, hit_rec->intersection);//L=P_light​−P_hit  ​Lambert model
-		base->l_ray = vec_normalize(base->l_ray);
-		l_color = get_hit_color(scene, hit_rec);
-		if(is_in_shadow(scene, hit_rec))//
+		base.l_ray = vec_sub(l_sp->l_arr[i].position, hit->intersection);//L=P_light​−P_hit  ​Lambert model
+		base.l_ray = vec_normalize(base.l_ray);
+		base.l_color = get_hit_color(scene, hit);
+		if(is_in_shadow(scene, hit))//
 		{
-			l_sp->color = color_scale(base, scene->ambient.ratio);
+			*color = 
+			// l_sp->color = color_scale(base, scene->ambient.ratio);
 			return (1);
 		}
 		else
 		{
-			brightness = fmax(0.0, vec_dot(hit_rec->normal, l_sp->l_ray));
-			brightness = brightness * scene->light.intensity;
-/* 			brightness = brightness + scene->ambient.ratio;
-			brightness = fmin(1.0, brightness);
-			hit_rec->color = color_scale(base, brightness);
-			this is for all spots */
+			base.dif = fmax(0.0, vec_dot(hit->normal, l_sp->l_ray));
+			base.dif = dif * scene->light.intensity;
+/* 			dif = dif + scene->ambient.ratio;
+			dif = fmin(1.0, dif);*/
+			*color = color_scale(base, dif);
+/* 			this is for all spots  */
 			return (1);
 		}
 	}
