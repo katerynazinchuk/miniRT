@@ -26,10 +26,11 @@ SRC_FILES := main.c \
 	intersections/hit_cylinder.c \
 	intersections/hit_objects.c \
 	intersections/hit_sphere_plane.c \
-	light/light.c \
+	light/light_bonus.c \
 	math/vec_utils.c \
 	parser/parser.c \
 	parser/read_lines.c \
+	parser/parse_light.c \
 	parser/parse_plane.c \
 	parser/parse_sphere.c \
 	parser/parse_cylinder.c \

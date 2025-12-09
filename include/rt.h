@@ -6,7 +6,7 @@
 /*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 15:13:59 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/12/06 18:49:42 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/12/09 17:50:00 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # define EPS 1e-6
 # define T_MIN 1e-4
 # define T_MAX 1e30
-# define BACKGROUND_COLOR 0x6E6E6E
+# define BACKGROUND_COLOR 0xFF6E6E6E
 
 # include <MLX42/MLX42.h>
 # include <fcntl.h>
@@ -46,6 +46,17 @@ int			find_light_spot(t_scene *scene, t_hit_rec *hit_rec);
 t_ray		create_ray_per_pix(t_camera *camera, int x, int y);
 uint32_t	find_color(t_ray ray, t_scene *scene);
 uint32_t	rgba(int r, int g, int b);
+t_color		to_rgba(int hex_num);
+t_color		color_add(t_color one, t_color two);
+t_color		color_clamp(t_color color, int min, int max);
+
+int	handle_multi_lights(t_scene *scene, t_l_spots *light, t_hit_rec *hit, t_color *color);
+t_color	get_hit_color(t_scene *scene, t_hit_rec *hit_rec);
+bool is_in_shadow(t_scene *scene, t_hit_rec *hit_rec, int i);
+int	find_light_spot_bonus(t_scene *scene, t_hit_rec *hit_rec);
+
+
+
 
 //--------------utils
 void		print_error(const char *msg);
