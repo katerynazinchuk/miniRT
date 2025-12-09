@@ -12,33 +12,32 @@ static bool		is_in_shadow_bonus(t_scene *scene, t_hit_rec *hit_rec);
 
 int	find_light_spot_bonus(t_scene *scene, t_hit_rec *hit_rec)
 {
-	t_color	tmp_color;
+	t_color	final_color;
 
-	handle_multi_lights(scene, scene->l_sp, hit_rec, &tmp_color);//case of error?
-	hit_rec->color = handle_final_color(scene, tmp_color);
+	final_color = to_rgb(BACKGROUND_COLOR);
+	handle_multi_lights(scene, scene->l_sp, hit_rec, &final_color);//case of error?
+	hit_rec->color = handle_final_color(scene, final_color);
 	return (0);
 }
 /* go through all light spots and save information about each ray */
-int	handle_multi_lights(t_scene *scene, t_l_spots *light, t_hit_rec *hit, t_color *color)
+int	handle_multi_lights(t_scene *scene, t_l_spots *light, t_hit *hit, t_color *color)
 {
 	t_light_basis	base;
-	size_t	i;
+	size_t			i;
+	t_color			tmp;
 
+	i = 0;
 	while (i < light->l_count)
 	{
 		base.l_ray = vec_sub(l_sp->l_arr[i].position, hit->intersection);//L=P_light​−P_hit  ​Lambert model
 		base.l_ray = vec_normalize(base.l_ray);
 		base.l_color = get_hit_color(scene, hit);
-		if(is_in_shadow(scene, hit))//
-		{
-			*color = 
-			// l_sp->color = color_scale(base, scene->ambient.ratio);
-			return (1);
-		}
+		if(is_in_shadow(scene, hit))
+			tmp = to_rgb(0x0);
 		else
 		{
 			base.dif = fmax(0.0, vec_dot(hit->normal, l_sp->l_ray));
-			base.dif = dif * scene->light.intensity;
+			base.dif = base.dif * scene->light.intensity;
 /* 			dif = dif + scene->ambient.ratio;
 			dif = fmin(1.0, dif);*/
 			*color = color_scale(base, dif);

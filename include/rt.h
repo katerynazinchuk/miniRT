@@ -20,6 +20,7 @@
 # define EPS 1e-6
 # define T_MIN 1e-4
 # define T_MAX 1e30
+# define BACKGROUND_COLOR 0x6E6E6E
 
 # include <MLX42/MLX42.h>
 # include <fcntl.h>
