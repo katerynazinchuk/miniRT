@@ -58,20 +58,20 @@ int	main(int argc, char **argv)
 	}
 	if(!check_file(argv[1]))
 	{
-		free_arrays(&rt.scene.objects);
+		free_arrays(&rt.scene.objects, rt.scene.l_sp.l_arr);
 		return (1);
 	}
 	if (!parse_file(argv[1], &rt))
 	{
-		free_arrays(&rt.scene.objects);
+		free_arrays(&rt.scene.objects, rt.scene.l_sp.l_arr);
 		return (1);
 	}
 	if (!build_graphic(&rt.scene, &rt.scene.data_i))
 	{
-		free_arrays(&rt.scene.objects);
+		free_arrays(&rt.scene.objects, rt.scene.l_sp.l_arr);
 		return (1);
 	}
-	free_arrays(&rt.scene.objects);
+	free_arrays(&rt.scene.objects, rt.scene.l_sp.l_arr);
 	return (0);
 }
 

@@ -70,11 +70,14 @@ uint32_t	find_color(t_ray ray, t_scene *scene)
 	t_hit_rec	hit_rec;
 	uint32_t	color;
 
-	color = BACKGROUND_COLOR;
+	color = rgba(110, 110, 110);
 	if (hit_scene(&ray, scene, &hit_rec))
 	{
-		if (find_light_spot_bonus(scene, &hit_rec))
-			color = rgba(hit_rec.color.r, hit_rec.color.g, hit_rec.color.b);
+		find_light_spot_bonus(scene, &hit_rec);
+		color = rgba(hit_rec.color.r, hit_rec.color.g, hit_rec.color.b);
+		// printf("here/n");
+		// if (find_light_spot_bonus(scene, &hit_rec))
+		// 	color = rgba(hit_rec.color.r, hit_rec.color.g, hit_rec.color.b);
 	}
 	return (color);
 }
@@ -105,4 +108,14 @@ static double	clamp(double num, double min, double max)
 	if (num > max)
 		return (max);
 	return (num);
+}
+
+t_color	color_mult(t_color one, t_color two)
+{
+	t_color	res;
+
+	res.r = (int)(((double)one.r * two.r) / 255);
+	res.g = (int)(((double)one.g * two.g) / 255);
+	res.b = (int)(((double)one.b * two.b) / 255);
+	return (res);
 }

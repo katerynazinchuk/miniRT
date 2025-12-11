@@ -16,7 +16,7 @@ int	find_light_spot_bonus(t_scene *scene, t_hit_rec *hit_rec)
 	t_color	final_color;
 
 	// final_color = to_rgba(BACKGROUND_COLOR);
-	final_color = (t_color){0,0,0};
+	ft_memset(&final_color, 0, sizeof(t_color));
 	handle_multi_lights(scene, &scene->l_sp, hit_rec, &final_color);//case of error?
 	hit_rec->color = handle_final_color(scene, hit_rec, final_color);
 	return (0);
@@ -44,13 +44,14 @@ int	handle_multi_lights(t_scene *scene, t_l_spots *light, t_hit_rec *hit, t_colo
 /* 			dif = dif + scene->ambient.ratio;
 			dif = fmin(1.0, dif);*/
 			tmp_color = color_scale(base.l_color, base.dif);
+			tmp_color = color_mult(tmp_color, light->l_arr[i].color);
 /* 			this is for all spots  */
 			// return (1);
 		}
 		*color = color_add(*color, tmp_color);
 		i++;
 	}
-	return (0);//how to track error
+	return (0);
 }
 
 bool is_in_shadow(t_scene *scene, t_hit_rec *hit_rec, int i)
@@ -120,6 +121,6 @@ static t_color	handle_final_color(t_scene *scene, t_hit_rec *hit, t_color final_
 	amb = scene->ambient.ratio;
 	amb_color = color_scale(get_hit_color(scene, hit), amb);
 	final_color = color_add(final_color, amb_color);
-	final_color =color_clamp(final_color, 0, 255);
+	final_color = color_clamp(final_color, 0, 255);
 	return (final_color);
 }
