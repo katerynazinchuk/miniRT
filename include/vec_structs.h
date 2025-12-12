@@ -6,7 +6,7 @@
 /*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 14:58:45 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/12/08 18:00:19 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/12/12 18:22:57 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,7 @@ typedef struct s_hit_rec
 	double		t;
 	t_vec		intersection;
 	t_vec		normal;
+	t_vec		camera_pos;
 	t_objtype	type;
 	int			index;
 	t_color		color;
@@ -153,10 +154,10 @@ typedef struct s_light_basis
 	double	dif;// 0-1 diffuse
 	t_color	l_color;//before it was base
 	
-	t_vec		light_dir;
-	t_hit_rec	temp_rec;
-	double		light_distance;
-	t_ray 		shadow_ray;
+	// t_vec		light_dir;
+	// t_hit_rec	temp_rec;
+	// double		light_distance;
+	// t_ray		shadow_ray;
 }	t_light_basis;
 
 #endif

@@ -37,7 +37,7 @@ bool	hit_plane(const t_ray *c_ray, const t_plane *plane, t_hit_rec *hit_rec)
 	if (hit_rec->t < T_MIN || hit_rec->t > T_MAX)
 		return (false);
 	scaled_t_pos = vec_scale(c_ray->direction, hit_rec->t);
-	hit_rec->intersection  = vec_add(c_ray->origin, scaled_t_pos);
+	hit_rec->intersection = vec_add(c_ray->origin, scaled_t_pos);
 	hit_rec->normal = plane->normal;
 	hit_rec->color = plane->color;
 	hit_rec->type = OBJ_PLANE;

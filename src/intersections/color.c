@@ -70,6 +70,10 @@ uint32_t	find_color(t_ray ray, t_scene *scene)
 	t_hit_rec	hit_rec;
 	uint32_t	color;
 
+	hit_rec.camera_pos = scene->camera.position;
+	// hit_rec.c_direction = vec_normalize(vec_neg(ray.direction));
+	// hit_rec.c_direction = vec_normalize(vec_scale(ray.direction, -1));
+	// vec_normalize(vec_scale(hit->direction, -1))
 	color = rgba(110, 110, 110);
 	if (hit_scene(&ray, scene, &hit_rec))
 	{

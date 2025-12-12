@@ -6,7 +6,7 @@
 /*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 15:13:59 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/12/11 13:19:04 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/12/12 18:22:27 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@
 # define EPS 1e-6
 # define T_MIN 1e-4
 # define T_MAX 1e30
-// # define BACKGROUND_COLOR 0x646464
+# define SHINE 20
+// # define BACKGROUND_COLOR  0x646464
 
 # include <MLX42/MLX42.h>
 # include <fcntl.h>

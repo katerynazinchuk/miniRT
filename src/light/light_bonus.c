@@ -10,6 +10,8 @@
 // static t_color	get_hit_color_bonus(t_scene *scene, t_hit_rec *hit_rec);
 // static bool		is_in_shadow_bonus(t_scene *scene, t_hit_rec *hit_rec);
 static t_color	handle_final_color(t_scene *scene, t_hit_rec *hit, t_color final_color);
+static t_color	specular_reflection(t_hit_rec *hit, t_light *light, t_light_basis base);
+
 
 int	find_light_spot_bonus(t_scene *scene, t_hit_rec *hit_rec)
 {
@@ -17,7 +19,7 @@ int	find_light_spot_bonus(t_scene *scene, t_hit_rec *hit_rec)
 
 	// final_color = to_rgba(BACKGROUND_COLOR);
 	ft_memset(&final_color, 0, sizeof(t_color));
-	handle_multi_lights(scene, &scene->l_sp, hit_rec, &final_color);//case of error?
+	handle_multi_lights(scene, &scene->l_sp, hit_rec, &final_color);
 	hit_rec->color = handle_final_color(scene, hit_rec, final_color);
 	return (0);
 }
@@ -27,6 +29,7 @@ int	handle_multi_lights(t_scene *scene, t_l_spots *light, t_hit_rec *hit, t_colo
 	t_light_basis	base;
 	size_t			i;
 	t_color			tmp_color;
+	t_color			spec_color;
 
 	i = 0;
 	while (i < light->l_count)
@@ -36,23 +39,42 @@ int	handle_multi_lights(t_scene *scene, t_l_spots *light, t_hit_rec *hit, t_colo
 		base.l_color = get_hit_color(scene, hit);
 		if(is_in_shadow(scene, hit, i))
 			tmp_color = (t_color){0,0,0};
-			// tmp_color = to_rgba(0x0);
 		else
 		{
 			base.dif = fmax(0.0, vec_dot(hit->normal, base.l_ray));
 			base.dif = base.dif * light->l_arr[i].intensity;
-/* 			dif = dif + scene->ambient.ratio;
-			dif = fmin(1.0, dif);*/
+			spec_color = specular_reflection(hit, &light->l_arr[i], base);
 			tmp_color = color_scale(base.l_color, base.dif);
 			tmp_color = color_mult(tmp_color, light->l_arr[i].color);
-/* 			this is for all spots  */
-			// return (1);
+			tmp_color = color_add(tmp_color, spec_color);
 		}
 		*color = color_add(*color, tmp_color);
 		i++;
 	}
 	return (0);
 }
+
+/* bool is_in_shadow(t_scene *scene, t_hit_rec *hit_rec, int i, t_light_basis	base)
+{
+	// t_vec		light_dir;
+	t_hit_rec	temp_rec;
+	double		light_distance;
+	t_ray 		shadow_ray;
+
+	// light_dir = vec_sub(scene->l_sp.l_arr[i].position, hit_rec->intersection);
+	light_distance = vec_length(light_dir);
+	// light_dir = vec_normalize(light_dir);
+	shadow_ray.origin = vec_add(hit_rec->intersection, vec_scale(hit_rec->normal, EPS));
+	shadow_ray.direction = light_dir;
+	temp_rec.t = INFINITY;
+
+	if (hit_scene(&shadow_ray, scene, &temp_rec))//for all lights spot
+	{
+		if (temp_rec.t < light_distance && temp_rec.t > T_MIN)
+			return (true);
+	}
+	return (false);
+} */
 
 bool is_in_shadow(t_scene *scene, t_hit_rec *hit_rec, int i)
 {
@@ -75,28 +97,6 @@ bool is_in_shadow(t_scene *scene, t_hit_rec *hit_rec, int i)
 	}
 	return (false);
 }
-
-/* bool is_in_shadow(t_scene *scene, t_hit_rec *hit_rec)
-{
-	t_vec		light_dir;
-	t_hit_rec	temp_rec;
-	double		light_distance;
-	t_ray 		shadow_ray;
-
-	light_dir = vec_sub(scene->light.position, hit_rec->intersection);
-	light_distance = vec_length(light_dir);
-	light_dir = vec_normalize(light_dir);
-	shadow_ray.origin = vec_add(hit_rec->intersection, vec_scale(hit_rec->normal, EPS));
-	shadow_ray.direction = light_dir;
-	temp_rec.t = INFINITY;
-
-	if (hit_scene(&shadow_ray, scene, &temp_rec))//for all lights spot
-	{
-		if (temp_rec.t < light_distance && temp_rec.t > T_MIN)
-			return (true);
-	}
-	return (false);
-} */
 
 t_color	get_hit_color(t_scene *scene, t_hit_rec *hit_rec)
 {
@@ -123,4 +123,26 @@ static t_color	handle_final_color(t_scene *scene, t_hit_rec *hit, t_color final_
 	final_color = color_add(final_color, amb_color);
 	final_color = color_clamp(final_color, 0, 255);
 	return (final_color);
+}
+
+static t_color	specular_reflection(t_hit_rec *hit, t_light *light, t_light_basis base)
+{
+	t_color	spec_color;
+	t_vec	refl_ray;
+	t_vec	to_camera;
+	double	dp;
+	double	specular;
+
+	dp = vec_dot(hit->normal, base.l_ray);
+	refl_ray = vec_sub(vec_scale(hit->normal, 2.0 * dp), base.l_ray);
+	refl_ray = vec_normalize(refl_ray);
+	to_camera = vec_sub(hit->camera_pos, hit->intersection);
+	to_camera = vec_normalize(to_camera);
+	specular = vec_dot(refl_ray, to_camera);
+	if (specular < 0)
+		specular = 0;
+	else
+		specular = pow(specular, SHINE);
+	spec_color = color_scale(light->color, specular * light->intensity);
+	return (spec_color);
 }
