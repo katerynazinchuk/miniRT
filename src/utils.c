@@ -2,7 +2,7 @@
 
 void	print_error(const char *msg)
 {
-	int	err;
+	ssize_t	err;
 
 	ft_putendl_fd("Error", 2);
 	err = write(2, msg, ft_strlen(msg));
