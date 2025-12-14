@@ -7,12 +7,13 @@ void	print_error(const char *msg)
 	write(2, "\n", 1);
 }
 
-void	free_arrays(t_objects *obj, t_light *arr)
+int	free_arrays(t_objects *obj, t_light *arr)
 {
 	free(obj->sps);
 	free(obj->pls);
 	free(obj->cys);
 	free(arr);
+	return (1);
 }
 
 void	handle_esc(mlx_key_data_t key_info, void *param)
@@ -22,4 +23,15 @@ void	handle_esc(mlx_key_data_t key_info, void *param)
 	mlx = param;
 	if (key_info.key == MLX_KEY_ESCAPE && key_info.action == MLX_PRESS)
 		mlx_close_window(mlx);
+}
+
+void	*growing_realloc(void *old_ptr, size_t old_size, size_t new_size)
+{
+	void	*new_ptr;
+
+	new_ptr = ft_calloc(1, new_size);
+	if (!new_ptr)
+		return (NULL);
+	ft_memcpy(new_ptr, old_ptr, old_size);
+	return (new_ptr);
 }

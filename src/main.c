@@ -32,20 +32,13 @@ To calculate color of ray...
 #include "rt.h"
 
 static int	build_graphic(t_scene *scene, t_data_img *data_i);
-// static int	draw_img(t_scene *scene, mlx_image_t *img);
-
-static void	draw_img_dichter(t_scene *scene, t_data_img *data_i);
-
-
 static void	loop_handler(void *data);
-
+static void	draw_img_dichter(t_scene *scene, t_data_img *data_i);
 
 int	main(int argc, char **argv)
 {
 	t_rt		rt;
 
-	//rt = (t_rt *)malloc(sizeof(t_rt*));
-	// ft_memset(&rt, 0, sizeof(t_rt));
 	if(argc != 2)
 	{
 		print_error("Wrong number of arguments");
@@ -54,23 +47,14 @@ int	main(int argc, char **argv)
 	if (!init_structs(&rt))
 	{
 		print_error("Can't allocate memory");
-		return (1);
+		return (free_arrays(&rt.scene.objects, rt.scene.l_sp.l_arr));
 	}
 	if(!check_file(argv[1]))
-	{
-		free_arrays(&rt.scene.objects, rt.scene.l_sp.l_arr);
-		return (1);
-	}
+		return (free_arrays(&rt.scene.objects, rt.scene.l_sp.l_arr));
 	if (!parse_file(argv[1], &rt))
-	{
-		free_arrays(&rt.scene.objects, rt.scene.l_sp.l_arr);
-		return (1);
-	}
+		return (free_arrays(&rt.scene.objects, rt.scene.l_sp.l_arr));
 	if (!build_graphic(&rt.scene, &rt.scene.data_i))
-	{
-		free_arrays(&rt.scene.objects, rt.scene.l_sp.l_arr);
-		return (1);
-	}
+		return (free_arrays(&rt.scene.objects, rt.scene.l_sp.l_arr));
 	free_arrays(&rt.scene.objects, rt.scene.l_sp.l_arr);
 	return (0);
 }
@@ -93,7 +77,7 @@ static int	build_graphic(t_scene *scene, t_data_img *data_i)
 		return (0);
 	}
 	mlx_key_hook(mlx, handle_esc, mlx);
-	mlx_loop_hook(mlx, loop_handler, scene); //- need function to handle hooks throuhg loop
+	mlx_loop_hook(mlx, loop_handler, scene);
 	mlx_loop(mlx);
 	mlx_terminate(mlx);
 	return (1);
@@ -107,28 +91,33 @@ static void	loop_handler(void *data)
 	draw_img_dichter(scene, &scene->data_i);
 }
 
-/* static int draw_img(t_scene *scene, mlx_image_t *img)
-{
-	t_ray		ray;
-	uint32_t	y;
-	uint32_t	x;
-	uint32_t	color;
+// static void	draw_img_dichter(t_scene *scene, t_data_img *data_i)
+// {
+// 	t_ray		ray;
+// 	static int	map[8][8] = {{0, 32, 8, 40, 2, 34, 10, 42}, {48, 16, 56, 24, 50,
+// 		18, 58, 26}, {12, 44, 4, 36, 14, 46, 6, 38}, {60, 28, 52, 20, 62,
+// 		30, 54, 22}, {3, 35, 11, 43, 1, 33, 9, 41}, {51, 19, 59, 27, 49, 17,
+// 		57, 25}, {15, 47, 7, 39, 13, 45, 5, 37}, {63, 31, 55, 23, 61, 29,
+// 		53, 21}};
 
-	y = 0;
-	while (y < (uint32_t)HEIGHT)
-	{
-		x = 0;
-		while (x < (uint32_t)WIDTH)
-		{
-			ray = create_ray_per_pixel(&scene->camera, x, y);//here we find our field of view
-			color = find_color(ray, scene);//here we looking for intersection
-			mlx_put_pixel(img, x, y, color);
-			x++;
-		}
-		y++;
-	}
-	return (0);
-} */
+// 	if (scene->render < 0)
+// 		return ;
+// 	data_i->y = -1;
+// 	while (++data_i->y < (uint32_t)HEIGHT)
+// 	{
+// 		data_i->x = -1;
+// 		while (++data_i->x < (uint32_t)WIDTH)
+// 		{
+// 			if (map[data_i->x % 8][data_i->y % 8] == scene->render)
+// 			{
+// 				ray = create_ray_per_pix(&scene->camera, data_i->x, data_i->y);
+// 				data_i->color = find_color(ray, scene);
+// 				mlx_put_pixel(data_i->img, data_i->x, data_i->y, data_i->color);
+// 			}
+// 		}
+// 	}
+// 	scene->render--;
+// }
 
 static void	draw_img_dichter(t_scene *scene, t_data_img *data_i)
 {
@@ -141,52 +130,18 @@ static void	draw_img_dichter(t_scene *scene, t_data_img *data_i)
 
 	if (scene->render < 0)
 		return ;
-	data_i->y = -1;
-	while (++data_i->y < (uint32_t)HEIGHT)
+	while (data_i->y < (uint32_t)HEIGHT && data_i->x < (uint32_t)WIDTH)
 	{
-		data_i->x = -1;
-		while (++data_i->x < (uint32_t)WIDTH)
+		if (map[data_i->x % 8][data_i->y % 8] == scene->render)
 		{
-			if (map[data_i->x % 8][data_i->y % 8] == scene->render)
-			{
-				ray = create_ray_per_pix(&scene->camera, data_i->x, data_i->y);//here we find our field of view
-				data_i->color = find_color(ray, scene);//here we looking for intersection
-				mlx_put_pixel(data_i->img, data_i->x, data_i->y, data_i->color);
-			}
+			ray = create_ray_per_pix(&scene->camera, data_i->x, data_i->y);
+			data_i->color = find_color(ray, scene);
+			mlx_put_pixel(data_i->img, data_i->x, data_i->y, data_i->color);
 		}
+		if (y == (uint32_t)HEIGHT && x == (uint32_t)WIDTH)
+			break;
+		if (x == (uint32_t)WIDTH)
+			x = 0;
 	}
 	scene->render--;
 }
-
-/*
-int main(int argc, char **argv)
-{
-
-	t_rt *rt;
-
-	rt = (t_rt *)malloc(sizeof(t_rt*));
-	if(argc != 2)
-	{
-		ft_putendl_fd("Error: Wrong number of arguments", 2);
-		return 1;
-	}
-	if (check_file(argv[1]))
-	{
-		parse_file(argv[1], rt);
-		//create camera basis
-		//render
-		//mlx_loop();// loop window to prewent closing
-	}
-	//free everything;
-	return (0);
-	
-}*/
-
-//test main 
-// int main (void)
-// {
-// 	t_vec a = vec_pos(1,2,3);
-// 	t_vec b = vec_pos(-2, 0, 5);
-// 	t_vec s = vec_add(a,b);
-// }
-

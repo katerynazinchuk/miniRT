@@ -35,7 +35,7 @@ int		process_cylinder(t_objects *obj, char *line/* , int line_counter */);
 
 int		check_capacity(void **array, size_t *capacity, size_t count, size_t type_size);//need to return rewrite array if nesseccary
 void	*growing_realloc(void *old_ptr, size_t old_size, size_t new_size);
-void	free_arrays(t_objects *obj, t_light *arr);
+int		free_arrays(t_objects *obj, t_light *arr);
 
 int		validate_singe_element(t_rt *rt, char *line);
 int		validate_geometric_objects(t_objects *obj, char *line);

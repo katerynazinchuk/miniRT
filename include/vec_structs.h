@@ -125,9 +125,6 @@ typedef struct	s_scene
 	t_data_img			data_i;
 	struct s_hit_rec	*hit_rec;
 	int					render;
-	// t_light				*ls;
-	// size_t				l_count;
-	// size_t				l_cap;
 }	t_scene;
 
 typedef struct	s_rt

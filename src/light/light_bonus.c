@@ -137,7 +137,7 @@ static t_color	specular_reflection(t_hit_rec *hit, t_light *light, t_light_basis
 	refl_ray = vec_sub(vec_scale(hit->normal, 2.0 * dp), base.l_ray);
 	refl_ray = vec_normalize(refl_ray);
 	to_camera = vec_sub(hit->camera_pos, hit->intersection);
-	to_camera = vec_normalize(to_camera);
+	to_camera = vec_normalize(to_camera);//why here we have Conditional jump or move depends on uninitialised value(s)
 	specular = vec_dot(refl_ray, to_camera);
 	if (specular < 0)
 		specular = 0;
