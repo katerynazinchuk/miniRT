@@ -2,9 +2,15 @@
 
 void	print_error(const char *msg)
 {
+	int	err;
+
 	ft_putendl_fd("Error", 2);
-	write(2, msg, ft_strlen(msg));
-	write(2, "\n", 1);
+	err = write(2, msg, ft_strlen(msg));
+	if (err < 0)
+		return ;
+	err = write(2, "\n", 1);
+	if (err < 0)
+		return ;
 }
 
 int	free_arrays(t_objects *obj, t_light *arr)

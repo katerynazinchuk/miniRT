@@ -110,8 +110,8 @@ static void	draw_img_dither(t_scene *scene, t_data_img *data_i)
 			data_i->color = find_color(ray, scene);
 			mlx_put_pixel(data_i->img, data_i->x, data_i->y, data_i->color);
 		}
-		data_i->x++
-		if (x == (uint32_t)WIDTH)
+		data_i->x++;
+		if (data_i->x == (uint32_t)WIDTH)
 		{
 			data_i->x = 0;
 			data_i->y++;
