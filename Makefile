@@ -22,11 +22,13 @@ SRC_FILES := main.c \
 	utils.c \
 	init_structs.c \
 	intersections/color.c \
+	intersections/color_utils.c \
 	intersections/field_of_view.c \
 	intersections/hit_cylinder.c \
 	intersections/hit_objects.c \
 	intersections/hit_sphere_plane.c \
 	light/light_bonus.c \
+	math/vec_math.c \
 	math/vec_utils.c \
 	parser/parser.c \
 	parser/read_lines.c \
