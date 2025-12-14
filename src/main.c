@@ -33,13 +33,13 @@ To calculate color of ray...
 
 static int	build_graphic(t_scene *scene, t_data_img *data_i);
 static void	loop_handler(void *data);
-static void	draw_img_dichter(t_scene *scene, t_data_img *data_i);
+static void	draw_img_dither(t_scene *scene, t_data_img *data_i);
 
 int	main(int argc, char **argv)
 {
 	t_rt		rt;
 
-	if(argc != 2)
+	if (argc != 2)
 	{
 		print_error("Wrong number of arguments");
 		return (1);
@@ -49,7 +49,7 @@ int	main(int argc, char **argv)
 		print_error("Can't allocate memory");
 		return (free_arrays(&rt.scene.objects, rt.scene.l_sp.l_arr));
 	}
-	if(!check_file(argv[1]))
+	if (!check_file(argv[1]))
 		return (free_arrays(&rt.scene.objects, rt.scene.l_sp.l_arr));
 	if (!parse_file(argv[1], &rt))
 		return (free_arrays(&rt.scene.objects, rt.scene.l_sp.l_arr));
@@ -88,38 +88,10 @@ static void	loop_handler(void *data)
 	t_scene	*scene;
 
 	scene = data;
-	draw_img_dichter(scene, &scene->data_i);
+	draw_img_dither(scene, &scene->data_i);
 }
 
-// static void	draw_img_dichter(t_scene *scene, t_data_img *data_i)
-// {
-// 	t_ray		ray;
-// 	static int	map[8][8] = {{0, 32, 8, 40, 2, 34, 10, 42}, {48, 16, 56, 24, 50,
-// 		18, 58, 26}, {12, 44, 4, 36, 14, 46, 6, 38}, {60, 28, 52, 20, 62,
-// 		30, 54, 22}, {3, 35, 11, 43, 1, 33, 9, 41}, {51, 19, 59, 27, 49, 17,
-// 		57, 25}, {15, 47, 7, 39, 13, 45, 5, 37}, {63, 31, 55, 23, 61, 29,
-// 		53, 21}};
-
-// 	if (scene->render < 0)
-// 		return ;
-// 	data_i->y = -1;
-// 	while (++data_i->y < (uint32_t)HEIGHT)
-// 	{
-// 		data_i->x = -1;
-// 		while (++data_i->x < (uint32_t)WIDTH)
-// 		{
-// 			if (map[data_i->x % 8][data_i->y % 8] == scene->render)
-// 			{
-// 				ray = create_ray_per_pix(&scene->camera, data_i->x, data_i->y);
-// 				data_i->color = find_color(ray, scene);
-// 				mlx_put_pixel(data_i->img, data_i->x, data_i->y, data_i->color);
-// 			}
-// 		}
-// 	}
-// 	scene->render--;
-// }
-
-static void	draw_img_dichter(t_scene *scene, t_data_img *data_i)
+static void	draw_img_dither(t_scene *scene, t_data_img *data_i)
 {
 	t_ray		ray;
 	static int	map[8][8] = {{0, 32, 8, 40, 2, 34, 10, 42}, {48, 16, 56, 24, 50,
@@ -130,7 +102,7 @@ static void	draw_img_dichter(t_scene *scene, t_data_img *data_i)
 
 	if (scene->render < 0)
 		return ;
-	while (data_i->y < (uint32_t)HEIGHT && data_i->x < (uint32_t)WIDTH)
+	while (data_i->y < (uint32_t)HEIGHT)
 	{
 		if (map[data_i->x % 8][data_i->y % 8] == scene->render)
 		{
@@ -138,10 +110,12 @@ static void	draw_img_dichter(t_scene *scene, t_data_img *data_i)
 			data_i->color = find_color(ray, scene);
 			mlx_put_pixel(data_i->img, data_i->x, data_i->y, data_i->color);
 		}
-		if (y == (uint32_t)HEIGHT && x == (uint32_t)WIDTH)
-			break;
+		data_i->x++
 		if (x == (uint32_t)WIDTH)
-			x = 0;
+		{
+			data_i->x = 0;
+			data_i->y++;
+		}
 	}
 	scene->render--;
 }
