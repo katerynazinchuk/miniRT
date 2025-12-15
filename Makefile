@@ -53,15 +53,18 @@ TEST_OBJ := $(patsubst $(TEST_DIR)/%.c,$(TEST_BUILD_DIR)/%.o,$(TEST_SRC))
 #additional without main.c
 MAIN_SRC_FILES := utils.c \
 	init_structs.c \
-	parser/parser.c \
-	parser/read_lines.c \
-	parser/parse_plane.c \
-	parser/parse_sphere.c \
-	parser/parse_cylinder.c \
-	parser/parser_utils.c \
-	parser/parse_light.c \
-	parser/validate.c \
-	math/vec_utils.c 
+	parser/*.c \
+	math/*.c 
+
+# 	parser/parser.c \
+# 	parser/read_lines.c \
+# 	parser/parse_plane.c \
+# 	parser/parse_sphere.c \
+# 	parser/parse_cylinder.c \
+# 	parser/parser_utils.c \
+# 	parser/parse_light.c \
+# 	parser/validate.c \
+# 	math/vec_utils.c 
 
 # 	intersections/color.c \
 # 	intersections/field_of_view.c \

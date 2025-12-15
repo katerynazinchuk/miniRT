@@ -6,7 +6,7 @@
 /*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/14 14:01:11 by tchernia          #+#    #+#             */
-/*   Updated: 2025/12/14 14:03:36 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/12/15 19:24:43 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static int	build_graphic(t_scene *scene, t_data_img *data_i);
 static void	loop_handler(void *data);
 static void	draw_img_dither(t_scene *scene, t_data_img *data_i);
+static void	handle_pixel(t_scene *scene, t_data_img *data_i);
 
 int	main(int argc, char **argv)
 {
@@ -74,23 +75,13 @@ static void	loop_handler(void *data)
 
 static void	draw_img_dither(t_scene *scene, t_data_img *data_i)
 {
-	t_ray		ray;
-	static int	map[8][8] = {{0, 32, 8, 40, 2, 34, 10, 42}, {48, 16, 56, 24, 50,
-		18, 58, 26}, {12, 44, 4, 36, 14, 46, 6, 38}, {60, 28, 52, 20, 62,
-		30, 54, 22}, {3, 35, 11, 43, 1, 33, 9, 41}, {51, 19, 59, 27, 49, 17,
-		57, 25}, {15, 47, 7, 39, 13, 45, 5, 37}, {63, 31, 55, 23, 61, 29,
-		53, 21}};
-
 	if (scene->render < 0)
 		return ;
+	data_i->x = 0;
+	data_i->y = 0;
 	while (data_i->y < (uint32_t)HEIGHT)
 	{
-		if (map[data_i->x % 8][data_i->y % 8] == scene->render)
-		{
-			ray = create_ray_per_pix(&scene->camera, data_i->x, data_i->y);
-			data_i->color = find_color(ray, scene);
-			mlx_put_pixel(data_i->img, data_i->x, data_i->y, data_i->color);
-		}
+		handle_pixel(scene, data_i);
 		data_i->x++;
 		if (data_i->x == (uint32_t)WIDTH)
 		{
@@ -99,4 +90,20 @@ static void	draw_img_dither(t_scene *scene, t_data_img *data_i)
 		}
 	}
 	scene->render--;
+}
+
+static void	handle_pixel(t_scene *scene, t_data_img *data_i)
+{
+	t_ray		ray;
+	static int	map[8][8] = {{0, 32, 8, 40, 2, 34, 10, 42}, {48, 16, 56, 24, 50,
+		18, 58, 26}, {12, 44, 4, 36, 14, 46, 6, 38}, {60, 28, 52, 20, 62,
+		30, 54, 22}, {3, 35, 11, 43, 1, 33, 9, 41}, {51, 19, 59, 27, 49, 17,
+		57, 25}, {15, 47, 7, 39, 13, 45, 5, 37}, {63, 31, 55, 23, 61, 29,
+		53, 21}};
+
+	if (map[data_i->x % 8][data_i->y % 8] != scene->render)
+		return ;
+	ray = create_ray_per_pix(&scene->camera, data_i->x, data_i->y);
+	data_i->color = find_color(ray, scene);
+	mlx_put_pixel(data_i->img, data_i->x, data_i->y, data_i->color);
 }

@@ -12,25 +12,21 @@ int	main(int argc, char **argv)
 		print_error("Wrong number of arguments");
 		return (1);
 	}
-	printf("\nBefore init \n");
 	if (!init_structs(&rt))
 	{
 		print_error("Can't allocate memory");
 		return (1);
 	}
-	printf("\nAfter init \n");
 	if(!check_file(argv[1]))
 	{
 		free_arrays(&rt.scene.objects, rt.scene.l_sp.l_arr);
 		return (1);
 	}
-	printf("\nAfter check file \n");
 	if (!parse_file(argv[1], &rt))
 	{
 		free_arrays(&rt.scene.objects, rt.scene.l_sp.l_arr);
 		return (1);
 	}
-	printf("\n After parsing\n");
 	test_parser(&rt.scene, &rt.scene.objects);
 	test_light_spots(&rt.scene.l_sp);
 	free_arrays(&rt.scene.objects, rt.scene.l_sp.l_arr);

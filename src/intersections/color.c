@@ -6,26 +6,11 @@
 /*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/14 13:59:51 by tchernia          #+#    #+#             */
-/*   Updated: 2025/12/14 13:59:54 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/12/15 19:37:16 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
-
-uint32_t	rgba(int r, int g, int b)
-{
-	return (((uint32_t)r << 24) | ((uint32_t)g << 16) | (uint32_t)b << 8 | 255);
-}
-
-t_color	to_rgba(int hex_num)
-{
-	t_color	color;
-
-	color.r = (hex_num >> 24) & 0xFF;
-	color.g = (hex_num >> 16) & 0xFF;
-	color.b = (hex_num >> 8) & 0xFF;
-	return (color);
-}
 
 uint32_t	find_color(t_ray ray, t_scene *scene)
 {
@@ -39,5 +24,20 @@ uint32_t	find_color(t_ray ray, t_scene *scene)
 		find_light_spot_bonus(scene, &hit_rec);
 		color = rgba(hit_rec.color.r, hit_rec.color.g, hit_rec.color.b);
 	}
+	return (color);
+}
+
+uint32_t	rgba(int r, int g, int b)
+{
+	return (((uint32_t)r << 24) | ((uint32_t)g << 16) | (uint32_t)b << 8 | 255);
+}
+
+t_color	to_rgba(int hex_num)
+{
+	t_color	color;
+
+	color.r = (hex_num >> 24) & 0xFF;
+	color.g = (hex_num >> 16) & 0xFF;
+	color.b = (hex_num >> 8) & 0xFF;
 	return (color);
 }

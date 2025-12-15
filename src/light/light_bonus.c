@@ -7,8 +7,7 @@
 // then we have to multiply the object color by the brightness factor vec_scale(t, brightness)
 //diffuse = color * intencity
 
-// static t_color	get_hit_color_bonus(t_scene *scene, t_hit_rec *hit_rec);
-// static bool		is_in_shadow_bonus(t_scene *scene, t_hit_rec *hit_rec);
+static bool		is_in_shadow(t_scene *scene, t_hit_rec *hit_rec, int i)
 static t_color	handle_final_color(t_scene *scene, t_hit_rec *hit, t_color final_color);
 static t_color	specular_reflection(t_hit_rec *hit, t_light *light, t_light_basis base);
 
@@ -22,7 +21,7 @@ int	find_light_spot_bonus(t_scene *scene, t_hit_rec *hit_rec)
 	hit_rec->color = handle_final_color(scene, hit_rec, final_color);
 	return (0);
 }
-/* go through all light spots and save information about each ray */
+
 int	handle_multi_lights(t_scene *scene, t_l_spots *light, t_hit_rec *hit, t_color *color)
 {
 	t_light_basis	base;
@@ -33,7 +32,7 @@ int	handle_multi_lights(t_scene *scene, t_l_spots *light, t_hit_rec *hit, t_colo
 	i = 0;
 	while (i < light->l_count)
 	{
-		base.l_ray = vec_sub(light->l_arr[i].position, hit->intersection);//L=P_light​−P_hit  ​Lambert model
+		base.l_ray = vec_sub(light->l_arr[i].position, hit->intersection);
 		base.l_ray = vec_normalize(base.l_ray);
 		base.l_color = get_hit_color(scene, hit);
 		if(is_in_shadow(scene, hit, i))
@@ -75,7 +74,7 @@ int	handle_multi_lights(t_scene *scene, t_l_spots *light, t_hit_rec *hit, t_colo
 	return (false);
 } */
 
-bool	is_in_shadow(t_scene *scene, t_hit_rec *hit_rec, int i)
+static bool	is_in_shadow(t_scene *scene, t_hit_rec *hit_rec, int i)
 {
 	t_vec		light_dir;
 	t_hit_rec	temp_rec;
@@ -89,7 +88,7 @@ bool	is_in_shadow(t_scene *scene, t_hit_rec *hit_rec, int i)
 	shadow_ray.direction = light_dir;
 	temp_rec.t = INFINITY;
 
-	if (hit_scene(&shadow_ray, scene, &temp_rec))//for all lights spot
+	if (hit_scene(&shadow_ray, scene, &temp_rec))
 	{
 		if (temp_rec.t < light_distance && temp_rec.t > T_MIN)
 			return (true);
