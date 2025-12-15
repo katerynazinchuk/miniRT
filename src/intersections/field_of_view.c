@@ -1,11 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   field_of_view.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kzinchuk <kzinchuk@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/12/03 15:40:15 by kzinchuk          #+#    #+#             */
+/*   Updated: 2025/12/03 15:40:20 by kzinchuk         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "rt.h"
 
-/*
- * NDC space (which stands for Normalized Device Coordinates)
- * norm_x & norm_y - convert (x, y) in (-1, 1) coordinates with center (0, 0) in the center of window
- * aspect ratio - in case if will use window with width > height
- * scale – apply field of view (camera angle)
-*/
 t_ray	create_ray_per_pixel(t_camera *camera, int x, int y)
 {
 	t_ray	ray;
@@ -24,7 +30,5 @@ t_ray	create_ray_per_pixel(t_camera *camera, int x, int y)
 	ray.direction = vec_normalize(vec_add(camera->direction, temp));
 	return (ray);
 }
-	// ray.direction.x = ;
-	// ray.direction.y = ;
-	// ray.direction.z = ;
+
 

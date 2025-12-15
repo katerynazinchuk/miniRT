@@ -27,7 +27,6 @@ int	check_color(int color)
 	int result;
 	
 	result = (color >= 0 && color <= 255);
-	// printf("  check_color(%d) = %d\n", color, result);
 	return (result);
 }
 

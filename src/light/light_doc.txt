@@ -1,0 +1,6 @@
+recieve a t -> bulitd vec_normalize(t);
+light_ray = vec_add(t, light_sourse);
+light_ray = vec_normalize(light_ray);
+brightness = cos(angle) = vec_dot(normal, light_ray);
+ then we have to multiply the object color by the brightness factor vec_scale(t, brightness)
+diffuse = color * intencity

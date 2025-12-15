@@ -1,0 +1,11 @@
+P(t) = O + tD;
+|(P - C) - ((P − C)· V)V|² = r²
+|(O + tD - C) - ((O + tD − C)· V)V|² = r²
+t_vec oc = vec_sub(c_ray->origin, cylinder->center);//O - C
+|(oc + tD) - ((oc + tD)· V)V|² = r²;
+ (oc + tD)·V = (ox + t dx) vx + (oy + t dy) vy + (oz + t dz) vz
+= (ox vx + oy vy + oz vz) + t (dx vx + dy vy + dz vz)
+= oc·V + t (D·V)
+(oc+tD)⋅V=(oc⋅V)+t(D⋅V)
+oc - (oc · V)*V -  searching for the perp to the axis between part of the oc vector inside cylinder and its projection
+Project oc and ray direction onto plane perpendicular to axis

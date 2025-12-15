@@ -6,23 +6,11 @@
 /*   By: kzinchuk <kzinchuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 12:11:03 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/12/02 17:28:26 by kzinchuk         ###   ########.fr       */
+/*   Updated: 2025/12/03 15:42:24 by kzinchuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
-
-//P(t) = O + tD;
-//|(P - C) - ((P − C)· V)V|² = r²
-//|(O + tD - C) - ((O + tD − C)· V)V|² = r²
-//t_vec oc = vec_sub(c_ray->origin, cylinder->center);//O - C
-//|(oc + tD) - ((oc + tD)· V)V|² = r²;
-// (oc + tD)·V = (ox + t dx) vx + (oy + t dy) vy + (oz + t dz) vz
-//= (ox vx + oy vy + oz vz) + t (dx vx + dy vy + dz vz)
-//= oc·V + t (D·V)
-//(oc+tD)⋅V=(oc⋅V)+t(D⋅V)
-//oc - (oc · V)*V -  searching for the perp to the axis between part of the oc vector inside cylinder and its projection
-// Project oc and ray direction onto plane perpendicular to axis
 
 bool	hit_cyl_body(const t_ray *c_ray, t_cylinder *cylinder, t_hit_rec *hit_rec)
 {
@@ -75,17 +63,13 @@ bool find_best_t_for_body(double t_root[2], const t_ray *c_ray, t_cylinder *cyli
 	half_height = cylinder->height * 0.5;
 	best_t = T_MAX;
 	i = 0;
-	
 	while (i < 2)
 	{
 		if(t_root[i] >= T_MIN && t_root[i] <= best_t)
 		{
-			// Calculate the actual 3D point where the ray intersects the infinite cylinder
-			hit_point = vec_add(c_ray->origin, vec_scale(c_ray->direction, t_root[i]));
-			// Get vector from cylinder center to intersection point
-			center_to_hit = vec_sub(hit_point, cylinder->center);
-			// Project center_to_hit onto the cylinder's axis to find height position
-			height_on_axis = vec_dot(center_to_hit, cylinder->axis);//is it within the height range
+			hit_point = vec_add(c_ray->origin, vec_scale(c_ray->direction, t_root[i]));// Calculate the actual 3D point where the ray intersects the infinite cylinder
+			center_to_hit = vec_sub(hit_point, cylinder->center);// Get vector from cylinder center to intersection point
+			height_on_axis = vec_dot(center_to_hit, cylinder->axis);//is it within the height range // Project center_to_hit onto the cylinder's axis to find height position
 			if(height_on_axis >= -half_height && height_on_axis <= half_height)
 			{
 				axis_proj = vec_scale(cylinder->axis, height_on_axis);// proj of center_to_hit vec on axis to know its height
