@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vec_structs.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
+/*   By: kzinchuk <kzinchuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 14:58:45 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/12/12 18:22:57 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/12/15 17:51:15 by kzinchuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 typedef struct	s_ray
 {
 	t_vec	origin;
-	t_vec	direction;
+	t_vec	dir;
 
 	//we loop through all objects looking for the smaleest positive t, 
 	//that will be the first ray intersection.
@@ -73,11 +73,12 @@ typedef struct	s_cylinder
 {
 	t_vec center;
 	t_vec axis;
+	t_vec axis_neg;
 	double radius;
 	double height;// float?? or double??
 	t_color				color;
 	t_objtype			type;
-}	t_cylinder;
+}	t_cyl;
 
 typedef struct	s_plane
 {
@@ -90,7 +91,7 @@ typedef struct	s_plane
 typedef struct	s_objects
 {
 	t_sphere	*sps;
-	t_cylinder	*cys;
+	t_cyl	*cys;
 	t_plane		*pls;
 	size_t		sp_count;
 	size_t		cy_count;
@@ -146,7 +147,7 @@ typedef struct s_hit_rec
 	int			index;
 	t_color		color;
 	
-}	t_hit_rec;
+}	t_hit;
 
 typedef struct s_light_basis
 {
@@ -159,5 +160,25 @@ typedef struct s_light_basis
 	// double		light_distance;
 	// t_ray		shadow_ray;
 }	t_light_basis;
+
+typedef struct s_cyl_hits
+{
+	t_hit	body;
+	t_hit	top;
+	t_hit	bot;
+	bool	h_top;
+	bool	h_bot; 
+	bool	h_body; 
+}	t_cyl_hits;
+
+typedef struct s_cyl_quad
+{
+	double	a;
+	double	half_b;
+	double	c_perp;
+	double	disc;
+	double	sqrt_disc;
+	double	t_root[2];
+}	t_cyl_quad;
 
 #endif

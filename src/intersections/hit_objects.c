@@ -6,17 +6,17 @@
 /*   By: kzinchuk <kzinchuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 12:13:30 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/12/03 15:10:36 by kzinchuk         ###   ########.fr       */
+/*   Updated: 2025/12/15 17:04:51 by kzinchuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-bool hit_all_spheres(const t_ray *c_ray, t_scene *scene, t_hit_rec *hit_rec)
+bool hit_all_spheres(const t_ray *c_ray, t_scene *scene, t_hit *hit_rec)
 {
 	bool hit_any = false;
 	double closest_t = T_MAX;
-	t_hit_rec hit;
+	t_hit hit;
 	size_t	i;
 	
 	i = 0;
@@ -39,11 +39,11 @@ bool hit_all_spheres(const t_ray *c_ray, t_scene *scene, t_hit_rec *hit_rec)
 	return (hit_any);
 }
 
-bool hit_all_planes(const t_ray *c_ray, t_scene *scene, t_hit_rec *hit_rec)
+bool hit_all_planes(const t_ray *c_ray, t_scene *scene, t_hit *hit_rec)
 {
 	bool hit_any = false;
 	double closest_t = T_MAX;
-	t_hit_rec hit;
+	t_hit hit;
 	size_t i;
 	
 	i = 0;
@@ -66,11 +66,11 @@ bool hit_all_planes(const t_ray *c_ray, t_scene *scene, t_hit_rec *hit_rec)
 	return (hit_any);
 }
 
-bool hit_all_cylinders(const t_ray *c_ray, t_scene *scene, t_hit_rec *hit_rec)
+bool hit_all_cylinders(const t_ray *c_ray, t_scene *scene, t_hit *hit_rec)
 {
 	bool hit_any = false;
 	double closest_t = T_MAX;
-	t_hit_rec hit;
+	t_hit hit;
 	size_t i;
 	
 	i = 0;
@@ -93,11 +93,11 @@ bool hit_all_cylinders(const t_ray *c_ray, t_scene *scene, t_hit_rec *hit_rec)
 	return (hit_any);
 }
 
-bool hit_scene(const t_ray *c_ray, t_scene *scene, t_hit_rec *hit_rec)
+bool hit_scene(const t_ray *c_ray, t_scene *scene, t_hit *hit_rec)
 {
 	bool hit_any = false;
 	double closest_t = T_MAX;
-	t_hit_rec hit;
+	t_hit hit;
 
 	if(hit_all_planes(c_ray, scene, &hit) && hit.t < closest_t)
 	{

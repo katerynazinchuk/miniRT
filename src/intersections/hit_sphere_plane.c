@@ -1,10 +1,10 @@
 #include "rt.h"
 
-bool	hit_sphere(const t_ray *c_ray, const t_sphere *sphere, t_hit_rec *hit_rec)
+bool	hit_sphere(const t_ray *c_ray, const t_sphere *sphere, t_hit *hit_rec)
 {
 	t_vec oc = vec_sub(c_ray->origin, sphere->center);
-	double a = vec_dot(c_ray->direction, c_ray->direction); //(D·D); c_ray->direction * c_ray->direction
-	double half_b = vec_dot(oc, c_ray->direction);//oc * c_ray->direction;
+	double a = vec_dot(c_ray->dir, c_ray->dir); //(D·D); c_ray->direction * c_ray->direction
+	double half_b = vec_dot(oc, c_ray->dir);//oc * c_ray->direction;
 	double c = vec_dot(oc, oc) - (sphere->radius * sphere->radius);//oc * oc - sphere->radius * sphere->radius;
 	double disc = (half_b * half_b) - (a * c);
 	if(disc < 0)
@@ -17,26 +17,26 @@ bool	hit_sphere(const t_ray *c_ray, const t_sphere *sphere, t_hit_rec *hit_rec)
 		if(hit_rec->t < T_MIN || hit_rec->t > T_MAX)
 			return false;
 	}
-	hit_rec->intersection = vec_add(c_ray->origin, vec_scale(c_ray->direction, hit_rec->t));
+	hit_rec->intersection = vec_add(c_ray->origin, vec_scale(c_ray->dir, hit_rec->t));
 	hit_rec->normal = vec_sub(hit_rec->intersection, sphere->center);
 	hit_rec->normal = vec_normalize(hit_rec->normal);
 	return true;
 }
 
-bool	hit_plane(const t_ray *c_ray, const t_plane *plane, t_hit_rec *hit_rec)
+bool	hit_plane(const t_ray *c_ray, const t_plane *plane, t_hit *hit_rec)
 {
 	double	parallel_angle;
 	t_vec	ray_to_plane;
 	t_vec	scaled_t_pos;
 
-	parallel_angle = vec_dot(plane->normal, c_ray->direction);
+	parallel_angle = vec_dot(plane->normal, c_ray->dir);
 	if (fabs(parallel_angle) < EPS)
 		return (false);
 	ray_to_plane = vec_sub(plane->point, c_ray->origin);
 	hit_rec->t = vec_dot(plane->normal, ray_to_plane) / parallel_angle;
 	if (hit_rec->t < T_MIN || hit_rec->t > T_MAX)
 		return (false);
-	scaled_t_pos = vec_scale(c_ray->direction, hit_rec->t);
+	scaled_t_pos = vec_scale(c_ray->dir, hit_rec->t);
 	hit_rec->intersection = vec_add(c_ray->origin, scaled_t_pos);
 	hit_rec->normal = plane->normal;
 	hit_rec->color = plane->color;

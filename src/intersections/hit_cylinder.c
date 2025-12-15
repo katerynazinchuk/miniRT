@@ -6,162 +6,147 @@
 /*   By: kzinchuk <kzinchuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 12:11:03 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/12/02 17:28:26 by kzinchuk         ###   ########.fr       */
+/*   Updated: 2025/12/15 17:55:51 by kzinchuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-//P(t) = O + tD;
-//|(P - C) - ((P − C)· V)V|² = r²
-//|(O + tD - C) - ((O + tD − C)· V)V|² = r²
-//t_vec oc = vec_sub(c_ray->origin, cylinder->center);//O - C
-//|(oc + tD) - ((oc + tD)· V)V|² = r²;
-// (oc + tD)·V = (ox + t dx) vx + (oy + t dy) vy + (oz + t dz) vz
-//= (ox vx + oy vy + oz vz) + t (dx vx + dy vy + dz vz)
-//= oc·V + t (D·V)
-//(oc+tD)⋅V=(oc⋅V)+t(D⋅V)
-//oc - (oc · V)*V -  searching for the perp to the axis between part of the oc vector inside cylinder and its projection
-// Project oc and ray direction onto plane perpendicular to axis
-
-bool	hit_cyl_body(const t_ray *c_ray, t_cylinder *cylinder, t_hit_rec *hit_rec)
+static bool	cyl_body_quad(const t_ray *c_ray, t_cyl *cyl, t_cyl_quad *q)
 {
-	t_vec	oc;//origin to center
-    double	oc_dot_axis;//dot product of oc and axis
-    double	D_dot_axis;// dot product of direction and axis
-    t_vec	oc_perp;//part of ac which perp to axis
-    t_vec	D_perp;//part of direction which perp to axis
-    double	a;
-    double	half_b;
-    double	c_perp;
-    double	disc;
-    double	sqrt_disc;
-    double	t_root[2];
-	
-	oc = vec_sub(c_ray->origin, cylinder->center);
-	oc_dot_axis = vec_dot(oc, cylinder->axis);
-	D_dot_axis = vec_dot(c_ray->direction, cylinder->axis);
-	oc_perp = vec_sub(oc, vec_scale(cylinder->axis, oc_dot_axis));//possition of the whole vector from camera to axis
-	D_perp = vec_sub(c_ray->direction, vec_scale(cylinder->axis, D_dot_axis));// direction
-	// Quadratic equation for infinite cylinder: at² + 2bt + c = 0
-	a = vec_dot(D_perp, D_perp); //(D·D); c_ray->direction * c_ray->direction
-	if (a < EPS)
-		return (false);
-	half_b = vec_dot(oc_perp, D_perp);//oc * c_ray->direction;
-	c_perp = vec_dot(oc_perp, oc_perp) - (cylinder->radius * cylinder->radius);//oc * oc - cylinder->radius * cylinder->radius;
-	disc = (half_b * half_b) - (a * c_perp);
-	if(disc < 0.0 )
-		return false;
-	sqrt_disc = sqrt(disc);
-	t_root[0] = (-half_b - sqrt_disc) / a;
-	t_root[1] = (-half_b + sqrt_disc) / a;
+	t_vec	oc_perp;
+	t_vec	d_perp;
+	t_vec	oc;
+	double	oc_dot_axis;
+	double	d_dot_axis;
 
-	if(find_best_t_for_body(t_root, c_ray, cylinder, hit_rec))
-		return true;
-	return false;
+	oc = vec_sub(c_ray->origin, cyl->center);
+	oc_dot_axis = vec_dot(oc, cyl->axis);
+	d_dot_axis = vec_dot(c_ray->dir, cyl->axis);
+	oc_perp = vec_sub(oc, vec_scale(cyl->axis, oc_dot_axis));
+	d_perp = vec_sub(c_ray->dir, vec_scale(cyl->axis, d_dot_axis));
+	q->a = vec_dot(d_perp, d_perp);
+	if (q->a < EPS)
+		return (false);
+	q->half_b = vec_dot(oc_perp, d_perp);
+	q->c_perp = vec_dot(oc_perp, oc_perp) - (cyl->radius * cyl->radius);
+	q->disc = (q->half_b * q->half_b) - (q->a * q->c_perp);
+	if (q->disc < 0.0)
+		return (false);
+	q->sqrt_disc = sqrt(q->disc);
+	q->t_root[0] = (-q->half_b - q->sqrt_disc) / q->a;
+	q->t_root[1] = (-q->half_b + q->sqrt_disc) / q->a;
+	return (true);
 }
 
-bool find_best_t_for_body(double t_root[2], const t_ray *c_ray, t_cylinder *cylinder, t_hit_rec *hit_rec)
+bool	hit_cyl_body(const t_ray *c_ray, t_cyl *cyl, t_hit *hit_rec)
+{
+	t_cyl_quad	q;
+
+	if (!cyl_body_quad(c_ray, cyl, &q))
+		return (false);
+	if (best_t_for_body(q.t_root, c_ray, cyl, hit_rec))
+		return (true);
+	return (false);
+}
+
+bool	best_t_for_body(double t_root[2], const t_ray *c_ray, t_cyl *cyl, t_hit *hit)
 {
 	double	half_height;
 	double	best_t;
 	int		i;
 	t_vec	center_to_hit;
 	t_vec	axis_proj;
-	t_vec	radial_vec;//perp radial vector from axis to the surface point
+	t_vec	radial_vec;
 	t_vec	hit_point;
 	double	height_on_axis;
 
-	half_height = cylinder->height * 0.5;
+	half_height = cyl->height * 0.5;
 	best_t = T_MAX;
 	i = 0;
-	
 	while (i < 2)
 	{
-		if(t_root[i] >= T_MIN && t_root[i] <= best_t)
+		if (t_root[i] >= T_MIN && t_root[i] <= best_t)
 		{
-			// Calculate the actual 3D point where the ray intersects the infinite cylinder
-			hit_point = vec_add(c_ray->origin, vec_scale(c_ray->direction, t_root[i]));
-			// Get vector from cylinder center to intersection point
-			center_to_hit = vec_sub(hit_point, cylinder->center);
-			// Project center_to_hit onto the cylinder's axis to find height position
-			height_on_axis = vec_dot(center_to_hit, cylinder->axis);//is it within the height range
-			if(height_on_axis >= -half_height && height_on_axis <= half_height)
+			hit_point = vec_add(c_ray->origin, vec_scale(c_ray->dir, t_root[i]));
+			center_to_hit = vec_sub(hit_point, cyl->center);
+			height_on_axis = vec_dot(center_to_hit, cyl->axis);
+			if (height_on_axis >= -half_height && height_on_axis <= half_height)
 			{
-				axis_proj = vec_scale(cylinder->axis, height_on_axis);// proj of center_to_hit vec on axis to know its height
-				radial_vec = vec_sub(center_to_hit, axis_proj);//take off the axis part to get the radial vector so perp to axis so surface as well
+				axis_proj = vec_scale(cyl->axis, height_on_axis);
+				radial_vec = vec_sub(center_to_hit, axis_proj);
 				best_t = t_root[i];
-				hit_rec->t = t_root[i];
-				hit_rec->intersection = hit_point;
-				hit_rec->normal = vec_normalize(radial_vec);
-				if (vec_dot(hit_rec->normal, c_ray->direction) > 0.0)
-					hit_rec->normal = vec_neg(hit_rec->normal);
-				hit_rec->color = cylinder->color;
+				hit->t = t_root[i];
+				hit->intersection = hit_point;
+				hit->normal = vec_normalize(radial_vec);
+				if (vec_dot(hit->normal, c_ray->dir) > 0.0)
+					hit->normal = vec_neg(hit->normal);
+				hit->color = cyl->color;
 			}
 		}
 		i++;
 	}
-	if(best_t == T_MAX)
-		return(false);
-	return(true);
+	if (best_t == T_MAX)
+		return (false);
+	return (true);
 }
 
-bool hit_cyl_cap(const t_ray *c_ray, t_vec cap_center, t_vec cap_normal, t_hit_rec *hit_rec, double radius)
+void	collect_hits_for_cyl(const t_ray *c_ray, t_cyl *cyl, t_cyl_hits *h)
+{
+	t_vec	top_center;
+	t_vec	bot_center;
+	t_vec	bot_normal;
+	double	half_h;
+
+	half_h = cyl->height * 0.5;
+	h->h_body = hit_cyl_body(c_ray, cyl, &h->body);
+	top_center = vec_add(cyl->center, vec_scale(cyl->axis, half_h));
+	h->h_top = hit_cyl_cap(c_ray, top_center, cyl->axis, &h->top, cyl);
+	bot_center = vec_sub(cyl->center, vec_scale(cyl->axis, half_h));
+	bot_normal = vec_neg(cyl->axis);
+	h->h_bot = hit_cyl_cap(c_ray, bot_center, bot_normal, &h->bot, cyl);
+}
+
+bool	hit_cyl_cap(const t_ray *c_ray, t_vec cap_center, t_vec normal, t_hit *hit_rec, t_cyl *cyl)
 {
 	t_vec		center_to_hit;
 	double		dist_sq;
 	t_plane		cap_plane;
-	t_hit_rec	cap_hit;
-	
+	t_hit		cap_hit;
 
 	cap_plane.point = cap_center;
-	cap_plane.normal = cap_normal;
-	if(!hit_plane(c_ray, &cap_plane, &cap_hit))
+	cap_plane.normal = normal;
+	if (!hit_plane(c_ray, &cap_plane, &cap_hit))
 		return (false);
-	center_to_hit = vec_sub(cap_hit.intersection, cap_center); //vec from intesection to the plane center
+	center_to_hit = vec_sub(cap_hit.intersection, cap_center);
 	dist_sq = vec_dot(center_to_hit, center_to_hit);
-	if (dist_sq <= radius * radius)
-	{ 
+	if (dist_sq <= cyl->radius * cyl->radius)
+	{
 		*hit_rec = cap_hit;
-		hit_rec->color = cap_hit.color;//??
+		hit_rec->color = cap_hit.color;
 		hit_rec->type = OBJ_PLANE;
-		return (true);	
+		return (true);
 	}
 	return (false);
 }
 
-bool	hit_cylinder(const t_ray *c_ray, t_cylinder *cylinder, t_hit_rec *hit_rec)
+bool	hit_cylinder(const t_ray *c_ray, t_cyl *cylinder, t_hit *hit_rec)
 {
-	t_vec		top_center;
-	t_vec		bottom_center;
-	t_vec		bottom_normal;
-	double		half_height;
-	t_hit_rec	body_hit;
-	t_hit_rec	top_cap_hit;
-	t_hit_rec	bottom_cap_hit;
-	t_hit_rec	*closest_hit;
-	bool		is_body_hit;
-	bool		is_top_hit;
-	bool		is_bottom_hit;
-	
-	half_height = cylinder->height * 0.5;
-	hit_rec->color = cylinder->color;
-	is_body_hit = hit_cyl_body(c_ray, cylinder, &body_hit);
-	top_center = vec_add(cylinder->center, vec_scale(cylinder->axis, half_height));
-	is_top_hit = hit_cyl_cap(c_ray, top_center, cylinder->axis, &top_cap_hit, cylinder->radius);
-	bottom_center = vec_sub(cylinder->center, vec_scale(cylinder->axis, half_height));
-	bottom_normal = vec_neg(cylinder->axis);
-	is_bottom_hit = hit_cyl_cap(c_ray, bottom_center, bottom_normal, &bottom_cap_hit, cylinder->radius);
+	t_hit		*closest_hit;
+	t_cyl_hits	h;
+
+	collect_hits_for_cyl(c_ray, cylinder, &h);
 	closest_hit = NULL;
-	if (is_body_hit)
-		closest_hit = &body_hit;
-	if (is_top_hit && (!closest_hit || top_cap_hit.t < closest_hit->t))
-		closest_hit = &top_cap_hit;
-	if (is_bottom_hit && (!closest_hit || bottom_cap_hit.t < closest_hit->t))
-		closest_hit = &bottom_cap_hit;
+	if (h.h_body)
+		closest_hit = &h.body;
+	if (h.h_top && (!closest_hit || h.top.t < closest_hit->t))
+		closest_hit = &h.top;
+	if (h.h_bot && (!closest_hit || h.bot.t < closest_hit->t))
+		closest_hit = &h.bot;
 	if (closest_hit == NULL)
-		return false;
+		return (false);
 	*hit_rec = *closest_hit;
+	hit_rec->color = cylinder->color;
 	hit_rec->type = OBJ_CYL;
-	return true;
+	return (true);
 }

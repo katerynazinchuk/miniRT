@@ -9,11 +9,11 @@
 
 // static t_color	get_hit_color_bonus(t_scene *scene, t_hit_rec *hit_rec);
 // static bool		is_in_shadow_bonus(t_scene *scene, t_hit_rec *hit_rec);
-static t_color	handle_final_color(t_scene *scene, t_hit_rec *hit, t_color final_color);
-static t_color	specular_reflection(t_hit_rec *hit, t_light *light, t_light_basis base);
+static t_color	handle_final_color(t_scene *scene, t_hit *hit, t_color final_color);
+static t_color	specular_reflection(t_hit *hit, t_light *light, t_light_basis base);
 
 
-int	find_light_spot_bonus(t_scene *scene, t_hit_rec *hit_rec)
+int	find_light_spot_bonus(t_scene *scene, t_hit *hit_rec)
 {
 	t_color	final_color;
 
@@ -24,7 +24,7 @@ int	find_light_spot_bonus(t_scene *scene, t_hit_rec *hit_rec)
 	return (0);
 }
 /* go through all light spots and save information about each ray */
-int	handle_multi_lights(t_scene *scene, t_l_spots *light, t_hit_rec *hit, t_color *color)
+int	handle_multi_lights(t_scene *scene, t_l_spots *light, t_hit *hit, t_color *color)
 {
 	t_light_basis	base;
 	size_t			i;
@@ -76,10 +76,10 @@ int	handle_multi_lights(t_scene *scene, t_l_spots *light, t_hit_rec *hit, t_colo
 	return (false);
 } */
 
-bool is_in_shadow(t_scene *scene, t_hit_rec *hit_rec, int i)
+bool is_in_shadow(t_scene *scene, t_hit *hit_rec, int i)
 {
 	t_vec		light_dir;
-	t_hit_rec	temp_rec;
+	t_hit	temp_rec;
 	double		light_distance;
 	t_ray 		shadow_ray;
 
@@ -87,7 +87,7 @@ bool is_in_shadow(t_scene *scene, t_hit_rec *hit_rec, int i)
 	light_distance = vec_length(light_dir);
 	light_dir = vec_normalize(light_dir);
 	shadow_ray.origin = vec_add(hit_rec->intersection, vec_scale(hit_rec->normal, EPS));
-	shadow_ray.direction = light_dir;
+	shadow_ray.dir = light_dir;
 	temp_rec.t = INFINITY;
 
 	if (hit_scene(&shadow_ray, scene, &temp_rec))//for all lights spot
@@ -98,7 +98,7 @@ bool is_in_shadow(t_scene *scene, t_hit_rec *hit_rec, int i)
 	return (false);
 }
 
-t_color	get_hit_color(t_scene *scene, t_hit_rec *hit_rec)
+t_color	get_hit_color(t_scene *scene, t_hit *hit_rec)
 {
 	t_color	black;
 
@@ -113,7 +113,7 @@ t_color	get_hit_color(t_scene *scene, t_hit_rec *hit_rec)
 	return (black);
 }
 
-static t_color	handle_final_color(t_scene *scene, t_hit_rec *hit, t_color final_color)
+static t_color	handle_final_color(t_scene *scene, t_hit *hit, t_color final_color)
 {
 	t_color	amb_color;
 	double	amb;
@@ -125,7 +125,7 @@ static t_color	handle_final_color(t_scene *scene, t_hit_rec *hit, t_color final_
 	return (final_color);
 }
 
-static t_color	specular_reflection(t_hit_rec *hit, t_light *light, t_light_basis base)
+static t_color	specular_reflection(t_hit *hit, t_light *light, t_light_basis base)
 {
 	t_color	spec_color;
 	t_vec	refl_ray;

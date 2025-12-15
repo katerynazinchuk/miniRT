@@ -3,7 +3,7 @@
 
 void	print_plane(t_plane *pl, size_t i);
 void	print_sphere(t_sphere *sp, size_t i);
-void	print_cylinder(t_cylinder *cy, size_t i);
+void	print_cylinder(t_cyl *cy, size_t i);
 
 void	test_parser(t_scene *scene, t_objects *obj)
 {
@@ -55,7 +55,7 @@ void	print_sphere(t_sphere *sp, size_t i)
 	printf("color:		R = %i, G = %i B = %i\n", sp->color.r, sp->color.g, sp->color.b);
 }
 
-void	print_cylinder(t_cylinder *cy, size_t i)
+void	print_cylinder(t_cyl *cy, size_t i)
 {
 	printf("\nIndex of cylinder is %zu\n", i);
 	printf("center:		x = %f, y = %f z = %f\n", cy->center.x, cy->center.y, cy->center.z);

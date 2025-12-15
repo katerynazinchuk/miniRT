@@ -11,7 +11,7 @@ bool	init_structs(t_rt *rt)
 	if (!rt->scene.objects.sps)
 		return (false);
 	rt->scene.objects.sp_arr_cap = ARR_SIZE;
-	rt->scene.objects.cys = (t_cylinder*)malloc(sizeof(t_cylinder) * ARR_SIZE);
+	rt->scene.objects.cys = (t_cyl*)malloc(sizeof(t_cyl) * ARR_SIZE);
 	if (!rt->scene.objects.cys)
 	{
 		free(rt->scene.objects.sps);

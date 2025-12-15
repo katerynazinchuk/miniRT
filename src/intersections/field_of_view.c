@@ -21,7 +21,7 @@ t_ray	create_ray_per_pix(t_camera *camera, int x, int y)
 	norm_y = norm_y * camera->scale;
 
 	temp = vec_add(vec_scale(camera->right, norm_x), vec_scale(camera->up, norm_y));
-	ray.direction = vec_normalize(vec_add(camera->direction, temp));
+	ray.dir = vec_normalize(vec_add(camera->direction, temp));
 	return (ray);
 }
 	// ray.direction.x = ;

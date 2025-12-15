@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   light.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
+/*   By: kzinchuk <kzinchuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 14:55:34 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/12/08 14:16:25 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/12/15 17:04:51 by kzinchuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@
 // then we have to multiply the object color by the brightness factor vec_scale(t, brightness)
 //diffuse = color * intencity
 
-static t_color	get_hit_color(t_scene *scene, t_hit_rec *hit_rec);
-static bool is_in_shadow(t_scene *scene, t_hit_rec *hit_rec);
+static t_color	get_hit_color(t_scene *scene, t_hit *hit_rec);
+static bool is_in_shadow(t_scene *scene, t_hit *hit_rec);
 
-int find_light_spot(t_scene *scene, t_hit_rec *hit_rec)
+int find_light_spot(t_scene *scene, t_hit *hit_rec)
 {
 	t_vec	light_ray;
 	double	brightness;
@@ -66,10 +66,10 @@ int find_light_spot(t_scene *scene, t_hit_rec *hit_rec)
 // 	return (1);
 // }
 
-bool is_in_shadow(t_scene *scene, t_hit_rec *hit_rec)
+bool is_in_shadow(t_scene *scene, t_hit *hit_rec)
 {
 	t_vec		light_dir;
-	t_hit_rec	temp_rec;
+	t_hit	temp_rec;
 	double		light_distance;
 	t_ray 		shadow_ray;
 
@@ -88,7 +88,7 @@ bool is_in_shadow(t_scene *scene, t_hit_rec *hit_rec)
 	return (false);
 }
 //memset was added
-static t_color	get_hit_color(t_scene *scene, t_hit_rec *hit_rec)
+static t_color	get_hit_color(t_scene *scene, t_hit *hit_rec)
 {
 	t_color	black;
 

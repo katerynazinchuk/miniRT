@@ -67,7 +67,7 @@ t_color	to_rgba(int hex_num)
 
 uint32_t	find_color(t_ray ray, t_scene *scene)
 {
-	t_hit_rec	hit_rec;
+	t_hit	hit_rec;
 	uint32_t	color;
 
 	hit_rec.camera_pos = scene->camera.position;
