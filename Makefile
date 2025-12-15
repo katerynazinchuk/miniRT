@@ -31,6 +31,7 @@ SRC_FILES := main.c \
 	math/vec_math.c \
 	math/vec_utils.c \
 	parser/parser.c \
+	parser/validate_line.c \
 	parser/read_lines.c \
 	parser/parse_light.c \
 	parser/parse_plane.c \
@@ -58,7 +59,7 @@ MAIN_SRC_FILES := utils.c \
 	parser/parse_sphere.c \
 	parser/parse_cylinder.c \
 	parser/parser_utils.c \
-	parser/parser_light.c \
+	parser/parse_light.c \
 	parser/validate.c \
 	math/vec_utils.c 
 

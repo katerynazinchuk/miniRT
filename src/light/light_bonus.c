@@ -12,7 +12,6 @@
 static t_color	handle_final_color(t_scene *scene, t_hit_rec *hit, t_color final_color);
 static t_color	specular_reflection(t_hit_rec *hit, t_light *light, t_light_basis base);
 
-
 int	find_light_spot_bonus(t_scene *scene, t_hit_rec *hit_rec)
 {
 	t_color	final_color;
@@ -76,7 +75,7 @@ int	handle_multi_lights(t_scene *scene, t_l_spots *light, t_hit_rec *hit, t_colo
 	return (false);
 } */
 
-bool is_in_shadow(t_scene *scene, t_hit_rec *hit_rec, int i)
+bool	is_in_shadow(t_scene *scene, t_hit_rec *hit_rec, int i)
 {
 	t_vec		light_dir;
 	t_hit_rec	temp_rec;
@@ -102,12 +101,12 @@ t_color	get_hit_color(t_scene *scene, t_hit_rec *hit_rec)
 {
 	t_color	black;
 
-    if (hit_rec->type == OBJ_SPHERE)
-        return (scene->objects.sps[hit_rec->index].color);
-    else if (hit_rec->type == OBJ_PLANE)
-        return (scene->objects.pls[hit_rec->index].color);
-    else if (hit_rec->type == OBJ_CYL)
-        return (scene->objects.cys[hit_rec->index].color);
+	if (hit_rec->type == OBJ_SPHERE)
+		return (scene->objects.sps[hit_rec->index].color);
+	else if (hit_rec->type == OBJ_PLANE)
+		return (scene->objects.pls[hit_rec->index].color);
+	else if (hit_rec->type == OBJ_CYL)
+		return (scene->objects.cys[hit_rec->index].color);
 	else
 		ft_memset(&black, 0, sizeof(t_color));
 	return (black);
