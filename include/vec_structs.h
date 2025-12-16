@@ -6,7 +6,7 @@
 /*   By: kzinchuk <kzinchuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 14:58:45 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/12/15 17:51:15 by kzinchuk         ###   ########.fr       */
+/*   Updated: 2025/12/16 12:26:57 by kzinchuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,5 +180,14 @@ typedef struct s_cyl_quad
 	double	sqrt_disc;
 	double	t_root[2];
 }	t_cyl_quad;
+
+typedef struct s_body_ctx
+{
+	const t_ray	*c_ray;
+	t_cyl		*cyl;
+	t_hit		*hit;
+	double		half_height;
+	double		best_t;
+}	t_body_ctx;
 
 #endif

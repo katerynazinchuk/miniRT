@@ -23,7 +23,8 @@ SRC_FILES := main.c \
 	init_structs.c \
 	intersections/color.c \
 	intersections/field_of_view.c \
-	intersections/hit_cylinder.c \
+	intersections/hit_cylinder_body.c \
+	intersections/hit_cylinder_caps.c \
 	intersections/hit_objects.c \
 	intersections/hit_sphere_plane.c \
 	light/light_bonus.c \
