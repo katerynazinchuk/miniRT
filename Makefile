@@ -27,7 +27,8 @@ SRC_FILES := main.c \
 	intersections/hit_cylinder.c \
 	intersections/hit_objects.c \
 	intersections/hit_sphere_plane.c \
-	light/light_bonus.c \
+	light/light.c \
+	light/specular_reflection.c \
 	math/vec_math.c \
 	math/vec_utils.c \
 	parser/parser.c \

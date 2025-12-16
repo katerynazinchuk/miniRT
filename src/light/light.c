@@ -5,100 +5,82 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/11 14:55:34 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/12/08 14:16:25 by tchernia         ###   ########.fr       */
+/*   Created: 2025/12/16 17:00:03 by tchernia          #+#    #+#             */
+/*   Updated: 2025/12/16 19:39:06 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
- 
-//recieve a t -> bulitd vec_normalize(t);
-//light_ray = vec_add(t, light_sourse);
-//light_ray = vec_normalize(light_ray);
-//brightness = cos(angle) = vec_dot(normal, light_ray);
-// then we have to multiply the object color by the brightness factor vec_scale(t, brightness)
-//diffuse = color * intencity
 
-static t_color	get_hit_color(t_scene *scene, t_hit_rec *hit_rec);
-static bool is_in_shadow(t_scene *scene, t_hit_rec *hit_rec);
-
-int find_light_spot(t_scene *scene, t_hit_rec *hit_rec)
+int	find_light_spot_bonus(t_scene *scene, t_hit_rec *hit_rec)
 {
-	t_vec	light_ray;
-	double	brightness;
-	t_color	base;
+	t_color	final_color;
 
-	light_ray = vec_sub(scene->light.position, hit_rec->intersection);
-	light_ray = vec_normalize(light_ray);
-	base = get_hit_color(scene, hit_rec);
-	if(is_in_shadow(scene, hit_rec))
+	final_color = scene->black;
+	check_lights(scene, &scene->l_sp, hit_rec, &final_color);
+	hit_rec->color = handle_final_color(scene, hit_rec, final_color);
+	return (0);
+}
+
+int	check_lights(t_scene *sc, t_l_spots *light, t_hit_rec *hit, t_color *color)
+{
+	t_light_basis	base;
+	size_t			i;
+	t_color			tmp_color;
+	t_color			spec_color;
+
+	i = 0;
+	while (i < light->l_count)
 	{
-		hit_rec->color = color_scale(base, scene->ambient.ratio);
-		return (1);
-	}
-	else
-	{
-		brightness = fmax(0.0, vec_dot(hit_rec->normal, light_ray));
-		brightness = brightness * scene->light.intensity;
-		brightness = brightness + scene->ambient.ratio;
-		brightness = fmin(1.0, brightness);
-		hit_rec->color = color_scale(base, brightness);
-		return (1);
+		set_light_base(&base, hit, light->l_arr[i].position);
+		if (is_in_shadow(sc, hit, base))
+			tmp_color = sc->black;
+		else
+		{
+			base.dif = fmax(0.0, vec_dot(hit->normal, base.l_ray));
+			base.dif = base.dif * light->l_arr[i].intensity;
+			spec_color = spec_reflection(hit, &light->l_arr[i], base);
+			tmp_color = color_scale(hit->color, base.dif);
+			tmp_color = color_mult(tmp_color, light->l_arr[i].color);
+			tmp_color = color_add(tmp_color, spec_color);
+		}
+		*color = color_add(*color, tmp_color);
+		i++;
 	}
 	return (0);
 }
 
-// int find_light_spot(t_scene *scene, t_hit_rec *hit_rec)
-// {
-// 	t_vec light_ray;
-// 	double brightness;
-// 	t_color base;
-	
-// 	light_ray = vec_sub(scene->light.position, hit_rec->intersection);
-// 	light_ray = vec_normalize(light_ray);
-// 	brightness = fmax(0.0, vec_dot(hit_rec->normal, light_ray));
-// 	brightness = brightness * scene->light.intensity;
-// 	brightness = brightness + scene->ambient.ratio;
-// 	brightness = fmin(1.0, brightness);
-// 	base = get_hit_color(scene, hit_rec);
-// 	hit_rec->color = color_scale(base, brightness);
-
-// 	return (1);
-// }
-
-bool is_in_shadow(t_scene *scene, t_hit_rec *hit_rec)
+void	set_light_base(t_light_basis *base, t_hit_rec *hit, t_vec l_pos)
 {
-	t_vec		light_dir;
+	base->l_ray = vec_sub(l_pos, hit->intersection);
+	base->l_len = vec_length(base->l_ray);
+	base->l_ray = vec_normalize(base->l_ray);
+}
+
+bool	is_in_shadow(t_scene *scene, t_hit_rec *hit, t_light_basis base)
+{
 	t_hit_rec	temp_rec;
-	double		light_distance;
-	t_ray 		shadow_ray;
+	t_ray		shadow_ray;
 
-	light_dir = vec_sub(scene->light.position, hit_rec->intersection);
-	light_distance = vec_length(light_dir);
-	light_dir = vec_normalize(light_dir);
-	shadow_ray.origin = vec_add(hit_rec->intersection, vec_scale(hit_rec->normal, EPS));
-	shadow_ray.direction = light_dir;
+	shadow_ray.origin = vec_add(hit->intersection, vec_scale(hit->normal, EPS));
+	shadow_ray.direction = base.l_ray;
 	temp_rec.t = INFINITY;
-
 	if (hit_scene(&shadow_ray, scene, &temp_rec))
 	{
-		if (temp_rec.t < light_distance && temp_rec.t > T_MIN)
+		if (temp_rec.t < base.l_len && temp_rec.t > T_MIN)
 			return (true);
 	}
 	return (false);
 }
-//memset was added
-static t_color	get_hit_color(t_scene *scene, t_hit_rec *hit_rec)
-{
-	t_color	black;
 
-    if (hit_rec->type == OBJ_SPHERE)
-        return (/* & */scene->objects.sps[hit_rec->index].color);
-    else if (hit_rec->type == OBJ_PLANE)
-        return (/* & */scene->objects.pls[hit_rec->index].color);
-    else if (hit_rec->type == OBJ_CYL)
-        return (/* & */scene->objects.cys[hit_rec->index].color);
-	else
-		ft_memset(&black, 0, sizeof(t_color));
-    return (black);
+t_color	handle_final_color(t_scene *scene, t_hit_rec *hit, t_color final_color)
+{
+	t_color	amb_color;
+	double	amb;
+
+	amb = scene->ambient.ratio;
+	amb_color = color_scale(hit->color, amb);
+	final_color = color_add(final_color, amb_color);
+	final_color = color_clamp(final_color, 0, 255);
+	return (final_color);
 }

@@ -6,7 +6,7 @@
 /*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 14:58:45 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/12/16 19:19:00 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/12/16 19:39:36 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,10 +153,6 @@ typedef struct s_light_basis
 	double	dif;// 0-1 diffuse
 	t_color	l_color;//before it was base; this is object color
 	double	l_len;
-	
-	// t_vec		light_dir;
-	// t_hit_rec	temp_rec;
-	// t_ray		shadow_ray;
 }	t_light_basis;
 
 #endif
