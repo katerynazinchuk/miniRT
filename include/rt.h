@@ -6,7 +6,7 @@
 /*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 15:13:59 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/12/16 19:39:49 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/12/16 19:44:03 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,5 @@ void		handle_esc(mlx_key_data_t key_info, void *param);
 
 /* Tests */
 void	test_parser(t_scene *scene, t_objects *obj);
-
 
 #endif
