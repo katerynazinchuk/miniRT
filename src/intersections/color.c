@@ -6,7 +6,7 @@
 /*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/14 13:59:51 by tchernia          #+#    #+#             */
-/*   Updated: 2025/12/15 19:37:16 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/12/16 16:46:17 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ uint32_t	find_color(t_ray ray, t_scene *scene)
 	uint32_t	color;
 
 	hit_rec.camera_pos = scene->camera.position;
-	color = rgba(110, 110, 110);
+	color = scene->background;
 	if (hit_scene(&ray, scene, &hit_rec))
 	{
 		find_light_spot_bonus(scene, &hit_rec);

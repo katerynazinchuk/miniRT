@@ -6,7 +6,7 @@
 /*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/14 14:01:22 by tchernia          #+#    #+#             */
-/*   Updated: 2025/12/14 14:01:23 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/12/16 16:42:06 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,10 @@
 
 void	print_error(const char *msg)
 {
-	ssize_t	err;
-
 	ft_putendl_fd("Error", 2);
-	err = write(2, msg, ft_strlen(msg));
-	if (err < 0)
-		return ;
-	err = write(2, "\n", 1);
-	if (err < 0)
-		return ;
+	write(2, msg, ft_strlen(msg));
+	write(2, "\n", 1);
+	return ;
 }
 
 int	free_arrays(t_objects *obj, t_light *arr)

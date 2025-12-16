@@ -7,7 +7,7 @@
 // then we have to multiply the object color by the brightness factor vec_scale(t, brightness)
 //diffuse = color * intencity
 
-static bool		is_in_shadow(t_scene *scene, t_hit_rec *hit_rec, int i)
+static bool		is_in_shadow(t_scene *scene, t_hit_rec *hit_rec, int i);
 static t_color	handle_final_color(t_scene *scene, t_hit_rec *hit, t_color final_color);
 static t_color	specular_reflection(t_hit_rec *hit, t_light *light, t_light_basis base);
 
@@ -34,9 +34,9 @@ int	handle_multi_lights(t_scene *scene, t_l_spots *light, t_hit_rec *hit, t_colo
 	{
 		base.l_ray = vec_sub(light->l_arr[i].position, hit->intersection);
 		base.l_ray = vec_normalize(base.l_ray);
-		base.l_color = get_hit_color(scene, hit);
+		base.l_color = hit->color;
 		if(is_in_shadow(scene, hit, i))
-			tmp_color = (t_color){0,0,0};
+			tmp_color = scene->black;
 		else
 		{
 			base.dif = fmax(0.0, vec_dot(hit->normal, base.l_ray));
@@ -96,28 +96,14 @@ static bool	is_in_shadow(t_scene *scene, t_hit_rec *hit_rec, int i)
 	return (false);
 }
 
-t_color	get_hit_color(t_scene *scene, t_hit_rec *hit_rec)
-{
-	t_color	black;
-
-	if (hit_rec->type == OBJ_SPHERE)
-		return (scene->objects.sps[hit_rec->index].color);
-	else if (hit_rec->type == OBJ_PLANE)
-		return (scene->objects.pls[hit_rec->index].color);
-	else if (hit_rec->type == OBJ_CYL)
-		return (scene->objects.cys[hit_rec->index].color);
-	else
-		ft_memset(&black, 0, sizeof(t_color));
-	return (black);
-}
-
 static t_color	handle_final_color(t_scene *scene, t_hit_rec *hit, t_color final_color)
 {
 	t_color	amb_color;
 	double	amb;
 
 	amb = scene->ambient.ratio;
-	amb_color = color_scale(get_hit_color(scene, hit), amb);
+	amb_color = color_scale(hit->color, amb);
+	// amb_color = color_scale(get_hit_color(scene, hit), amb);
 	final_color = color_add(final_color, amb_color);
 	final_color = color_clamp(final_color, 0, 255);
 	return (final_color);

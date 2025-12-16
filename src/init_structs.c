@@ -6,7 +6,7 @@
 /*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/14 14:01:04 by tchernia          #+#    #+#             */
-/*   Updated: 2025/12/14 14:01:05 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/12/16 16:47:38 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ bool	init_structs(t_rt *rt)
 	if (!init_lights(rt))
 		return (false);
 	rt->scene.render = 64;
+	rt->scene.black = to_rgba(000000);
+	rt->scene.background = rgba(0, 0, 0);
 	return (true);
 }
 

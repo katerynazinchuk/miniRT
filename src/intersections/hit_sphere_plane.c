@@ -20,6 +20,7 @@ bool	hit_sphere(const t_ray *c_ray, const t_sphere *sphere, t_hit_rec *hit_rec)
 	hit_rec->intersection = vec_add(c_ray->origin, vec_scale(c_ray->direction, hit_rec->t));
 	hit_rec->normal = vec_sub(hit_rec->intersection, sphere->center);
 	hit_rec->normal = vec_normalize(hit_rec->normal);
+	hit_rec->color = sphere->color;
 	return true;
 }
 
