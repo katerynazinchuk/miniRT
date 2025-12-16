@@ -6,7 +6,7 @@
 /*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 15:13:59 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/12/16 16:49:20 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/12/16 19:13:19 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ t_color		color_mult(t_color one, t_color two);
 
 
 int			handle_multi_lights(t_scene *scene, t_l_spots *light, t_hit_rec *hit, t_color *color);
-// t_color		get_hit_color(t_scene *scene, t_hit_rec *hit_rec);
-// bool		is_in_shadow(t_scene *scene, t_hit_rec *hit_rec, int i);
+
+// bool		is_in_shadow(t_scene *scene, t_hit_rec *hit_rec, t_vec light_dir, double l_len);
 int			find_light_spot_bonus(t_scene *scene, t_hit_rec *hit_rec);
 
 
