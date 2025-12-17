@@ -44,6 +44,8 @@ int	main(int argc, char **argv)
 {
 	t_rt		rt;
 
+	//rt = (t_rt *)malloc(sizeof(t_rt*));
+	// ft_memset(&rt, 0, sizeof(t_rt));
 	if(argc != 2)
 	{
 		print_error("Wrong number of arguments");
@@ -52,14 +54,21 @@ int	main(int argc, char **argv)
 	if (!init_structs(&rt))
 	{
 		print_error("Can't allocate memory");
+<<<<<<< HEAD
 		return (1);
 	}
 	if(!check_file(argv[1]))
 	{
 		free_arrays(&rt.scene.objects, rt.scene.l_sp.l_arr);
 		return (1);
+=======
+		return (free_arrays(&rt.scene.objects, rt.scene.l_sp.l_arr));
+>>>>>>> b3a0293371bcd82001352c67e7ac186f6ac92028
 	}
+	if (!check_file(argv[1]))
+		return (free_arrays(&rt.scene.objects, rt.scene.l_sp.l_arr));
 	if (!parse_file(argv[1], &rt))
+<<<<<<< HEAD
 	{
 		free_arrays(&rt.scene.objects, rt.scene.l_sp.l_arr);
 		return (1);
@@ -107,19 +116,17 @@ static void	loop_handler(void *data)
 
 /* static int draw_img(t_scene *scene, mlx_image_t *img)
 {
-	t_ray		ray;
-	uint32_t	y;
-	uint32_t	x;
-	uint32_t	color;
+	t_scene	*scene;
 
+<<<<<<< HEAD
 	y = 0;
 	while (y < (uint32_t)HEIGHT)
 	{
 		x = 0;
 		while (x < (uint32_t)WIDTH)
 		{
-			ray = create_ray_per_pixel(&scene->camera, x, y);
-			color = find_color(ray, scene);
+			ray = create_ray_per_pixel(&scene->camera, x, y);//here we find our field of view
+			color = find_color(ray, scene);//here we looking for intersection
 			mlx_put_pixel(img, x, y, color);
 			x++;
 		}

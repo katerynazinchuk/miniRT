@@ -6,22 +6,21 @@
 /*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 14:00:36 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/11/25 17:40:28 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/12/16 19:45:43 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef VEC_UTILS_H
 # define VEC_UTILS_H
-#include "vec_utils.h"
 
-typedef struct	s_color
+typedef struct s_color
 {
 	int	r;
 	int	g;
 	int	b;
 }	t_color;
 
-typedef struct	s_vec
+typedef struct s_vec
 {
 	double	x;
 	double	y;

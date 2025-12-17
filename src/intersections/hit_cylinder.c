@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hit_cylinder.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kzinchuk <kzinchuk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 12:11:03 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/12/03 15:42:24 by kzinchuk         ###   ########.fr       */
+/*   Updated: 2025/12/17 12:41:12 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,5 +147,6 @@ bool	hit_cylinder(const t_ray *c_ray, t_cylinder *cylinder, t_hit_rec *hit_rec)
 		return false;
 	*hit_rec = *closest_hit;
 	hit_rec->type = OBJ_CYL;
+	hit_rec->color = cylinder->color;
 	return true;
 }

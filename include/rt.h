@@ -6,7 +6,7 @@
 /*   By: kzinchuk <kzinchuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 15:13:59 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/12/15 17:38:41 by kzinchuk         ###   ########.fr       */
+/*   Updated: 2025/12/17 12:54:22 by kzinchuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 # define T_MIN 1e-4
 # define T_MAX 1e30
 # define SHINE 20
-// # define BACKGROUND_COLOR  0x646464
 
 # include <MLX42/MLX42.h>
 # include <fcntl.h>
@@ -43,21 +42,24 @@ bool	best_t_for_body(double t_root[2], const t_ray *c_ray, t_cyl *cyl, t_hit *hi
 bool	hit_scene(const t_ray *c_ray, t_scene *scene, t_hit *hit_rec);
 
 //--------------light
-int			find_light_spot(t_scene *scene, t_hit *hit_rec);
+int			find_light_spot(t_scene *scene, t_hit_rec *hit_rec);
 t_ray		create_ray_per_pix(t_camera *camera, int x, int y);
 uint32_t	find_color(t_ray ray, t_scene *scene);
 uint32_t	rgba(int r, int g, int b);
-// t_color		to_rgba(int hex_num);
+t_color		to_rgba(int hex_num);
 t_color		color_add(t_color one, t_color two);
 t_color		color_clamp(t_color color, int min, int max);
 t_color		color_mult(t_color one, t_color two);
 
 
-int	handle_multi_lights(t_scene *scene, t_l_spots *light, t_hit *hit, t_color *color);
-t_color	get_hit_color(t_scene *scene, t_hit *hit_rec);
-bool is_in_shadow(t_scene *scene, t_hit *hit_rec, int i);
-int	find_light_spot_bonus(t_scene *scene, t_hit *hit_rec);
+int			check_lights(t_scene *sc, t_l_spots *light, t_hit_rec *hit, t_color *color);
 
+int			find_light_spot_bonus(t_scene *scene, t_hit_rec *hit_rec);
+void		set_light_base(t_light_basis *base, t_hit_rec *hit, t_vec l_pos);
+bool		is_in_shadow(t_scene *scene, t_hit_rec *hit, t_light_basis base);
+t_color		handle_final_color(t_scene *scene, t_hit_rec *hit, t_color final_color);
+t_color		spec_reflection(t_hit_rec *hit, t_light *light, t_light_basis base);
+void		set_light_base(t_light_basis *base, t_hit_rec *hit, t_vec l_pos);
 
 
 
@@ -70,6 +72,5 @@ void		handle_esc(mlx_key_data_t key_info, void *param);
 
 /* Tests */
 void	test_parser(t_scene *scene, t_objects *obj);
-
 
 #endif

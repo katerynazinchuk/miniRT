@@ -1,44 +1,59 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_cylinder.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kzinchuk <kzinchuk@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/12/15 01:02:04 by tchernia          #+#    #+#             */
+/*   Updated: 2025/12/17 12:54:38 by kzinchuk         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "rt.h"
 
-int	process_cylinder(t_objects *obj, char *line/* , int line_counter */)
-{
-	t_cyl	cy_temp;
+static int	parse_cylinder(t_cylinder *cylinder, char *line);
 
-	if (!parse_cylinder(&cy_temp, line/* , line_counter */))
+int	process_cylinder(t_objects *obj, char *line)
+{
+	t_cylinder	cy_temp;
+	ssize_t		s;
+
+	if (!parse_cylinder(&cy_temp, line))
 		return (0);
-	if (!check_capacity((void**)&obj->cys, &obj->cy_arr_cap, obj->cy_count, sizeof(t_cyl)))
+	s = sizeof(t_cylinder);
+	if (!check_capacity((void **)&obj->cys, &obj->cy_arr_cap, obj->cy_count, s))
 		return (0);
 	obj->cys[obj->cy_count] = cy_temp;
-	obj->cy_count++;//we need to check growing is neccessary with previous value, so ++ after growing
+	obj->cy_count++;
 	return (1);
 }
 
-int	parse_cylinder(t_cyl *cylinder, char *line/* , int line_counter */)
+static int	parse_cylinder(t_cylinder *cylinder, char *line)
 {
 	int	i;
 
 	i = 2;
 	if (!skip_spases(line, &i))
 		return (0);
-	if(!parse_vector(line, &i, &cylinder->center, 0))
+	if (!parse_vector(line, &i, &cylinder->center, 0))
 		return (0);
-	if(!skip_spases(line, &i))
+	if (!skip_spases(line, &i))
 		return (0);
-	if(!parse_vector(line, &i, &cylinder->axis, 1))
+	if (!parse_vector(line, &i, &cylinder->axis, 1))
 		return (0);
 	cylinder->axis = vec_normalize(cylinder->axis);
-	if(!skip_spases(line, &i))
+	if (!skip_spases(line, &i))
 		return (0);
 	cylinder->radius = (ft_atof(line, &i) / 2);
-	if (cylinder->radius <=0)
+	if (cylinder->radius <= 0)
 		return (0);
-	if(!skip_spases(line, &i))
+	if (!skip_spases(line, &i))
 		return (0);
-	cylinder->height = ft_atof(line, &i); 
-	if(!skip_spases(line, &i))
+	cylinder->height = ft_atof(line, &i);
+	if (!skip_spases(line, &i))
 		return (0);
-	if(!parse_color(line, &i, &cylinder->color))
+	if (!parse_color(line, &i, &cylinder->color))
 		return (0);
-	cylinder->type = OBJ_CYL;
 	return (1);
 }

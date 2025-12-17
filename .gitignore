@@ -12,3 +12,6 @@ build/
 libft/build/
 get_next_line/build/
 MLX42/build/
+
+# VS Code settings
+.vscode/
