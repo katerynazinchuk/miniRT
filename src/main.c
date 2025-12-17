@@ -54,21 +54,11 @@ int	main(int argc, char **argv)
 	if (!init_structs(&rt))
 	{
 		print_error("Can't allocate memory");
-<<<<<<< HEAD
 		return (1);
-	}
-	if(!check_file(argv[1]))
-	{
-		free_arrays(&rt.scene.objects, rt.scene.l_sp.l_arr);
-		return (1);
-=======
-		return (free_arrays(&rt.scene.objects, rt.scene.l_sp.l_arr));
->>>>>>> b3a0293371bcd82001352c67e7ac186f6ac92028
 	}
 	if (!check_file(argv[1]))
 		return (free_arrays(&rt.scene.objects, rt.scene.l_sp.l_arr));
 	if (!parse_file(argv[1], &rt))
-<<<<<<< HEAD
 	{
 		free_arrays(&rt.scene.objects, rt.scene.l_sp.l_arr);
 		return (1);
