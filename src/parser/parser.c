@@ -6,7 +6,7 @@
 /*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/28 17:36:24 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/12/01 18:03:25 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/12/06 20:26:06 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,26 +100,6 @@ int	parse_camera(t_rt *rt, char *line/* , int line_counter */)
 	rt->scene.camera.angle = rt->scene.camera.angle * M_PI/ 180.0;
 	rt->scene.camera.scale = tan(rt->scene.camera.angle * 0.5);
 	rt->scene.camera.flag = true;
-	return (1);
-}
-
-int	parse_light(t_rt *rt, char *line/* , int line_counter */)
-{
-	int	i;
-
-	i = 1;
-	if (!skip_spases(line, &i))
-		return (0);
-	if(!parse_vector(line, &i, &rt->scene.light.position, 0))
-		return 0;
-	if(!skip_spases(line, &i))
-		return (0);
-	rt->scene.light.intensity = ft_atof(line, &i);
-	if(!skip_spases(line, &i))
-		return (0);
-	if(!parse_color(line, &i, &rt->scene.light.color))
-		return (0);
-	rt->scene.light.flag = true;
 	return (1);
 }
 

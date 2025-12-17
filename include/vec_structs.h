@@ -6,7 +6,7 @@
 /*   By: kzinchuk <kzinchuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 14:58:45 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/12/02 15:22:27 by kzinchuk         ###   ########.fr       */
+/*   Updated: 2025/12/16 12:26:57 by kzinchuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 typedef struct	s_ray
 {
 	t_vec	origin;
-	t_vec	direction;
+	t_vec	dir;
 
 	//we loop through all objects looking for the smaleest positive t, 
 	//that will be the first ray intersection.
@@ -52,7 +52,6 @@ typedef struct	s_light
 	t_color	color;
 	double	intensity;//will be calculated through vec_dot;
 	//..ambient or not, possition of light??
-	bool	flag;
 } t_light;
 
 typedef enum	e_objtype
@@ -74,11 +73,12 @@ typedef struct	s_cylinder
 {
 	t_vec center;
 	t_vec axis;
+	t_vec axis_neg;
 	double radius;
 	double height;// float?? or double??
 	t_color				color;
 	t_objtype			type;
-}	t_cylinder;
+}	t_cyl;
 
 typedef struct	s_plane
 {
@@ -91,7 +91,7 @@ typedef struct	s_plane
 typedef struct	s_objects
 {
 	t_sphere	*sps;
-	t_cylinder	*cys;
+	t_cyl	*cys;
 	t_plane		*pls;
 	size_t		sp_count;
 	size_t		cy_count;
@@ -101,14 +101,34 @@ typedef struct	s_objects
 	size_t		pl_arr_cap;
 }	t_objects;
 
+typedef struct	s_data_img
+{
+	uint32_t	x;
+	uint32_t	y;
+	uint32_t	color;
+	mlx_image_t	*img;
+}	t_data_img;
+
+typedef struct	s_l_spots
+{
+	t_light				*l_arr;//before multi_spot
+	size_t				l_count;
+	size_t				l_cap;
+}	t_l_spots;
+
 
 typedef struct	s_scene
 {
-	t_camera	camera;
-	t_light		light;
-	t_objects	objects;
+	t_camera			camera;
+	t_l_spots			l_sp;
+	t_objects			objects;
+	t_ambient			ambient;
+	t_data_img			data_i;
 	struct s_hit_rec	*hit_rec;
-	t_ambient	ambient;
+	int					render;
+	// t_light				*ls;
+	// size_t				l_count;
+	// size_t				l_cap;
 }	t_scene;
 
 typedef struct	s_rt
@@ -122,10 +142,52 @@ typedef struct s_hit_rec
 	double		t;
 	t_vec		intersection;
 	t_vec		normal;
+	t_vec		camera_pos;
 	t_objtype	type;
-	int index;
-	t_color	color;
+	int			index;
+	t_color		color;
 	
-}	t_hit_rec;
+}	t_hit;
+
+typedef struct s_light_basis
+{
+	t_vec	l_ray;//direction from intersection point to light
+	double	dif;// 0-1 diffuse
+	t_color	l_color;//before it was base
+	
+	// t_vec		light_dir;
+	// t_hit_rec	temp_rec;
+	// double		light_distance;
+	// t_ray		shadow_ray;
+}	t_light_basis;
+
+typedef struct s_cyl_hits
+{
+	t_hit	body;
+	t_hit	top;
+	t_hit	bot;
+	bool	h_top;
+	bool	h_bot; 
+	bool	h_body; 
+}	t_cyl_hits;
+
+typedef struct s_cyl_quad
+{
+	double	a;
+	double	half_b;
+	double	c_perp;
+	double	disc;
+	double	sqrt_disc;
+	double	t_root[2];
+}	t_cyl_quad;
+
+typedef struct s_body_ctx
+{
+	const t_ray	*c_ray;
+	t_cyl		*cyl;
+	t_hit		*hit;
+	double		half_height;
+	double		best_t;
+}	t_body_ctx;
 
 #endif

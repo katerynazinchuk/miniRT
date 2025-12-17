@@ -19,11 +19,12 @@ void	print_error(const char *msg)
 	write(2, "\n", 1);
 }
 
-void	free_arrays(t_objects *obj)
+void	free_arrays(t_objects *obj, t_light *arr)
 {
 	free(obj->sps);
 	free(obj->pls);
 	free(obj->cys);
+	free(arr);
 }
 
 void	handle_esc(mlx_key_data_t key_info, void *param)

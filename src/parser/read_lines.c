@@ -119,31 +119,32 @@ int validate_identifier(t_rt *rt, char *line/* , int line_counter */)
 	# need to check is it the same with light, because it depends on bonus part
 	#
 */
-int	validate_singe_element(t_rt *rt, char *line/* , int line_counter */)
+int	validate_singe_element(t_rt *rt, char *line)
 {
 	int	i;
 
 	i = 0;
 	if(line[i] == 'A' && !rt->scene.ambient.flag)
-		return(parse_ambient(rt, line/* , line_counter */));
+		return(parse_ambient(rt, line));
 	else if(line[i] == 'C' && !rt->scene.camera.flag)
-		return(parse_camera(rt, line/* , line_counter */));
-	else if(line[i] == 'L' && !rt->scene.light.flag)
-		return(parse_light(rt, line/* , line_counter */));
+		return(parse_camera(rt, line));
+	// else if(line[i] == 'L' && !rt->scene.light.flag)
+	else if(line[i] == 'L')
+		return(process_light(&rt->scene.l_sp, line));
 	print_error("Too many capital identifiers");
 	return (0);
 }
 
-int	validate_geometric_objects(t_objects *obj, char *line/* , int line_counter */)
+int	validate_geometric_objects(t_objects *obj, char *line)
 {
 	int	i;
 
 	i = 0;
 	if(line[i] == 's' && line[i + 1] == 'p')
-		return (process_sphere(obj, line/* , line_counter */));//need to check how I go through levels to free heap
+		return (process_sphere(obj, line));
 	else if(line[i] == 'p' && line[i + 1] == 'l')
-		return(process_plane(obj, line/* , line_counter */));
+		return(process_plane(obj, line));
 	else if(line[i] == 'c' && line[i + 1] == 'y')
-		return(process_cylinder(obj, line/* , line_counter */));
+		return(process_cylinder(obj, line));
 	return (1);
 }

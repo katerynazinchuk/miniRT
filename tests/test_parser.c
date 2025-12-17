@@ -3,7 +3,7 @@
 
 void	print_plane(t_plane *pl, size_t i);
 void	print_sphere(t_sphere *sp, size_t i);
-void	print_cylinder(t_cylinder *cy, size_t i);
+void	print_cylinder(t_cyl *cy, size_t i);
 
 void	test_parser(t_scene *scene, t_objects *obj)
 {
@@ -18,11 +18,6 @@ void	test_parser(t_scene *scene, t_objects *obj)
 	printf("direction:	x = %f, y = %f z = %f\n", scene->camera.direction.x, scene->camera.direction.y, scene->camera.direction.z);
 	printf("angle in degrees:	%f\n", (scene->camera.angle * 180 / M_PI));
 	printf("angle in radiants:	%f\n", (scene->camera.angle));
-
-	printf("\nLight: \n");
-	printf("possition:	x = %f, y = %f z = %f\n", scene->light.position.x, scene->light.position.y, scene->light.position.z);
-	printf("color:			R = %i, G = %i B = %i\n", scene->light.color.r, scene->light.color.g, scene->light.color.b);
-	printf("intencity:		%f\n", scene->light.intensity);
 
 	printf("\nObjects: \n");
 	i = 0;
@@ -60,7 +55,7 @@ void	print_sphere(t_sphere *sp, size_t i)
 	printf("color:		R = %i, G = %i B = %i\n", sp->color.r, sp->color.g, sp->color.b);
 }
 
-void	print_cylinder(t_cylinder *cy, size_t i)
+void	print_cylinder(t_cyl *cy, size_t i)
 {
 	printf("\nIndex of cylinder is %zu\n", i);
 	printf("center:		x = %f, y = %f z = %f\n", cy->center.x, cy->center.y, cy->center.z);
