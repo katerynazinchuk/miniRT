@@ -6,13 +6,13 @@
 /*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 17:00:03 by tchernia          #+#    #+#             */
-/*   Updated: 2025/12/17 13:07:42 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/12/17 13:41:35 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-int	find_light_spot_bonus(t_scene *scene, t_hit *hit_rec)
+int	find_light_spot(t_scene *scene, t_hit *hit_rec)
 {
 	t_color	final_color;
 
@@ -60,7 +60,7 @@ void	set_light_base(t_light_basis *base, t_hit *hit, t_vec l_pos)
 bool	is_in_shadow(t_scene *scene, t_hit *hit, t_light_basis base)
 {
 	t_hit	temp_rec;
-	t_ray		shadow_ray;
+	t_ray	shadow_ray;
 
 	shadow_ray.origin = vec_add(hit->intersection, vec_scale(hit->normal, EPS));
 	shadow_ray.dir = base.l_ray;

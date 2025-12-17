@@ -6,7 +6,7 @@
 /*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 01:02:04 by tchernia          #+#    #+#             */
-/*   Updated: 2025/12/17 13:07:02 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/12/17 13:38:47 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int	parse_cylinder(t_cyl *cylinder, char *line);
 int	process_cylinder(t_objects *obj, char *line)
 {
 	t_cyl	cy_temp;
-	ssize_t		s;
+	ssize_t	s;
 
 	if (!parse_cylinder(&cy_temp, line))
 		return (0);

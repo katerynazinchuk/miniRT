@@ -6,7 +6,7 @@
 /*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 14:58:45 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/12/17 13:07:42 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/12/17 13:40:28 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ typedef struct s_plane
 typedef struct s_objects
 {
 	t_sphere	*sps;
-	t_cyl	*cys;
+	t_cyl		*cys;
 	t_plane		*pls;
 	size_t		sp_count;
 	size_t		cy_count;
@@ -153,8 +153,8 @@ typedef struct s_cyl_hits
 	t_hit	top;
 	t_hit	bot;
 	bool	h_top;
-	bool	h_bot; 
-	bool	h_body; 
+	bool	h_bot;
+	bool	h_body;
 }	t_cyl_hits;
 
 typedef struct s_cyl_quad
