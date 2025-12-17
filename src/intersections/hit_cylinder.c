@@ -6,7 +6,7 @@
 /*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 12:11:03 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/12/16 17:54:58 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/12/17 13:07:42 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 //oc - (oc · V)*V -  searching for the perp to the axis between part of the oc vector inside cylinder and its projection
 // Project oc and ray direction onto plane perpendicular to axis
 
-bool	hit_cyl_body(const t_ray *c_ray, t_cylinder *cylinder, t_hit_rec *hit_rec)
+bool	hit_cyl_body(const t_ray *c_ray, t_cyl *cylinder, t_hit *hit_rec)
 {
 	t_vec	oc;//origin to center
     double	oc_dot_axis;//dot product of oc and axis
@@ -40,9 +40,9 @@ bool	hit_cyl_body(const t_ray *c_ray, t_cylinder *cylinder, t_hit_rec *hit_rec)
 	
 	oc = vec_sub(c_ray->origin, cylinder->center);
 	oc_dot_axis = vec_dot(oc, cylinder->axis);
-	D_dot_axis = vec_dot(c_ray->direction, cylinder->axis);
+	D_dot_axis = vec_dot(c_ray->dir, cylinder->axis);
 	oc_perp = vec_sub(oc, vec_scale(cylinder->axis, oc_dot_axis));//possition of the whole vector from camera to axis
-	D_perp = vec_sub(c_ray->direction, vec_scale(cylinder->axis, D_dot_axis));// direction
+	D_perp = vec_sub(c_ray->dir, vec_scale(cylinder->axis, D_dot_axis));// direction
 	// Quadratic equation for infinite cylinder: at² + 2bt + c = 0
 	a = vec_dot(D_perp, D_perp); //(D·D); c_ray->direction * c_ray->direction
 	if (a < EPS)
@@ -61,7 +61,7 @@ bool	hit_cyl_body(const t_ray *c_ray, t_cylinder *cylinder, t_hit_rec *hit_rec)
 	return false;
 }
 
-bool find_best_t_for_body(double t_root[2], const t_ray *c_ray, t_cylinder *cylinder, t_hit_rec *hit_rec)
+bool find_best_t_for_body(double t_root[2], const t_ray *c_ray, t_cyl *cylinder, t_hit *hit_rec)
 {
 	double	half_height;
 	double	best_t;
@@ -81,7 +81,7 @@ bool find_best_t_for_body(double t_root[2], const t_ray *c_ray, t_cylinder *cyli
 		if(t_root[i] >= T_MIN && t_root[i] <= best_t)
 		{
 			// Calculate the actual 3D point where the ray intersects the infinite cylinder
-			hit_point = vec_add(c_ray->origin, vec_scale(c_ray->direction, t_root[i]));
+			hit_point = vec_add(c_ray->origin, vec_scale(c_ray->dir, t_root[i]));
 			// Get vector from cylinder center to intersection point
 			center_to_hit = vec_sub(hit_point, cylinder->center);
 			// Project center_to_hit onto the cylinder's axis to find height position
@@ -94,7 +94,7 @@ bool find_best_t_for_body(double t_root[2], const t_ray *c_ray, t_cylinder *cyli
 				hit_rec->t = t_root[i];
 				hit_rec->intersection = hit_point;
 				hit_rec->normal = vec_normalize(radial_vec);
-				if (vec_dot(hit_rec->normal, c_ray->direction) > 0.0)
+				if (vec_dot(hit_rec->normal, c_ray->dir) > 0.0)
 					hit_rec->normal = vec_neg(hit_rec->normal);
 				hit_rec->color = cylinder->color;
 			}
@@ -106,12 +106,12 @@ bool find_best_t_for_body(double t_root[2], const t_ray *c_ray, t_cylinder *cyli
 	return(true);
 }
 
-bool hit_cyl_cap(const t_ray *c_ray, t_vec cap_center, t_vec cap_normal, t_hit_rec *hit_rec, double radius)
+bool hit_cyl_cap(const t_ray *c_ray, t_vec cap_center, t_vec cap_normal, t_hit *hit_rec, double radius)
 {
 	t_vec		center_to_hit;
 	double		dist_sq;
 	t_plane		cap_plane;
-	t_hit_rec	cap_hit;
+	t_hit	cap_hit;
 	
 
 	cap_plane.point = cap_center;
@@ -130,16 +130,16 @@ bool hit_cyl_cap(const t_ray *c_ray, t_vec cap_center, t_vec cap_normal, t_hit_r
 	return (false);
 }
 
-bool	hit_cylinder(const t_ray *c_ray, t_cylinder *cylinder, t_hit_rec *hit_rec)
+bool	hit_cylinder(const t_ray *c_ray, t_cyl *cylinder, t_hit *hit_rec)
 {
 	t_vec		top_center;
 	t_vec		bottom_center;
 	t_vec		bottom_normal;
 	double		half_height;
-	t_hit_rec	body_hit;
-	t_hit_rec	top_cap_hit;
-	t_hit_rec	bottom_cap_hit;
-	t_hit_rec	*closest_hit;
+	t_hit	body_hit;
+	t_hit	top_cap_hit;
+	t_hit	bottom_cap_hit;
+	t_hit	*closest_hit;
 	bool		is_body_hit;
 	bool		is_top_hit;
 	bool		is_bottom_hit;

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   light.c                                            :+:      :+:    :+:   */
+/*   light_old.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 14:55:34 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/12/08 14:16:25 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/12/17 13:07:42 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@
 // then we have to multiply the object color by the brightness factor vec_scale(t, brightness)
 //diffuse = color * intencity
 
-static t_color	get_hit_color(t_scene *scene, t_hit_rec *hit_rec);
-static bool is_in_shadow(t_scene *scene, t_hit_rec *hit_rec);
+static t_color	get_hit_color(t_scene *scene, t_hit *hit_rec);
+static bool is_in_shadow(t_scene *scene, t_hit *hit_rec);
 
-int find_light_spot(t_scene *scene, t_hit_rec *hit_rec)
+int find_light_spot(t_scene *scene, t_hit *hit_rec)
 {
 	t_vec	light_ray;
 	double	brightness;
@@ -66,10 +66,10 @@ int find_light_spot(t_scene *scene, t_hit_rec *hit_rec)
 // 	return (1);
 // }
 
-bool is_in_shadow(t_scene *scene, t_hit_rec *hit_rec)
+bool is_in_shadow(t_scene *scene, t_hit *hit_rec)
 {
 	t_vec		light_dir;
-	t_hit_rec	temp_rec;
+	t_hit	temp_rec;
 	double		light_distance;
 	t_ray 		shadow_ray;
 
@@ -77,7 +77,7 @@ bool is_in_shadow(t_scene *scene, t_hit_rec *hit_rec)
 	light_distance = vec_length(light_dir);
 	light_dir = vec_normalize(light_dir);
 	shadow_ray.origin = vec_add(hit_rec->intersection, vec_scale(hit_rec->normal, EPS));
-	shadow_ray.direction = light_dir;
+	shadow_ray.dir = light_dir;
 	temp_rec.t = INFINITY;
 
 	if (hit_scene(&shadow_ray, scene, &temp_rec))
@@ -88,7 +88,7 @@ bool is_in_shadow(t_scene *scene, t_hit_rec *hit_rec)
 	return (false);
 }
 //memset was added
-static t_color	get_hit_color(t_scene *scene, t_hit_rec *hit_rec)
+static t_color	get_hit_color(t_scene *scene, t_hit *hit_rec)
 {
 	t_color	black;
 

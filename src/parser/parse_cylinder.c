@@ -6,22 +6,22 @@
 /*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 01:02:04 by tchernia          #+#    #+#             */
-/*   Updated: 2025/12/15 01:03:56 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/12/17 13:07:02 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-static int	parse_cylinder(t_cylinder *cylinder, char *line);
+static int	parse_cylinder(t_cyl *cylinder, char *line);
 
 int	process_cylinder(t_objects *obj, char *line)
 {
-	t_cylinder	cy_temp;
+	t_cyl	cy_temp;
 	ssize_t		s;
 
 	if (!parse_cylinder(&cy_temp, line))
 		return (0);
-	s = sizeof(t_cylinder);
+	s = sizeof(t_cyl);
 	if (!check_capacity((void **)&obj->cys, &obj->cy_arr_cap, obj->cy_count, s))
 		return (0);
 	obj->cys[obj->cy_count] = cy_temp;
@@ -29,7 +29,7 @@ int	process_cylinder(t_objects *obj, char *line)
 	return (1);
 }
 
-static int	parse_cylinder(t_cylinder *cylinder, char *line)
+static int	parse_cylinder(t_cyl *cylinder, char *line)
 {
 	int	i;
 

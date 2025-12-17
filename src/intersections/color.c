@@ -6,7 +6,7 @@
 /*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/14 13:59:51 by tchernia          #+#    #+#             */
-/*   Updated: 2025/12/16 19:17:07 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/12/17 13:06:32 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 uint32_t	find_color(t_ray ray, t_scene *scene)
 {
-	t_hit_rec	hit_rec;
+	t_hit	hit_rec;
 	uint32_t	color;
 
 	color = scene->background;

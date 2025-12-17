@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hit_cylinder_caps.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kzinchuk <kzinchuk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 12:24:36 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/12/16 12:38:08 by kzinchuk         ###   ########.fr       */
+/*   Updated: 2025/12/17 13:08:52 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

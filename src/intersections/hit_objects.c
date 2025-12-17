@@ -3,16 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   hit_objects.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kzinchuk <kzinchuk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 12:13:30 by kzinchuk          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/12/03 15:42:52 by kzinchuk         ###   ########.fr       */
-=======
-/*   Updated: 2025/12/16 12:37:24 by kzinchuk         ###   ########.fr       */
->>>>>>> feat/norm_for_hit
+/*   Updated: 2025/12/17 13:09:47 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "rt.h"
 

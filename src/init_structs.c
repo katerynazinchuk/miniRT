@@ -6,7 +6,7 @@
 /*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/14 14:01:04 by tchernia          #+#    #+#             */
-/*   Updated: 2025/12/16 19:11:11 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/12/17 13:07:02 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static bool	init_sps(t_rt *rt)
 
 static bool	init_cys(t_rt *rt)
 {
-	rt->scene.objects.cys = (t_cylinder *)malloc(sizeof(t_cylinder) * ARR_SIZE);
+	rt->scene.objects.cys = (t_cyl *)malloc(sizeof(t_cyl) * ARR_SIZE);
 	if (!rt->scene.objects.cys)
 		return (false);
 	rt->scene.objects.cy_arr_cap = ARR_SIZE;

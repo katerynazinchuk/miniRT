@@ -6,7 +6,7 @@
 /*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/14 14:00:14 by tchernia          #+#    #+#             */
-/*   Updated: 2025/12/14 16:23:09 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/12/17 13:07:42 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_ray	create_ray_per_pix(t_camera *camera, int x, int y)
 
 	x_normalise(x, &norm_x, camera);
 	y_normalise(y, &norm_y, camera);
-	ray.direction = calculate_direction(camera, norm_x, norm_y);
+	ray.dir = calculate_direction(camera, norm_x, norm_y);
 	ray.origin = camera->position;
 	return (ray);
 }

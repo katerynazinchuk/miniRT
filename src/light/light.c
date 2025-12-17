@@ -6,13 +6,13 @@
 /*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 17:00:03 by tchernia          #+#    #+#             */
-/*   Updated: 2025/12/16 19:39:06 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/12/17 13:07:42 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-int	find_light_spot_bonus(t_scene *scene, t_hit_rec *hit_rec)
+int	find_light_spot_bonus(t_scene *scene, t_hit *hit_rec)
 {
 	t_color	final_color;
 
@@ -22,7 +22,7 @@ int	find_light_spot_bonus(t_scene *scene, t_hit_rec *hit_rec)
 	return (0);
 }
 
-int	check_lights(t_scene *sc, t_l_spots *light, t_hit_rec *hit, t_color *color)
+int	check_lights(t_scene *sc, t_l_spots *light, t_hit *hit, t_color *color)
 {
 	t_light_basis	base;
 	size_t			i;
@@ -50,20 +50,20 @@ int	check_lights(t_scene *sc, t_l_spots *light, t_hit_rec *hit, t_color *color)
 	return (0);
 }
 
-void	set_light_base(t_light_basis *base, t_hit_rec *hit, t_vec l_pos)
+void	set_light_base(t_light_basis *base, t_hit *hit, t_vec l_pos)
 {
 	base->l_ray = vec_sub(l_pos, hit->intersection);
 	base->l_len = vec_length(base->l_ray);
 	base->l_ray = vec_normalize(base->l_ray);
 }
 
-bool	is_in_shadow(t_scene *scene, t_hit_rec *hit, t_light_basis base)
+bool	is_in_shadow(t_scene *scene, t_hit *hit, t_light_basis base)
 {
-	t_hit_rec	temp_rec;
+	t_hit	temp_rec;
 	t_ray		shadow_ray;
 
 	shadow_ray.origin = vec_add(hit->intersection, vec_scale(hit->normal, EPS));
-	shadow_ray.direction = base.l_ray;
+	shadow_ray.dir = base.l_ray;
 	temp_rec.t = INFINITY;
 	if (hit_scene(&shadow_ray, scene, &temp_rec))
 	{
@@ -73,7 +73,7 @@ bool	is_in_shadow(t_scene *scene, t_hit_rec *hit, t_light_basis base)
 	return (false);
 }
 
-t_color	handle_final_color(t_scene *scene, t_hit_rec *hit, t_color final_color)
+t_color	handle_final_color(t_scene *scene, t_hit *hit, t_color final_color)
 {
 	t_color	amb_color;
 	double	amb;

@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   light_utils.c                                      :+:      :+:    :+:   */
+/*   specular_reflection.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 19:36:05 by tchernia          #+#    #+#             */
-/*   Updated: 2025/12/16 19:36:47 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/12/17 13:06:32 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-t_color	spec_reflection(t_hit_rec *hit, t_light *light, t_light_basis base)
+t_color	spec_reflection(t_hit *hit, t_light *light, t_light_basis base)
 {
 	t_color	spec_color;
 	t_vec	refl_ray;
