@@ -6,7 +6,7 @@
 /*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 14:58:45 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/12/17 13:40:28 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/12/17 14:26:16 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,5 +175,14 @@ typedef struct s_body_ctx
 	double		half_height;
 	double		best_t;
 }	t_body_ctx;
+
+typedef struct s_h_cyl_vecs
+{
+	t_vec		top_center;
+	t_vec		bot_center;
+	t_vec		bot_normal;
+	const t_ray	*camera_ray;
+	bool		is_top_center;
+}	t_h_cyl_vecs;
 
 #endif
