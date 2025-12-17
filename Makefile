@@ -22,14 +22,19 @@ SRC_FILES := main.c \
 	utils.c \
 	init_structs.c \
 	intersections/color.c \
+	intersections/color_utils.c \
 	intersections/field_of_view.c \
 	intersections/hit_cylinder.c \
 	intersections/hit_objects.c \
 	intersections/hit_sphere_plane.c \
 	light/light.c \
+	light/specular_reflection.c \
+	math/vec_math.c \
 	math/vec_utils.c \
 	parser/parser.c \
+	parser/validate_line.c \
 	parser/read_lines.c \
+	parser/parse_light.c \
 	parser/parse_plane.c \
 	parser/parse_sphere.c \
 	parser/parse_cylinder.c \
@@ -46,22 +51,30 @@ TEST_BUILD_DIR := $(BUILD_DIR)/$(TEST_DIR)
 TEST_SRC := $(TEST_DIR)/test_parser.c \
 			$(TEST_DIR)/main_test.c
 TEST_OBJ := $(patsubst $(TEST_DIR)/%.c,$(TEST_BUILD_DIR)/%.o,$(TEST_SRC))
+#additional without main.c
 MAIN_SRC_FILES := utils.c \
 	init_structs.c \
-	intersections/color.c \
-	intersections/field_of_view.c \
-	intersections/hit_cylinder.c \
-	intersections/hit_objects.c \
-	intersections/hit_sphere_plane.c \
-	light/light.c \
-	math/vec_utils.c \
-	parser/parser.c \
-	parser/read_lines.c \
-	parser/parse_plane.c \
-	parser/parse_sphere.c \
-	parser/parse_cylinder.c \
-	parser/parser_utils.c \
-	parser/validate.c
+	parser/*.c \
+	math/*.c 
+
+# 	parser/parser.c \
+# 	parser/read_lines.c \
+# 	parser/parse_plane.c \
+# 	parser/parse_sphere.c \
+# 	parser/parse_cylinder.c \
+# 	parser/parser_utils.c \
+# 	parser/parse_light.c \
+# 	parser/validate.c \
+# 	math/vec_utils.c 
+
+# 	intersections/color.c \
+# 	intersections/field_of_view.c \
+# 	intersections/hit_cylinder.c \
+# 	intersections/hit_objects.c \
+# 	intersections/hit_sphere_plane.c \
+# 	light/light.c \
+
+
 
 MAIN_SRCS := $(addprefix $(SRC_DIR)/, $(MAIN_SRC_FILES))
 MAIN_OBJS := $(patsubst $(SRC_DIR)/%.c,$(BUILD_DIR)/%.o,$(MAIN_SRCS))

@@ -3,23 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kzinchuk <kzinchuk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/03 15:47:23 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/12/03 15:47:26 by kzinchuk         ###   ########.fr       */
+/*   Created: 2025/12/14 14:01:11 by tchernia          #+#    #+#             */
+/*   Updated: 2025/12/17 12:40:47 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-static int	build_graphic(t_scene *scene);
-static int	draw_img(t_scene *scene, mlx_image_t *img);
+static int	build_graphic(t_scene *scene, t_data_img *data_i);
+static void	loop_handler(void *data);
+static void	draw_img_dither(t_scene *scene, t_data_img *data_i);
+static void	handle_pixel(t_scene *scene, t_data_img *data_i);
 
 int	main(int argc, char **argv)
 {
 	t_rt		rt;
 
-	if(argc != 2)
+	if (argc != 2)
 	{
 		print_error("Wrong number of arguments");
 		return (1);
@@ -27,31 +29,21 @@ int	main(int argc, char **argv)
 	if (!init_structs(&rt))
 	{
 		print_error("Can't allocate memory");
-		return (1);
+		return (free_arrays(&rt.scene.objects, rt.scene.l_sp.l_arr));
 	}
-	if(!check_file(argv[1]))
-	{
-		free_arrays(&rt.scene.objects);
-		return (1);
-	}
+	if (!check_file(argv[1]))
+		return (free_arrays(&rt.scene.objects, rt.scene.l_sp.l_arr));
 	if (!parse_file(argv[1], &rt))
-	{
-		free_arrays(&rt.scene.objects);
-		return (1);
-	}
-	if (!build_graphic(&rt.scene))
-	{
-		free_arrays(&rt.scene.objects);
-		return (1);
-	}
-	free_arrays(&rt.scene.objects);
+		return (free_arrays(&rt.scene.objects, rt.scene.l_sp.l_arr));
+	if (!build_graphic(&rt.scene, &rt.scene.data_i))
+		return (free_arrays(&rt.scene.objects, rt.scene.l_sp.l_arr));
+	free_arrays(&rt.scene.objects, rt.scene.l_sp.l_arr);
 	return (0);
 }
 
-static int	build_graphic(t_scene *scene)
+static int	build_graphic(t_scene *scene, t_data_img *data_i)
 {
 	mlx_t		*mlx;
-	mlx_image_t	*img;
 
 	mlx = mlx_init(WIDTH, HEIGHT, "MiniRT", false);
 	if (!mlx)
@@ -59,40 +51,59 @@ static int	build_graphic(t_scene *scene)
 		print_error(mlx_strerror(mlx_errno));
 		return (0);
 	}
-	img = mlx_new_image(mlx, WIDTH, HEIGHT);
-	if (!img || (mlx_image_to_window(mlx, img, 0, 0) < 0))
+	data_i->img = mlx_new_image(mlx, WIDTH, HEIGHT);
+	if (!data_i->img || (mlx_image_to_window(mlx, data_i->img, 0, 0) < 0))
 	{
 		mlx_terminate(mlx);
 		print_error(mlx_strerror(mlx_errno));
 		return (0);
 	}
-	draw_img(scene, img);
 	mlx_key_hook(mlx, handle_esc, mlx);
+	mlx_loop_hook(mlx, loop_handler, scene);
 	mlx_loop(mlx);
 	mlx_terminate(mlx);
 	return (1);
 }
 
-static int draw_img(t_scene *scene, mlx_image_t *img)
+static void	loop_handler(void *data)
 {
-	t_ray		ray;
-	uint32_t	y;
-	uint32_t	x;
-	uint32_t	color;
+	t_scene	*scene;
 
-	y = 0;
-	while (y < (uint32_t)HEIGHT)
-	{
-		x = 0;
-		while (x < (uint32_t)WIDTH)
-		{
-			ray = create_ray_per_pixel(&scene->camera, x, y);
-			color = find_color(ray, scene);
-			mlx_put_pixel(img, x, y, color);
-			x++;
-		}
-		y++;
-	}
-	return (0);
+	scene = data;
+	draw_img_dither(scene, &scene->data_i);
 }
 
+static void	draw_img_dither(t_scene *scene, t_data_img *data_i)
+{
+	if (scene->render < 0)
+		return ;
+	data_i->x = 0;
+	data_i->y = 0;
+	while (data_i->y < (uint32_t)HEIGHT)
+	{
+		handle_pixel(scene, data_i);
+		data_i->x++;
+		if (data_i->x == (uint32_t)WIDTH)
+		{
+			data_i->x = 0;
+			data_i->y++;
+		}
+	}
+	scene->render--;
+}
+
+static void	handle_pixel(t_scene *scene, t_data_img *data_i)
+{
+	t_ray		ray;
+	static int	map[8][8] = {{0, 32, 8, 40, 2, 34, 10, 42}, {48, 16, 56, 24, 50,
+		18, 58, 26}, {12, 44, 4, 36, 14, 46, 6, 38}, {60, 28, 52, 20, 62,
+		30, 54, 22}, {3, 35, 11, 43, 1, 33, 9, 41}, {51, 19, 59, 27, 49, 17,
+		57, 25}, {15, 47, 7, 39, 13, 45, 5, 37}, {63, 31, 55, 23, 61, 29,
+		53, 21}};
+
+	if (map[data_i->x % 8][data_i->y % 8] != scene->render)
+		return ;
+	ray = create_ray_per_pix(&scene->camera, data_i->x, data_i->y);
+	data_i->color = find_color(ray, scene);
+	mlx_put_pixel(data_i->img, data_i->x, data_i->y, data_i->color);
+}

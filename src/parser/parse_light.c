@@ -1,51 +1,49 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_sphere.c                                     :+:      :+:    :+:   */
+/*   parse_light.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/15 00:45:48 by tchernia          #+#    #+#             */
-/*   Updated: 2025/12/15 01:00:36 by tchernia         ###   ########.fr       */
+/*   Created: 2025/12/15 01:04:48 by tchernia          #+#    #+#             */
+/*   Updated: 2025/12/15 01:04:49 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-static int	parse_sphere(t_sphere *sphere, char *line);
+static int	parse_light(t_light *light, char *line);
 
-int	process_sphere(t_objects *obj, char *line)
+int	process_light(t_l_spots *l_sp, char *line)
 {
-	t_sphere	sp_temp;
-	ssize_t		s;
+	t_light	l_temp;
+	size_t	s;
 
-	if (!parse_sphere(&sp_temp, line))
+	if (!parse_light(&l_temp, line))
 		return (0);
-	s = sizeof(t_sphere);
-	if (!check_capacity((void **)&obj->sps, &obj->sp_arr_cap, obj->sp_count, s))
+	s = sizeof(t_light);
+	if (!check_capacity((void **)&l_sp->l_arr, &l_sp->l_cap, l_sp->l_count, s))
 		return (0);
-	obj->sps[obj->sp_count] = sp_temp;
-	obj->sp_count++;
+	l_sp->l_arr[l_sp->l_count] = l_temp;
+	l_sp->l_count++;
 	return (1);
 }
 
-static int	parse_sphere(t_sphere *sphere, char *line)
+static int	parse_light(t_light *light, char *line)
 {
-	int		i;
+	int	i;
 
-	i = 2;
+	i = 1;
 	if (!skip_spases(line, &i))
 		return (0);
-	if (!parse_vector(line, &i, &sphere->center, 0))
-		return (0);
-	if (!skip_spases(line, &i))
-		return (0);
-	sphere->radius = (ft_atof(line, &i) / 2);
-	if (sphere->radius <= 0)
+	if (!parse_vector(line, &i, &light->position, 0))
 		return (0);
 	if (!skip_spases(line, &i))
 		return (0);
-	if (!parse_color(line, &i, &sphere->color))
+	light->intensity = ft_atof(line, &i);
+	if (!skip_spases(line, &i))
+		return (0);
+	if (!parse_color(line, &i, &light->color))
 		return (0);
 	return (1);
 }

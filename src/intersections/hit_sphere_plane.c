@@ -32,6 +32,7 @@ bool	hit_sphere(const t_ray *c_ray, const t_sphere *sphere, t_hit_rec *hit_rec)
 	hit_rec->intersection = vec_add(c_ray->origin, vec_scale(c_ray->direction, hit_rec->t));
 	hit_rec->normal = vec_sub(hit_rec->intersection, sphere->center);
 	hit_rec->normal = vec_normalize(hit_rec->normal);
+	hit_rec->color = sphere->color;
 	return true;
 }
 
@@ -49,7 +50,7 @@ bool	hit_plane(const t_ray *c_ray, const t_plane *plane, t_hit_rec *hit_rec)
 	if (hit_rec->t < T_MIN || hit_rec->t > T_MAX)
 		return (false);
 	scaled_t_pos = vec_scale(c_ray->direction, hit_rec->t);
-	hit_rec->intersection  = vec_add(c_ray->origin, scaled_t_pos);
+	hit_rec->intersection = vec_add(c_ray->origin, scaled_t_pos);
 	hit_rec->normal = plane->normal;
 	hit_rec->color = plane->color;
 	hit_rec->type = OBJ_PLANE;
