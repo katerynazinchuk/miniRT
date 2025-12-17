@@ -1,52 +1,27 @@
-// when light hits the spot ofr can be connected with the sourse of light only then we use property - colour
-// so on the beggining we create an object with all nessesary properties and only that, give permision to use some
-//closer the light - brighter the color. and oposite
-/*for each pixel,
-	color c;
-	for each shape in the scene
-		send a ray through each pixel and see if it collides with a shape
-		if it does
-			color = calculate color of ray
-		else, color = background color
-	return color
-
-To calculate color of ray...
-	color c = 0,0,0 // rgb
-	for each light source in the scene
-		make a new ray (shad_ray) that starts at where the original ray hit the shape...
-		... and ends at the light source
-		see if the shadow ray hits a shape on its way to the light
-		if it does, 
-			calculate ambient color using ambient color of shape material and...
-			... ambient light intensity 
-		if not,
-			calculate shading with sum of ambient/diffuse/specular components 
-*/
-
-//cast many rays per pixel and combine all colors into one, to gt smoother blending of colors = super-sampling
-//can impement it with thread multitasking
-
-//int32_t for width height
-//false - resize
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/12/14 14:01:11 by tchernia          #+#    #+#             */
+/*   Updated: 2025/12/15 19:24:43 by tchernia         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "rt.h"
 
 static int	build_graphic(t_scene *scene, t_data_img *data_i);
-// static int	draw_img(t_scene *scene, mlx_image_t *img);
-
-static void	draw_img_dichter(t_scene *scene, t_data_img *data_i);
-
-
 static void	loop_handler(void *data);
-
+static void	draw_img_dither(t_scene *scene, t_data_img *data_i);
+static void	handle_pixel(t_scene *scene, t_data_img *data_i);
 
 int	main(int argc, char **argv)
 {
 	t_rt		rt;
 
-	//rt = (t_rt *)malloc(sizeof(t_rt*));
-	// ft_memset(&rt, 0, sizeof(t_rt));
-	if(argc != 2)
+	if (argc != 2)
 	{
 		print_error("Wrong number of arguments");
 		return (1);
@@ -54,20 +29,14 @@ int	main(int argc, char **argv)
 	if (!init_structs(&rt))
 	{
 		print_error("Can't allocate memory");
-		return (1);
+		return (free_arrays(&rt.scene.objects, rt.scene.l_sp.l_arr));
 	}
 	if (!check_file(argv[1]))
 		return (free_arrays(&rt.scene.objects, rt.scene.l_sp.l_arr));
 	if (!parse_file(argv[1], &rt))
-	{
-		free_arrays(&rt.scene.objects, rt.scene.l_sp.l_arr);
-		return (1);
-	}
+		return (free_arrays(&rt.scene.objects, rt.scene.l_sp.l_arr));
 	if (!build_graphic(&rt.scene, &rt.scene.data_i))
-	{
-		free_arrays(&rt.scene.objects, rt.scene.l_sp.l_arr);
-		return (1);
-	}
+		return (free_arrays(&rt.scene.objects, rt.scene.l_sp.l_arr));
 	free_arrays(&rt.scene.objects, rt.scene.l_sp.l_arr);
 	return (0);
 }
@@ -90,7 +59,7 @@ static int	build_graphic(t_scene *scene, t_data_img *data_i)
 		return (0);
 	}
 	mlx_key_hook(mlx, handle_esc, mlx);
-	mlx_loop_hook(mlx, loop_handler, scene); //- need function to handle hooks throuhg loop
+	mlx_loop_hook(mlx, loop_handler, scene);
 	mlx_loop(mlx);
 	mlx_terminate(mlx);
 	return (1);
@@ -101,31 +70,29 @@ static void	loop_handler(void *data)
 	t_scene	*scene;
 
 	scene = data;
-	draw_img_dichter(scene, &scene->data_i);
+	draw_img_dither(scene, &scene->data_i);
 }
 
-/* static int draw_img(t_scene *scene, mlx_image_t *img)
+static void	draw_img_dither(t_scene *scene, t_data_img *data_i)
 {
-	t_scene	*scene;
-
-<<<<<<< HEAD
-	y = 0;
-	while (y < (uint32_t)HEIGHT)
+	if (scene->render < 0)
+		return ;
+	data_i->x = 0;
+	data_i->y = 0;
+	while (data_i->y < (uint32_t)HEIGHT)
 	{
-		x = 0;
-		while (x < (uint32_t)WIDTH)
+		handle_pixel(scene, data_i);
+		data_i->x++;
+		if (data_i->x == (uint32_t)WIDTH)
 		{
-			ray = create_ray_per_pixel(&scene->camera, x, y);//here we find our field of view
-			color = find_color(ray, scene);//here we looking for intersection
-			mlx_put_pixel(img, x, y, color);
-			x++;
+			data_i->x = 0;
+			data_i->y++;
 		}
-		y++;
 	}
-	return (0);
-} */
+	scene->render--;
+}
 
-static void	draw_img_dichter(t_scene *scene, t_data_img *data_i)
+static void	handle_pixel(t_scene *scene, t_data_img *data_i)
 {
 	t_ray		ray;
 	static int	map[8][8] = {{0, 32, 8, 40, 2, 34, 10, 42}, {48, 16, 56, 24, 50,
@@ -134,54 +101,9 @@ static void	draw_img_dichter(t_scene *scene, t_data_img *data_i)
 		57, 25}, {15, 47, 7, 39, 13, 45, 5, 37}, {63, 31, 55, 23, 61, 29,
 		53, 21}};
 
-	if (scene->render < 0)
+	if (map[data_i->x % 8][data_i->y % 8] != scene->render)
 		return ;
-	data_i->y = -1;
-	while (++data_i->y < (uint32_t)HEIGHT)
-	{
-		data_i->x = -1;
-		while (++data_i->x < (uint32_t)WIDTH)
-		{
-			if (map[data_i->x % 8][data_i->y % 8] == scene->render)
-			{
-				ray = create_ray_per_pix(&scene->camera, data_i->x, data_i->y);//here we find our field of view
-				data_i->color = find_color(ray, scene);//here we looking for intersection
-				mlx_put_pixel(data_i->img, data_i->x, data_i->y, data_i->color);
-			}
-		}
-	}
-	scene->render--;
+	ray = create_ray_per_pix(&scene->camera, data_i->x, data_i->y);
+	data_i->color = find_color(ray, scene);
+	mlx_put_pixel(data_i->img, data_i->x, data_i->y, data_i->color);
 }
-
-/*
-int main(int argc, char **argv)
-{
-
-	t_rt *rt;
-
-	rt = (t_rt *)malloc(sizeof(t_rt*));
-	if(argc != 2)
-	{
-		ft_putendl_fd("Error: Wrong number of arguments", 2);
-		return 1;
-	}
-	if (check_file(argv[1]))
-	{
-		parse_file(argv[1], rt);
-		//create camera basis
-		//render
-		//mlx_loop();// loop window to prewent closing
-	}
-	//free everything;
-	return (0);
-	
-}*/
-
-//test main 
-// int main (void)
-// {
-// 	t_vec a = vec_pos(1,2,3);
-// 	t_vec b = vec_pos(-2, 0, 5);
-// 	t_vec s = vec_add(a,b);
-// }
-

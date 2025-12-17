@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kzinchuk <kzinchuk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 15:13:59 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/12/17 12:54:22 by kzinchuk         ###   ########.fr       */
+/*   Updated: 2025/12/16 19:44:03 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,13 @@
 # include "parser.h"
 
 //--------------intersections
-bool	hit_plane(const t_ray *c_ray, const t_plane *plane, t_hit *hit_rec);
-bool	hit_sphere(const t_ray *c_ray, const t_sphere *sphere, t_hit *hit_rec);
-bool	hit_cylinder(const t_ray *c_ray, t_cyl *cylinder, t_hit *hit_rec);
-bool	hit_cyl_body(const t_ray *c_ray, t_cyl *cylinder, t_hit *hit_rec);
-bool	hit_cyl_cap(const t_ray *c_ray, t_vec cap_center, t_vec normal, t_hit *hit_rec, t_cyl *cyl);
-bool	best_t_for_body(double t_root[2], const t_ray *c_ray, t_cyl *cyl, t_hit *hit_rec);
-bool	hit_scene(const t_ray *c_ray, t_scene *scene, t_hit *hit_rec);
+bool		hit_plane(const t_ray *c_ray, const t_plane *plane, t_hit_rec *hit_rec);
+bool		hit_sphere(const t_ray *c_ray, const t_sphere *sphere, t_hit_rec *hit_rec);
+bool		hit_cylinder(const t_ray *c_ray, t_cylinder *cylinder, t_hit_rec *hit_rec);
+bool		hit_cyl_body(const t_ray *c_ray, t_cylinder *cylinder, t_hit_rec *hit_rec);
+bool		hit_cyl_cap(const t_ray *c_ray, t_vec cap_center, t_vec cap_normal, t_hit_rec *hit_rec, double radius);
+bool		find_best_t_for_body(double t_root[2], const t_ray *c_ray, t_cylinder *cylinder, t_hit_rec *hit_rec);
+bool		hit_scene(const t_ray *c_ray, t_scene *scene, t_hit_rec *hit_rec);
 
 //--------------light
 int			find_light_spot(t_scene *scene, t_hit_rec *hit_rec);
