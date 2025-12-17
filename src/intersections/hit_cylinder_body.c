@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hit_cylinder_body.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kzinchuk <kzinchuk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 12:11:03 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/12/16 12:41:46 by kzinchuk         ###   ########.fr       */
+/*   Updated: 2025/12/17 13:58:30 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,45 +92,3 @@ bool	best_t_for_body(double t_root[2], const t_ray *c_ray,\
 		return (false);
 	return (true);
 }
-
-// bool	best_t_for_body(double t_root[2], const t_ray *c_ray, t_cyl *cyl, t_hit *hit)
-// {
-// 	double	half_height;
-// 	double	best_t;
-// 	int		i;
-// 	t_vec	center_to_hit;
-// 	t_vec	axis_proj;
-// 	t_vec	radial_vec;
-// 	t_vec	hit_point;
-// 	double	height_on_axis;
-
-// 	half_height = cyl->height * 0.5;
-// 	best_t = T_MAX;
-// 	i = 0;
-// 	while (i < 2)
-// 	{
-// 		if (t_root[i] >= T_MIN && t_root[i] <= best_t)
-// 		{
-// 			hit_point = vec_add(c_ray->origin, vec_scale(c_ray->dir, t_root[i]));
-// 			center_to_hit = vec_sub(hit_point, cyl->center);
-// 			height_on_axis = vec_dot(center_to_hit, cyl->axis);
-// 			if (height_on_axis >= -half_height && height_on_axis <= half_height)
-// 			{
-// 				axis_proj = vec_scale(cyl->axis, height_on_axis);
-// 				radial_vec = vec_sub(center_to_hit, axis_proj);
-// 				best_t = t_root[i];
-// 				hit->t = t_root[i];
-// 				hit->intersection = hit_point;
-// 				hit->normal = vec_normalize(radial_vec);
-// 				if (vec_dot(hit->normal, c_ray->dir) > 0.0)
-// 					hit->normal = vec_neg(hit->normal);
-// 				hit->color = cyl->color;
-// 			}
-// 		}
-// 		i++;
-// 	}
-// 	if (best_t == T_MAX)
-// 		return (false);
-// 	return (true);
-// }
-//------------------------------------------------------------------//
