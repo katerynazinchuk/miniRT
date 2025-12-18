@@ -6,7 +6,7 @@
 /*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/14 14:01:11 by tchernia          #+#    #+#             */
-/*   Updated: 2025/12/15 19:24:43 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/12/18 18:15:41 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	main(int argc, char **argv)
 	}
 	if (!check_file(argv[1]))
 		return (free_arrays(&rt.scene.objects, rt.scene.l_sp.l_arr));
-	if (!parse_file(argv[1], &rt))
+	if (!parse_file(argv[1], &rt) || rt.exit_code)
 		return (free_arrays(&rt.scene.objects, rt.scene.l_sp.l_arr));
 	if (!build_graphic(&rt.scene, &rt.scene.data_i))
 		return (free_arrays(&rt.scene.objects, rt.scene.l_sp.l_arr));

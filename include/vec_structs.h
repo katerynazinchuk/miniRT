@@ -6,7 +6,7 @@
 /*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 14:58:45 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/12/18 10:14:15 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/12/18 18:10:43 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,7 @@ typedef struct s_scene
 typedef struct s_rt
 {
 	int		line_counter;
+	int		exit_code;
 	t_scene	scene;
 }	t_rt;
 
