@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   light.c                                            :+:      :+:    :+:   */
+/*   light_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/16 17:00:03 by tchernia          #+#    #+#             */
-/*   Updated: 2025/12/18 09:55:05 by tchernia         ###   ########.fr       */
+/*   Created: 2025/12/18 09:53:41 by tchernia          #+#    #+#             */
+/*   Updated: 2025/12/18 09:54:03 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int	check_lights(t_scene *sc, t_l_spots *light, t_hit *hit, t_color *color)
 	t_light_basis	base;
 	size_t			i;
 	t_color			tmp_color;
+	t_color			spec_color;
 
 	i = 0;
 	while (i < light->l_count)
@@ -38,7 +39,10 @@ int	check_lights(t_scene *sc, t_l_spots *light, t_hit *hit, t_color *color)
 		{
 			base.dif = fmax(0.0, vec_dot(hit->normal, base.l_ray));
 			base.dif = base.dif * light->l_arr[i].intensity;
+			spec_color = spec_reflection(hit, &light->l_arr[i], base);
 			tmp_color = color_scale(hit->color, base.dif);
+			tmp_color = color_mult(tmp_color, light->l_arr[i].color);
+			tmp_color = color_add(tmp_color, spec_color);
 		}
 		*color = color_add(*color, tmp_color);
 		i++;

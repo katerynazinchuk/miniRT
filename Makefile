@@ -8,7 +8,7 @@ MLX42_DIR := MLX42
 LIBS := $(LIBFT_DIR)/libft.a $(MLX42_DIR)/build/libmlx42.a
 
 CC := cc
-CFLAGS := -Wextra -Werror -Wall -g -O3#-O2 -MMD 
+CFLAGS := -Wextra -Werror -Wall -g -O3 -MMD
 
 CPPFLAGS := -I$(INC_DIR) -I$(LIBFT_DIR)/include -I$(MLX42_DIR)/include
 LDFLAGS := -L$(LIBFT_DIR) -L$(MLX42_DIR)/build
@@ -16,9 +16,7 @@ LDLIBS := -lft -lmlx42 -ldl -lglfw -lpthread -lm
 
 VALG_FLAGS := --leak-check=full --show-leak-kinds=all --track-origins=yes
 
-DEV_FLAGS := -g -O0 -fno-omit-frame-pointer #-fsanitize=address,undefined
-
-SRC_FILES := main.c \
+COMMON_FILES := main.c \
 	utils.c \
 	init_structs.c \
 	intersections/color.c \
@@ -28,63 +26,43 @@ SRC_FILES := main.c \
 	intersections/hit_cylinder_caps.c \
 	intersections/hit_objects.c \
 	intersections/hit_sphere_plane.c \
-	light/light.c \
-	light/specular_reflection.c \
 	math/vec_math.c \
 	math/vec_utils.c \
-	parser/parser.c \
-	parser/validate_line.c \
+	parser/parse_element.c \
 	parser/read_lines.c \
-	parser/parse_light.c \
 	parser/parse_plane.c \
 	parser/parse_sphere.c \
 	parser/parse_cylinder.c \
 	parser/parser_utils.c \
 	parser/validate.c
 
+MANDATORY_FILES := 	light/light.c \
+	parser/parse_light.c \
+	parser/validate_line.c
+
+BONUS_FILES :=	light/light_bonus.c \
+	light/specular_reflection.c \
+	parser/parse_light_bonus.c \
+	parser/validate_line_bonus.c \
+
+ifdef BONUS_FLAG
+	SRC_FILES := $(COMMON_FILES) $(BONUS_FILES)
+else
+	SRC_FILES := $(COMMON_FILES) $(MANDATORY_FILES)
+endif
+
 SRC := $(addprefix $(SRC_DIR)/, $(SRC_FILES))
 OBJS := $(patsubst $(SRC_DIR)/%.c,$(BUILD_DIR)/%.o,$(SRC))
 DEP := $(OBJS:.o=.d)
 
-TEST_NAME := minirt_test
-TEST_DIR := tests
-TEST_BUILD_DIR := $(BUILD_DIR)/$(TEST_DIR)
-TEST_SRC := $(TEST_DIR)/test_parser.c \
-			$(TEST_DIR)/main_test.c
-TEST_OBJ := $(patsubst $(TEST_DIR)/%.c,$(TEST_BUILD_DIR)/%.o,$(TEST_SRC))
-#additional without main.c
-MAIN_SRC_FILES := utils.c \
-	init_structs.c \
-	parser/*.c \
-	math/*.c 
-
-# 	parser/parser.c \
-# 	parser/read_lines.c \
-# 	parser/parse_plane.c \
-# 	parser/parse_sphere.c \
-# 	parser/parse_cylinder.c \
-# 	parser/parser_utils.c \
-# 	parser/parse_light.c \
-# 	parser/validate.c \
-# 	math/vec_utils.c 
-
-# 	intersections/color.c \
-# 	intersections/field_of_view.c \
-# 	intersections/hit_cylinder.c \
-# 	intersections/hit_objects.c \
-# 	intersections/hit_sphere_plane.c \
-# 	light/light.c \
-
-
-
-MAIN_SRCS := $(addprefix $(SRC_DIR)/, $(MAIN_SRC_FILES))
-MAIN_OBJS := $(patsubst $(SRC_DIR)/%.c,$(BUILD_DIR)/%.o,$(MAIN_SRCS))
-
 all: $(NAME)
+
+bonus: 
+	@$(MAKE) BONUS_FLAG=1 all
 
 $(NAME): $(OBJS) $(LIBS) 
 	@$(CC) $(OBJS)  $(LDFLAGS) $(LDLIBS) -o $(NAME)
-
+	@echo "Build successful: $(NAME)"
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(@D)
@@ -114,21 +92,7 @@ fclean: clean
 
 re: fclean all
 
-test: $(TEST_NAME)
-$(TEST_NAME): $(MAIN_OBJS) $(LIBS) $(GNL_OBJS) $(TEST_OBJ)
-	@$(CC) $(MAIN_OBJS) $(GNL_OBJS) $(TEST_OBJ) $(LDFLAGS) $(LDLIBS) -o $(TEST_NAME)
-
-$(TEST_BUILD_DIR)/%.o: $(TEST_DIR)/%.c
-	@mkdir -p $(dir $@)
-	@$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
-	@echo "Object files for tests created."
-
-test_fclean: fclean
-	@rm -rf $(TEST_NAME)
-
 valg:
 	@valgrind $(VALGRIND_FLAGS) --suppressions=MLX.supp ./$(NAME) $(FILE)
 
-.PHONY: all clean fclean re test test_fclean valg
-
-#-Ofast for faster compilation or O2
+.PHONY: all clean fclean re valg bonus

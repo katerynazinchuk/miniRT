@@ -6,7 +6,7 @@
 /*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 14:58:45 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/12/17 14:26:16 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/12/18 10:14:15 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,8 +118,9 @@ typedef struct s_scene
 	t_data_img			data_i;
 	struct s_hit_rec	*hit_rec;
 	t_color				black;
-	uint32_t			background;
 	int					render;
+	uint32_t			background;
+
 }	t_scene;
 
 typedef struct s_rt

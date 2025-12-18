@@ -6,7 +6,7 @@
 /*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 00:13:58 by tchernia          #+#    #+#             */
-/*   Updated: 2025/12/18 10:15:56 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/12/15 00:40:13 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static int	validate_singe_element(t_rt *rt, char *line)
 		return (parse_ambient(rt, line));
 	else if (line[i] == 'C' && !rt->scene.camera.flag)
 		return (parse_camera(rt, line));
-	else if (line[i] == 'L' && !rt->scene.l_sp.l_count)
+	else if (line[i] == 'L')
 		return (process_light(&rt->scene.l_sp, line));
 	print_error("Too many capital identifiers");
 	return (0);
