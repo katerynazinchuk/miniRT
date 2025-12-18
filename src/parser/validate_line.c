@@ -6,7 +6,7 @@
 /*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 00:13:58 by tchernia          #+#    #+#             */
-/*   Updated: 2025/12/18 10:15:56 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/12/18 14:39:33 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ line[i_line] == '.' || \
 line[i_line] == '-' || \
 line[i_line] == '+'))
 		{
-			print_error("Error: Invalid character in input");
+			print_error("Invalid character in input");
 			return (0);
 		}
 		i_line++;
