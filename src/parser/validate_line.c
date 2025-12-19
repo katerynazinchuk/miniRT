@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   validate_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
+/*   By: kzinchuk <kzinchuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 00:13:58 by tchernia          #+#    #+#             */
-/*   Updated: 2025/12/18 14:39:33 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/12/19 14:57:21 by kzinchuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-static int	set_i_line(char *line, int *i_line);
+static void	set_i_line(char *line, int *i_line);
 static int	validate_line(char *line, int i_line);
 static int	validate_singe_element(t_rt *rt, char *line);
 static int	validate_geometric_objects(t_objects *obj, char *line);
@@ -23,6 +23,11 @@ int	validate_identifier(t_rt *rt, char *line)
 	int	code;
 
 	set_i_line(line, &i_line);
+	if (i_line == 0)
+	{
+		print_error("Invalid character in input");
+		return (0);
+	}
 	if (!validate_line(line, i_line))
 		return (0);
 	if (i_line == 1)
@@ -32,7 +37,7 @@ int	validate_identifier(t_rt *rt, char *line)
 	return (code);
 }
 
-static int	set_i_line(char *line, int *i_line)
+static void	set_i_line(char *line, int *i_line)
 {
 	int	i;
 
@@ -42,7 +47,6 @@ static int	set_i_line(char *line, int *i_line)
 		*i_line = 1;
 	if (check_obj_symbols(line, i))
 		*i_line = 2;
-	return (1);
 }
 
 static int	validate_line(char *line, int i_line)
@@ -91,5 +95,5 @@ static int	validate_geometric_objects(t_objects *obj, char *line)
 		return (process_plane(obj, line));
 	else if (line[i] == 'c' && line[i + 1] == 'y')
 		return (process_cylinder(obj, line));
-	return (1);
+	return (0);
 }
