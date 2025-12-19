@@ -57,7 +57,7 @@ DEP := $(OBJS:.o=.d)
 
 all: $(NAME)
 
-bonus: 
+bonus:
 	@$(MAKE) BONUS_FLAG=1 all
 
 $(NAME): $(OBJS) $(LIBS) 

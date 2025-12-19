@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kzinchuk <kzinchuk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/14 14:01:22 by tchernia          #+#    #+#             */
-/*   Updated: 2025/12/19 14:39:38 by kzinchuk         ###   ########.fr       */
+/*   Updated: 2025/12/19 15:41:07 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void	print_error(const char *msg)
 		write(2, "\n", 1);
 		print = false;
 	}
-	return ;
 }
 
 int	free_arrays(t_objects *obj, t_light *arr)

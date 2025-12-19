@@ -6,13 +6,14 @@
 /*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 01:02:04 by tchernia          #+#    #+#             */
-/*   Updated: 2025/12/17 13:38:47 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/12/19 15:43:16 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
 static int	parse_cylinder(t_cyl *cylinder, char *line);
+static int	handle_radius_height(t_cyl *cylinder, char *line, int *i);
 
 int	process_cylinder(t_objects *obj, char *line)
 {
@@ -45,15 +46,30 @@ static int	parse_cylinder(t_cyl *cylinder, char *line)
 	cylinder->axis = vec_normalize(cylinder->axis);
 	if (!skip_spases(line, &i))
 		return (0);
-	cylinder->radius = (ft_atof(line, &i) / 2);
-	if (cylinder->radius <= 0)
+	if (!handle_radius_height(cylinder, line, &i))
 		return (0);
-	if (!skip_spases(line, &i))
-		return (0);
-	cylinder->height = ft_atof(line, &i);
 	if (!skip_spases(line, &i))
 		return (0);
 	if (!parse_color(line, &i, &cylinder->color))
 		return (0);
+	return (1);
+}
+
+static int	handle_radius_height(t_cyl *cylinder, char *line, int *i)
+{
+	cylinder->radius = (ft_atof(line, i) / 2);
+	if (cylinder->radius <= 0)
+	{
+		print_error("Diametr must be bigger than 0");
+		return (0);
+	}
+	if (!skip_spases(line, i))
+		return (0);
+	cylinder->height = ft_atof(line, i);
+	if (cylinder->height <= 0)
+	{
+		print_error("Height must be bigger than 0");
+		return (0);
+	}
 	return (1);
 }
