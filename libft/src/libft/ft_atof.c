@@ -6,7 +6,7 @@
 /*   By: kzinchuk <kzinchuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/24 12:00:13 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/10/29 18:51:03 by kzinchuk         ###   ########.fr       */
+/*   Updated: 2026/01/26 14:21:39 by kzinchuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,3 +96,31 @@ double ft_atof(const char *line, int *i)
 		*endp = (char *)nptr;
 	return ((num + fraction/divisor) * sign);
 } */
+
+// /* double ft_atof(const char *nptr, char **endp)
+// {
+// 	double	num;
+// 	int	sign;
+// 	int divisor;
+// 	double fraction;
+
+// 	sign = 1;
+// 	num = 0.0;
+// 	divisor = 1;
+// 	nptr = skip_white_space(nptr);
+// 	if (*nptr == '-' || *nptr == '+')
+// 	{
+// 		if (*nptr == '-')
+// 			sign = -sign;
+// 		nptr++;
+// 	}
+// 	while (ft_isdigit(*nptr))
+// 	{
+// 		num = num * 10.0 + (*nptr - '0');
+// 		nptr++;
+// 	}
+// 	fraction = parse_fraction(&nptr, &divisor);
+// 	if(endp != NULL)
+// 		*endp = (char *)nptr;
+// 	return ((num + fraction/divisor) * sign);
+// } */
