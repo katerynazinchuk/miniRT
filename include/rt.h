@@ -6,7 +6,7 @@
 /*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 15:13:59 by kzinchuk          #+#    #+#             */
-/*   Updated: 2025/12/17 14:26:33 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/12/19 15:41:22 by tchernia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 # define RT_H
 
 # define ARR_SIZE 5
-# define WIDTH 1000
-# define HEIGHT 1000
+# define WIDTH 500
+# define HEIGHT 500
 # define M_PI 3.14159265358979323846
 # define EPS 1e-6
 # define T_MIN 1e-4
@@ -63,7 +63,5 @@ t_color		color_mult(t_color one, t_color two);
 void		print_error(const char *msg);
 bool		init_structs(t_rt *rt);
 void		handle_esc(mlx_key_data_t key_info, void *param);
-/* Tests */
-void		test_parser(t_scene *scene, t_objects *obj);
 
 #endif

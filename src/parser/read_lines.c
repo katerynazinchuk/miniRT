@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_lines.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
+/*   By: kzinchuk <kzinchuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/14 23:24:57 by tchernia          #+#    #+#             */
-/*   Updated: 2025/12/15 00:15:59 by tchernia         ###   ########.fr       */
+/*   Updated: 2025/12/19 14:32:40 by kzinchuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	parse_file(const char *filename, t_rt *rt)
 		perror("open");
 		return (0);
 	}
-	if (!process_line(rt, fd))
+	if (process_line(rt, fd))
 	{
 		close(fd);
 		return (0);
@@ -42,7 +42,9 @@ int	parse_file(const char *filename, t_rt *rt)
 static int	process_line(t_rt *rt, int fd)
 {
 	char	*line;
+	int		status;
 
+	status = 0;
 	while (1)
 	{
 		line = get_next_line(fd);
@@ -56,9 +58,11 @@ static int	process_line(t_rt *rt, int fd)
 		if (!validate_identifier(rt, line))
 		{
 			free(line);
-			return (0);
+			status = 1;
+			rt->exit_code = 1;
+			continue ;
 		}
 		free(line);
 	}
-	return (1);
+	return (status);
 }
