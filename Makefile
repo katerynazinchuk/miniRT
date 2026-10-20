@@ -1,4 +1,4 @@
-NAME := minirt
+NAME := miniRT
 INC_DIR := include
 BUILD_DIR := obj
 SRC_DIR := src
@@ -29,6 +29,8 @@ COMMON_FILES := main.c \
 	math/vec_math.c \
 	math/vec_utils.c \
 	parser/parse_element.c \
+	parser/parse_camera.c \
+	parser/parse_number.c \
 	parser/read_lines.c \
 	parser/parse_plane.c \
 	parser/parse_sphere.c \

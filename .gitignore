@@ -3,7 +3,7 @@
 *.d
 *.log
 
-minirt
+miniRT
 minirt_test
 
 # Object directories
@@ -14,4 +14,6 @@ get_next_line/build/
 MLX42/build/
 
 # VS Code settings
-.vscode/.DS_Store
+.vscode/
+.DS_Store
+

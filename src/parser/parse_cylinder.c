@@ -57,7 +57,9 @@ static int	parse_cylinder(t_cyl *cylinder, char *line)
 
 static int	handle_radius_height(t_cyl *cylinder, char *line, int *i)
 {
-	cylinder->radius = (ft_atof(line, i) / 2);
+	if (!parse_double(line, i, &cylinder->radius))
+		return (0);
+	cylinder->radius = cylinder->radius / 2;
 	if (cylinder->radius <= 0)
 	{
 		print_error("Diametr must be bigger than 0");
@@ -65,7 +67,8 @@ static int	handle_radius_height(t_cyl *cylinder, char *line, int *i)
 	}
 	if (!skip_spases(line, i))
 		return (0);
-	cylinder->height = ft_atof(line, i);
+	if (!parse_double(line, i, &cylinder->height))
+		return (0);
 	if (cylinder->height <= 0)
 	{
 		print_error("Height must be bigger than 0");

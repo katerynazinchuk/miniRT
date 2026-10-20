@@ -13,6 +13,7 @@
 #include "rt.h"
 
 static int	process_line(t_rt *rt, int fd);
+static int	check_camera(t_rt *rt);
 
 int	parse_file(const char *filename, t_rt *rt)
 {
@@ -36,7 +37,7 @@ int	parse_file(const char *filename, t_rt *rt)
 		perror("close");
 		return (0);
 	}
-	return (1);
+	return (check_camera(rt));
 }
 
 static int	process_line(t_rt *rt, int fd)
@@ -65,4 +66,14 @@ static int	process_line(t_rt *rt, int fd)
 		free(line);
 	}
 	return (status);
+}
+
+static int	check_camera(t_rt *rt)
+{
+	if (!rt->scene.camera.flag)
+	{
+		print_error("Missing camera");
+		return (0);
+	}
+	return (1);
 }

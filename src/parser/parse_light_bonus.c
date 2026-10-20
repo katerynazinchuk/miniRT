@@ -40,7 +40,13 @@ static int	parse_light(t_light *light, char *line)
 		return (0);
 	if (!skip_spases(line, &i))
 		return (0);
-	light->intensity = ft_atof(line, &i);
+	if (!parse_double(line, &i, &light->intensity))
+		return (0);
+	if (light->intensity < 0 || light->intensity > 1)
+	{
+		print_error("Light ratio must be between 0 and 1");
+		return (0);
+	}
 	if (!skip_spases(line, &i))
 		return (0);
 	if (!parse_color(line, &i, &light->color))

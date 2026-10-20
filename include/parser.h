@@ -14,12 +14,18 @@
 # define PARSER_H
 # include "rt.h"
 
+# define MAX_INT_DIGITS 9
+
 int		parse_ambient(t_rt *rt, char *line);
 int		parse_camera(t_rt *rt, char *line);
 int		parse_color(char *line, int *i, t_color *color);
 int		parse_vector(char *line, int *i, t_vec *vec, int normal_range);
 int		check_vector(double vec);
 int		check_color(int color);
+int		parse_double(char *line, int *i, double *num);
+int		parse_color_value(char *line, int *i, int *color);
+int		check_comma(char *line, int *i);
+int		check_line_end(char *line, int i);
 int		process_sphere(t_objects *obj, char *line);
 int		process_plane(t_objects *obj, char *line);
 int		process_cylinder(t_objects *obj, char *line);

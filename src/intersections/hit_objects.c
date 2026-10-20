@@ -19,6 +19,7 @@ bool	hit_all_spheres(const t_ray *c_ray, t_scene *scene, t_hit *hit_rec)
 	t_hit	hit;
 	size_t	i;
 
+	ft_bzero(&hit, sizeof(t_hit));
 	hit_any = false;
 	closest_t = T_MAX;
 	i = 0;
@@ -47,6 +48,7 @@ bool	hit_all_planes(const t_ray *c_ray, t_scene *scene, t_hit *hit_rec)
 	t_hit	hit;
 	size_t	i;
 
+	ft_bzero(&hit, sizeof(t_hit));
 	hit_any = false;
 	closest_t = T_MAX;
 	i = 0;
@@ -75,6 +77,7 @@ bool	hit_all_cylinders(const t_ray *c_ray, t_scene *scene, t_hit *hit_rec)
 	t_hit	hit;
 	size_t	i;
 
+	ft_bzero(&hit, sizeof(t_hit));
 	hit_any = false;
 	closest_t = T_MAX;
 	i = 0;

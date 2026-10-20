@@ -40,7 +40,9 @@ static int	parse_sphere(t_sphere *sphere, char *line)
 		return (0);
 	if (!skip_spases(line, &i))
 		return (0);
-	sphere->radius = (ft_atof(line, &i) / 2);
+	if (!parse_double(line, &i, &sphere->radius))
+		return (0);
+	sphere->radius = sphere->radius / 2;
 	if (sphere->radius <= 0)
 	{
 		print_error("Diametr must be bigger than 0");
