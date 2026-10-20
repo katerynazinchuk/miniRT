@@ -2,7 +2,13 @@
 
 A ray tracer written from scratch in C. It renders a 3D scene of spheres, planes and cylinders with ambient, diffuse and specular lighting, hard shadows and multiple coloured lights. All vector maths is implemented by hand; [MLX42](https://github.com/codam-coding-college/MLX42) is used only to open the window and put pixels on screen.
 
-Team project by **Kateryna Zinchuk** and **Tetiana Cherniaieva**.
+Team project by **Kateryna Zinchuk** and **Tetiana Cherniaieva** (see [Team](#team) for who built what).
+
+   <p align="center">
+     <img src="docs/columns.png" width="32%">
+     <img src="docs/room.png" width="32%">
+     <img src="docs/trees.png" width="32%">
+   </p>
 
 ## How it works
 
