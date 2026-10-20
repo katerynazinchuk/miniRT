@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchernia <tchernia@student.codam.nl>       +#+  +:+       +#+        */
+/*   By: kat <kat@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/14 14:01:22 by tchernia          #+#    #+#             */
-/*   Updated: 2025/12/19 15:41:07 by tchernia         ###   ########.fr       */
+/*   Updated: 2026/10/20 12:14:03 by kat              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,7 @@ void	print_error(const char *msg)
 	if (print)
 	{
 		ft_putendl_fd("Error", 2);
-		write(2, msg, ft_strlen(msg));
-		write(2, "\n", 1);
+		ft_putendl_fd((char *)msg, 2);
 		print = false;
 	}
 }

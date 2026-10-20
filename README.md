@@ -48,6 +48,9 @@ Requires `cmake` and `glfw` for MLX42.
 git clone --recursive https://github.com/katerynazinchuk/miniRT.git
 cd miniRT
 make
+./minirt maps/sphere.rt          # mandatory: one light
+
+make fclean && make bonus        # bonus: multiple coloured lights
 ./minirt maps/columns.rt
 ```
 
